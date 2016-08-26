@@ -1,0 +1,183 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Modelo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.*;
+
+/**
+ *
+ * @author Nestor1
+ */
+public class consultas_Cliente extends Conexion{
+    
+    private ResultSet rh = null;
+    Connection conex = null;
+    PreparedStatement ps;
+    Conexion con;
+    String sql = null;
+    public consultas_Cliente()
+    {
+        con = new Conexion();
+        conex = con.crearConexionNueva();
+    }
+    
+    private ResultSet consultaResusltados(String sql) {
+        try {
+            conex = con.crearConexionNueva();
+            ps = conex.prepareStatement(sql);
+            rh = ps.executeQuery();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(Consultas_informeMasVendido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return rh;
+    }
+    private boolean insertarResultados(String sql) {
+        boolean ban = false;
+        try {
+            
+            conex = con.crearConexionNueva();
+            ps = conex.prepareStatement(sql);
+            ban = ps.execute();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(Consultas_informeMasVendido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return ban;
+    }
+    public ResultSet llenarTabla_Cliente(int id_sucursal)
+    {
+        
+        try {
+            
+           CallableStatement cst = conex.prepareCall("CALL CLI_llenarTabla_Cliente(?)");
+            cst.setInt("id_Sucursal", id_sucursal);
+            cst.execute();
+            rh =  cst.getResultSet();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return rh;
+ 
+        
+    }
+    
+    public ResultSet llenarComboCidad_Cliente()
+    {
+         try {
+            
+           CallableStatement cst = conex.prepareCall("CALL CLI_llenarComboCidad_Cliente()");
+            cst.execute();
+            rh =  cst.getResultSet();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return rh;
+    }
+    public Object consultaIDComboCiudad(Object ciudad)
+    {
+        Object id_categoria = null;
+         try {
+            
+           CallableStatement cst = conex.prepareCall("CALL GEN_consultaIDComboCiudad()");
+            cst.execute();
+            rh =  cst.getResultSet();
+            while(rh.next())
+            id_categoria = rh.getInt("id_ciudad");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(consultas_Producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return id_categoria;
+    }
+    
+    public boolean registrarCliente(int idSucursal,String nombre,String apellido,String telefono, String direccion , String mail, Object id_ciudad , Object id_usuario,String iden)
+    {
+        try {
+            
+           CallableStatement cst = conex.prepareCall("CALL CLI_registrarCliente(?,?,?,?,?,?,?,?,?)");
+           cst.setInt("idSucursal", idSucursal);
+           cst.setString("nombre", nombre);
+           cst.setString("apellido", apellido);
+           cst.setString("telefono", telefono);
+           cst.setString("direccion", direccion);
+           cst.setString("mail", mail);
+           cst.setInt("id_ciudad", Integer.parseInt(id_ciudad.toString()));
+           cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
+           cst.setString("iden", iden);
+           return cst.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(consultas_Producto.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public boolean eliminar_Cliente(int ide)
+    {
+        try
+        {
+            CallableStatement cst = conex.prepareCall("CALL CLI_eliminar_Cliente(?)");
+            return cst.execute();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+     public boolean consultaActualizarCliente(Object usuario,Object id_cliente,String nombre, String apellido, String email, String telefono, String direccion, Object ciudad)
+    {
+        
+        try{
+            CallableStatement cst = conex.prepareCall("CALL CLI_consultaActualizarCliente(?,?,?,?,?,?,?,?,?,?)");
+            cst.setInt("idUsuarioMod", Integer.parseInt(usuario.toString()));
+            cst.setInt("idCliente", Integer.parseInt(id_cliente.toString()));
+            cst.setString("nombre", nombre);
+            cst.setString("apellido", apellido);
+            cst.setString("telefono", telefono);
+            cst.setString("direccion", direccion);
+            cst.setString("mail", email);
+            cst.setInt("id_ciudad", Integer.parseInt(ciudad.toString()));
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+     
+      public ResultSet consultaBuscarCliente(int id_sucursal,String nombre,String opcionBuscar)
+    {
+       try
+       {
+           CallableStatement cst = conex.prepareCall("CALL CLI_consultaBuscarCliente(?,?,?)");
+           cst.setInt("id_sucursal", id_sucursal);
+           cst.setString("nombre", nombre);
+           cst.setString("opcionBuscar", opcionBuscar);
+           cst.execute();
+           return cst.getResultSet();
+       }
+       catch(SQLException e)
+       {
+           e.printStackTrace();
+           return null;
+       }
+    }
+}

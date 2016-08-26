@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3ac15e2-f978-41ed-aa7c-b12112bffb5c">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT DISTINCT FACT.id_cotizaciones,FACT.cot_subtotal,FORMAT(FACT.cot_descuento,2),FACT.cot_iva,
+FACT.cot_total,FACT.id_cliente,FACT.cot_descripcion,CLI.id_cliente,CLI.id_ciudad,CLI.nombre_cliente,CLI.telefono_cliente,CLI.apellido_cliente,CLI.direccion_cliente, PRODIVEN.id_producto_inventario,PRODIVEN.id_producto,PRO.id_produccto,CIU.id_ciudad,CIU.ciudad,
+PRO.nombre_producto,PRO.id_medicion,PRO.id_presentacion,PRO.id_marca,PRE.id_presentacion,
+PRE.presentacion,MARC.id_marca,MARC.marca,MED.id_medicion,MED.medicion,FACTDEC.id_cotizaciones, FACTDEC.id_producto_inventario,FACTDEC.item,FACTDEC.cantidad_factura_detallado,FACTDEC.descuento_factura_detalle
+,FORMAT(FACTDEC.valor_unidad_producto,2),FORMAT(FACTDEC.subtotal_factura_detalle,2),
+FACTDEC.id_cotizaciones FROM presentacion AS PRE, marca AS MARC, medicion AS MED, producto AS PRO,ciudad AS CIU, producto_inventario AS PRODIVEN ,cotizaciones AS FACT, cliente AS CLI,cotizaciones_detalle AS FACTDEC where FACT.id_sucursal = 1 AND FACT.id_cotizaciones = 9 AND FACTDEC.id_cotizaciones = FACT.id_cotizaciones AND FACTDEC.id_producto_inventario = PRODIVEN.id_producto_inventario AND PRO.id_medicion = MED.id_medicion AND CLI.id_cliente = FACT.id_cliente AND PRO.id_marca = MARC.id_marca AND CLI.id_ciudad=CIU.id_ciudad AND PRO.id_presentacion = PRE.id_presentacion AND PRO.id_produccto = PRODIVEN.id_producto]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement x="508" y="33" width="64" height="17" uuid="9bdc3398-e177-4ef3-9d04-e922ab263dbc"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="444" y="33" width="64" height="17" uuid="cc357bcf-2bf2-4fdc-918a-2a0fdfac6163"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="508" y="33" width="64" height="17" uuid="eaae6edf-eae4-4a5b-bd07-1e142206d950"/>
+				<text><![CDATA[# Credito]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="33" width="64" height="17" uuid="7e70927f-3b2f-4a29-88a9-2f682ddcf6cf"/>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="508" y="50" width="64" height="29" uuid="3287f50f-e5fc-47f5-b1b3-5e287d7c9d8a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="444" y="50" width="64" height="29" uuid="29ed0580-b6e0-48bd-96b4-f2e18156cb90"/>
+			</rectangle>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="444" y="59" width="64" height="20" uuid="af456271-ea5e-4578-885a-1c1fe411f70d"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="446" y="0" width="126" height="33" uuid="5417575c-5639-4cba-afd8-b0092cc33639"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cotizaciòn]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
