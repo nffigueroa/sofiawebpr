@@ -240,9 +240,12 @@ public class consultas_Entrada_Inventario extends Conexion{
     public Object consultaIdSucursal(Object Sucursal)
     {
         Object id = null;
-        sql=("SELECT id_sucursal FROM sucursal WHERE nombre_sucursal='"+Sucursal+"'");
-        rh = consultaResusltados(sql);
-             try {
+        try
+        {
+            CallableStatement cst = conex.prepareCall("CALL GEN_consultaIdSucursal(?)");
+            cst.setInt("id_sucursal", Integer.parseInt(Sucursal.toString()));
+            cst.execute();
+            rh = cst.getResultSet();
             while(rh.next())
             id = rh.getInt(1);
             
