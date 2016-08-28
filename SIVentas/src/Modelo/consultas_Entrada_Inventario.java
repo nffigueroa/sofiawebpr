@@ -197,26 +197,44 @@ public class consultas_Entrada_Inventario extends Conexion{
             expiracion = "1900/01/01";
         }
      
-        sql=("INSERT INTO producto_inventario (id_producto,cantidad_producto_inventario,stock_producto_inventario,"
-                + "id_sucursal,id_proveedor,barras_producto_inventario,precio_producto_inventario,precio_secundario_producto_inventario"
-                + ",fecha_creacion,iva_producto_inventario,expiracion_producto_inventario,id_usuario_creacion,utilidad) "
-                + "VALUES("+id_producto+","+cantidad+","+stock+","+id_sucursal+","+id_proveedor+","+barras+","+precio1+","+precio2+",'"+fecha_creacion+"','"+iva+"','"
-                + ""+expiracion+"',"+id_usuario+","+utilidad+")");
-        resultado = insertarResultados(sql);
-        return resultado;
+     try
+     {
+         CallableStatement cst = conex.prepareCall("Call IVN_consultaRegistrarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+         cst.setInt("id_producto", Integer.parseInt(id_producto.toString()));
+         cst.setObject("cantidad", cantidad);
+         cst.setObject("stock", stock);
+         cst.setInt("id_scuursal", Integer.parseInt((id_sucursal.toString())));
+         cst.setInt("id_proveedor", Integer.parseInt(id_proveedor.toString()));
+         cst.setObject("barras", barras);
+         cst.setFloat("precio1", precio1);
+         cst.setFloat("precio2", precio2);
+         cst.setObject("iva", (iva));
+         cst.setObject("expiracion", expiracion);
+         cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
+         cst.setFloat("utlidad", utilidad);
+         cst.setObject("fecha_creacion", fecha_creacion);
+         return cst.execute();
+     }
+     catch(SQLException ex)
+     {
+         ex.printStackTrace();
+         return false;
+     }
     }
     
     public Object consultaIdProducto(Object producto)
     {
         Object id = null;
-        sql=("SELECT id_producto FROM producto_inventario WHERE id_producto_inventario="+producto+"");
-        rh = consultaResusltados(sql);
-             try {
-            while(rh.next())
-            id = rh.getInt(1);
+        try {
+                CallableStatement cst = conex .prepareCall("Call IVN_consultaIdProducto(?)");
+                cst.setObject("producto", producto);
+                cst.execute();
+                while(rh.next())
+                id = rh.getInt(1);
             
         } catch (SQLException ex) {
             Logger.getLogger(consultas_Producto.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
         
         return id;
@@ -229,13 +247,28 @@ public class consultas_Entrada_Inventario extends Conexion{
         {
             precio2= null;
         }
-        sql=("UPDATE producto_inventario SET id_producto='"+id_producto+"',cantidad_producto_inventario="+cantidad+","
-                + "stock_producto_inventario="+stock+",id_sucursal= "+id_sucursal+",id_proveedor ="+id_proveedor+","
-                + "barras_producto_inventario="+barras+",precio_producto_inventario = "+precio1+",precio_secundario_producto_inventario = '"+precio2.toString()+"'"
-                + ",iva_producto_inventario = '"+iva+"',expiracion_producto_inventario='"+expiracion+"',id_usuario_creacion ='"+id_usuario+"'"
-                + "WHERE id_producto_inventario='"+id_producto_inventario+"' ");
-        resultado = insertarResultados(sql);
-        return resultado;
+       try
+     {
+         CallableStatement cst = conex.prepareCall("Call IVN_consultaActualizarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+         cst.setInt("id_producto", Integer.parseInt(id_producto.toString()));
+         cst.setObject("cantidad", cantidad);
+         cst.setObject("stock", stock);
+         cst.setInt("id_scuursal", Integer.parseInt((id_sucursal.toString())));
+         cst.setInt("id_proveedor", Integer.parseInt(id_proveedor.toString()));
+         cst.setObject("barras", barras);
+         cst.setFloat("precio1", Float.parseFloat(precio1.toString()));
+         cst.setFloat("precio2", Float.parseFloat(precio1.toString()));
+         cst.setObject("iva", (iva));
+         cst.setObject("expiracion", expiracion);
+         cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
+         cst.setObject("id_producto_inventario", id_producto_inventario);
+         return cst.execute();
+     }
+     catch(SQLException ex)
+     {
+         ex.printStackTrace();
+         return false;
+     }
     }
     public Object consultaIdSucursal(Object Sucursal)
     {
@@ -259,9 +292,12 @@ public class consultas_Entrada_Inventario extends Conexion{
     public Object consultaIdProveedor(Object Proveedor)
     {
          Object id = null;
-        sql=("SELECT id_proveedor FROM proveedor WHERE empresa='"+Proveedor+"'");
-        rh = consultaResusltados(sql);
-             try {
+       try
+       {
+           CallableStatement cst  = conex.prepareCall("Call GEN_consultaIdProveedor(?)");
+           cst.setObject("proveedor", Proveedor);
+           cst.execute();
+           rh = cst.getResultSet();
             while(rh.next())
             id = rh.getInt(1);
             
@@ -274,23 +310,39 @@ public class consultas_Entrada_Inventario extends Conexion{
     
     public boolean consultaEliminarProductoInventario(Object id)
     {
-        sql=("DELETE FROM producto_inventario WHERE id_producto_inventario="+id+"");
-        resultado = insertarResultados(sql);
-        return resultado;
+       try{
+           CallableStatement cst  = conex.prepareCall("Calll IVN_consultaEliminarProductoInventario(?)");
+           cst.setObject("id", id);
+           return cst.execute();
+       }
+       catch(SQLException e)
+       {
+           e.printStackTrace();
+           return false;
+       }
     }
     public ResultSet consultaMotivosEliminacion()
     {
-        sql=("SELECT motivo_eliminacion FROM motivo_eliminacion_inventario");
-        rh = consultaResusltados(sql);
-        return rh;
+        try{
+            CallableStatement cst = conex.prepareCall("Call GEN_consultaMotivosEliminacion()");
+            cst.execute();
+            return cst.getResultSet();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public Object consultaIdMotivo(Object motivo)
     {
         Object id = null;
-        sql =("SELECT id_mot_elimi_inv FROM motivo_eliminacion_inventario WHERE motivo_eliminacion='"+motivo+"'");
-        rh = consultaResusltados(sql);
-             try {
+       try{
+           CallableStatement cst = conex.prepareCall("Call GEN_consultaIdMotivo(?)");
+           cst.setObject("motivo", motivo);
+           cst.execute();
+           rh = cst.getResultSet();
             while(rh.next())
             id = rh.getInt(1);
             
@@ -303,9 +355,19 @@ public class consultas_Entrada_Inventario extends Conexion{
     
     public boolean consultaRegistrarProductoEliminado(Object id_producto_inventario, Object descripcion , Object id_usuario , Object id_motivo)
     {
-        sql=("INSERT INTO producto_eliminado (id_producto_inventario,descripcion_producto_eliminado,id_usuario_creacion,id_mot_elimi_inv)"
-                + " VALUES ("+id_producto_inventario+",'"+descripcion+"',"+id_usuario+","+id_motivo+")");
-        resultado = insertarResultados(sql);
-        return resultado;
+        try
+        {
+            CallableStatement cst = conex.prepareCall("Call GEN_consultaRegistrarProductoEliminado(?,?,?,?)");
+            cst.setObject("id_producto_inventario", id_producto_inventario);
+            cst.setObject("descripcion", descripcion);
+            cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
+            cst.setInt("id_motivo", Integer.parseInt(id_motivo.toString()));
+            return cst.execute();            
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
