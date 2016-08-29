@@ -5,6 +5,7 @@
  */
 package Modelo;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,6 +28,7 @@ public class consultas_Factura_Anulada extends Conexion{
     public consultas_Factura_Anulada()
     {
         con = new Conexion();
+        conex = con.crearConexionNueva();
     }
     
     private ResultSet consultaResusltados(String sql) {
@@ -56,75 +58,34 @@ public class consultas_Factura_Anulada extends Conexion{
     
     public ResultSet consultaLlenarFacturaAnuladas(int id_sucursal)
     {
-        sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" ");
-        return consultaResusltados(sql);
+        try{
+            CallableStatement cst = conex.prepareCall("Call CON_consultaLlenarFacturaAnuladas(?)");
+            cst.setInt("id_sucursal", id_sucursal);
+            cst.execute();
+            return cst.getResultSet();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public ResultSet consultaBuscarFacturaAnulada(String opcion,int id_sucursal,Object op)
     {
-        switch (opcion)
-        {
-            case"Identificacion":
-                sql= ("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND FACT.id_factura "
-                        + "LIKE '"+op+"%' ORDER BY FACT.id_factura ");
-                rh = consultaResusltados(sql);
-                break;
-            case"Numero Factura":
-                sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND FACT.numero_factura "
-                        + "LIKE '"+op+"%' ORDER BY FACT.numero_factura ");
-                rh = consultaResusltados(sql);
-                break;
-            case"Fecha":
-                sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND ANU.fecha_anulacion "
-                        + "LIKE '"+op+"%' ORDER BY ANU.fecha_anulacion ");
-                rh = consultaResusltados(sql);
-                break;
-            
-            case"Hora":
-                sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND ANU.hora_anulacion "
-                        + "LIKE '"+op+"%' ORDER BY ANU.hora_anulacion ");
-                rh = consultaResusltados(sql);
-                break;
-            case"Motivo":
-                sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND MOT.motivo_anulacion "
-                        + "LIKE '"+op+"%' ORDER BY MOT.motivo_anulacion ");
-                rh = consultaResusltados(sql);
-                break;
-            case"Usuario":
-                sql=("SELECT DISTINCT FACT.id_factura,FACT.numero_factura,"
-                + "ANU.fecha_anulacion,ANU.hora_anulacion,MOT.motivo_anulacion,USU.usuario"
-                + " FROM factura AS FACT, factura_anulada AS ANU,factura_motivo_anulacion"
-                + " AS MOT,usuario AS USU WHERE FACT.id_factura=ANU.id_factura AND ANU.id_usuario_creacion = USU.id_usuario AND"
-                + " MOT.id_motivo_factura_anulada = ANU.id_motivo_factura_anulada AND FACT.id_sucursal = "+id_sucursal+" AND USU.usuario "
-                        + "LIKE '"+op+"%' ORDER BY USU.usuario ");
-                rh = consultaResusltados(sql);
-                break;
+       try{
+           CallableStatement cst = conex.prepareCall("Call CON_consultaBuscarFacturaAnulada(?,?,?)");
+           cst.setInt("id_sucursal", id_sucursal);
+           cst.setObject("op", op);
+           cst.setString("opcion", opcion);
+           cst.execute();
+           return cst.getResultSet();           
         }
-        return rh;
+       catch(SQLException e)
+       {
+           e.printStackTrace();
+           return null;
+       }
     }
     
 //    public ResultSet consultaLlenarHistorial(int id_sucursal)
