@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div class="container">
+
+            <div class="row" id="pwd-container">
+
+                <div class="col-md-4"></div>
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-primary">
+                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                        </button>
+                    <div class="panel-title">Gestion de Clientes</div>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                                  <table class="table table-hover table-condensed">
+                                                    <th>
+                                                        Producto
+                                                    </th>
+                                                    <th>
+                                                        Presentacion
+                                                    </th>
+                                                    <th>
+                                                        Marca
+                                                    </th>
+                                                    <th>
+                                                        Medicion
+                                                    </th>
+                                                    <th>
+                                                        Categoria
+                                                    </th>
+                                                    <th>
+                                                        Opcion
+                                                    </th>
+                                                    <tr ng_repeat="product in productos| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize">
+
+                                                        <td>
+                                                            {{product.nombre_producto}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.presentacion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.marca}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.medicion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.categoria}}
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn warning" ng_click="deleteProduct(product.id_produccto)">X</button>
+                                                            <button ng_click="mostrarProducto(product.id_produccto)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+                                                Modificar
+                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                                <div class="center-block">
+                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <!-- Navegar hacia adelante -->
+                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-lg center-block" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
+                                            </div>
+                                            <label>Search:</label>
+                                            <input type ="text" class="form-control" ng_model="search" >
+                                            <div class="modal-body">
+                                                 <form ng_submit="envioProd();" role="login">
+
+                                <h2 class="h2 text-center label-info">{{aux1}}</h2>
+
+                                <label for="producto">Producto</label>
+                                <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="producto.nombre1" />
+                                <label for="categorias">Categoria:</label>
+                                <select id="caterogias" class="form-control input-lg" ng_model="producto.categoria1">
+                                    <option  ng_repeat="cate in categorias" value="{{cate}}">{{cate}}</option>
+                                </select>
+                                <label for="categorias">Marca:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="producto.marca1">
+                                    <option  ng_repeat="mar in marca" value="{{mar}}">{{mar}}</option>
+                                </select>
+                                <label for="categorias">Medicion:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="producto.medicion1">
+                                    <option  ng_repeat="med in medicion" value="{{med}}">{{med}}</option>
+                                </select>
+                                <label for="categorias">Presentacion:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="producto.presentacion1">
+                                    <option  ng_repeat="pre in presentacion" value="{{pre}}">{{pre}}</option>
+                                </select>
+                                <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                              </form>
+                                              </div>
+
+                                            <!--______________________________________________________________ -->
+                                            <!-- Button trigger modal -->
+                                           
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="producto">Producto</label>
+                                                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="productoModificar.nombre_producto" />
+                                                            <label for="categorias">Categoria:</label>
+                                                            <select id="caterogias" class="form-control input-lg" ng_model="productoModificar.categoria">
+                                                                <option  ng_repeat="cate in categorias" value="{{cate}}">{{cate}}</option>
+                                                            </select>
+                                                            <label for="categorias">Marca:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.marca">
+                                                                <option  ng_repeat="mar in marca" value="{{mar}}">{{mar}}</option>
+                                                            </select>
+                                                            <label for="categorias">Medicion:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.medicion">
+                                                                <option  ng_repeat="med in medicion" value="{{med}}">{{med}}</option>
+                                                            </select>
+                                                            <label for="categorias">Presentacion:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.presentacion">
+                                                                <option  ng_repeat="pre in presentacion" value="{{pre}}">{{pre}}</option>
+                                                            </select>
+                                                            <input type="text" hidden="false" ng_model="productoModificar.idPr" value ="{{productoModificar.id_produccto}}">
+                                                            <input type="button" ng_click="updatePro(productoModificar.id_produccto)"/>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+    </body>
+</html>

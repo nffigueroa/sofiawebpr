@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div class="col-md-4"></div>
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-primary">
+                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                        </button>
+                    <div class="panel-title">Gestion de Clientes</div>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+
+                        <table class="table table-hover table-condensed">
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Apellido
+                            </th>
+                            <th>
+                                Identificacion
+                            </th>
+                            <th>
+                                Telefono
+                            </th>
+                            <th>
+                                Direccion
+                            </th>
+                            <th>
+                                Mail
+                            </th>
+                            <th>
+                                Ciudad
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                            <tr ng_repeat="Cli in this.tablaClientes| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize">
+
+                                <td>
+                                    {{Cli.nombre_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.apellido_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.cedula_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.telefono_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.direccion_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.mail_cliente}}
+                                </td>
+                                <td>
+                                    {{Cli.ciudad}}
+                                </td>
+                                <td>
+                                    <button class="btn warning" ng_click="deleteClie(Cli.id_cliente)">X</button>
+                                    <button ng_click="mostrarCliente(Cli.id_cliente)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+                                        Modificar
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="center-block">
+                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <!-- Navegar hacia adelante -->
+                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">AGREGAR CLIENTES</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng_submit="saveCliente();" role="login">
+
+                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+
+                            <label for="producto">Nombre</label>
+                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="cliente.nombreCliente" required="true" />
+                            <label for="producto">Apellido</label>
+                            <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="cliente.apellidoCliente" />
+                            <label for="producto">Telefono</label>
+                            <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="cliente.telefonoCliente" />
+                            <label for="producto">Direccion</label>
+                            <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="cliente.direccionCliente" />
+                            <label for="producto">Identificacion</label>
+                            <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="cliente.identificacionCliente" />
+                            <label for="producto">Email</label>
+                            <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="cliente.emailCliente" />
+                            <label for="categorias">Ciudad</label>
+                            <select id="marca" class="form-control input-lg" ng_model="cliente.idCiudad">
+                                <option  ng_repeat="ciu in ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                            </select>
+                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="producto">Nombre</label>
+                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="clienteModificar.nombre_cliente" />
+                        <label for="producto">Apellido</label>
+                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="clienteModificar.apellido_cliente" />
+                        <label for="producto">Telefono</label>
+                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="clienteModificar.telefono_cliente" />
+                        <label for="producto">Direccion</label>
+                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="clienteModificar.direccion_cliente" />
+                        <label for="producto">Identificacion</label>
+                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="clienteModificar.cedula_cliente" />
+                        <label for="producto">Email</label>
+                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="clienteModificar.mail_cliente" />
+                        <label for="categorias">Ciudad</label>
+                            <select id="marca" class="form-control input-lg" ng_model="clienteModificar.ciudad">
+                                <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                            </select>
+                        <input type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}">
+                        <button ng_click="modificarCliente(clienteModificar.id_cliente)">Modificar Registro </button>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </body>
+</html>
+
