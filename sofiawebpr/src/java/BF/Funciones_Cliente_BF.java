@@ -132,7 +132,7 @@ public class Funciones_Cliente_BF extends HttpServlet {
                         obJ.getString("emailCliente"),
                         obJ.getString("direccionCliente"),
                         obJ.getString("telefonoCliente"),
-                        obJ.getInt("idCiudad"));
+                        obJ.getString("idCiudad"));
                 
                 
                 if (ban) {
@@ -144,7 +144,7 @@ public class Funciones_Cliente_BF extends HttpServlet {
                 break;
             }
                 catch(Exception e)
-                {e.printStackTrace();}
+                {e.printStackTrace(); break;}
             }
         }
     }

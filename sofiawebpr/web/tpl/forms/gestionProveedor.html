@@ -21,7 +21,7 @@ and open the template in the editor.
                 <br>
                 <br>
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizar();"> Update
                     </button>
                     <div class="panel-title">Gestion de Proveedor</div>
                     <div class="panel-body">
@@ -55,7 +55,7 @@ and open the template in the editor.
                             <th>
                                 Accion
                             </th>
-                            <tr ng_repeat="proveedor in this.tablaProveedores| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize ">
+                            <tr ng_repeat="proveedor in vm.tablaProveedores| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize ">
 
                                 <td>
                                     {{proveedor.empresa}}
@@ -79,25 +79,25 @@ and open the template in the editor.
                                     {{proveedor.ciudad}}
                                 </td>
                                 <td>
-                                    <button ng_click="categoriasProveedor(proveedor.id_proveedor,proveedor.nit_proveedor)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Ver</button>     
+                                    <button ng_click="vm.categoriasProveedor(proveedor.id_proveedor,proveedor.nit_proveedor)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Ver</button>     
                                     
                                 </td>
                                 <td>
-                                    <button class="btn warning" ng_click="deleteProveedor(proveedor.id_proveedor)">X</button>
-                                    <button ng_click="mostrarProveedor(proveedor.id_proveedor)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                                    <button class="btn warning" ng_click="vm.deleteProveedor(proveedor.id_proveedor)">X</button>
+                                    <button ng_click="vm.mostrarProveedor(proveedor.id_proveedor)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
                                         Modificar
                                     </button> 
-                                    <input type="text" ng_model="idProveedorSeleccionado" hidden="true" value="{{proveedor.id_proveedor}}">
+                                    <input type="text" ng_model="vm.idProveedorSeleccionado" hidden="true" value="{{proveedor.id_proveedor}}">
                                 </td>
                             </tr>
 
                         </table>
                         <div class="center-block">
-                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <button type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
                             <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
-                            <!-- Button trigger modal -->
+                            <button type='button' ng-disabled='vm.currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+                           <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                 +
                             </button>
@@ -117,29 +117,29 @@ and open the template in the editor.
                     </div>
                     <h2 class="h2 text-center label-info">AGREGAR PROVEEDOR</h2>
                     <div class="modal-body">
-                        <form ng_submit="saveProveedor();">
+                        <form ng_submit="vm.saveProveedor();">
                         <label for="empresa">Empresa</label>
                         <input id="empresa" type="text" name="nombreEmpresa" placeholder="Nombre Empresa" 
-                               class="form-control input-lg" ng_model="proveedores.empresa" required="true" />    
+                               class="form-control input-lg" ng_model="vm.proveedores.empresa" required="true" />    
                         <label for="direccion">Direccion</label>
                         <input id="direccion" type="text" name="direccion" placeholder="Direccion Empresa" 
-                               class="form-control input-lg" ng_model="proveedores.direccion_poroveedor" />       
+                               class="form-control input-lg" ng_model="vm.proveedores.direccion_poroveedor" />       
                         <label for="telefono">Telefono</label>
                         <input id="telefono" type="text" name="telefonoEmoresa" placeholder="Telefono Empresa" 
-                               class="form-control input-lg" ng_model="proveedores.telefono_proveedor" />    
+                               class="form-control input-lg" ng_model="vm.proveedores.telefono_proveedor" />    
                         <label for="EMail">EMail</label>
                         <input id="mail" type="email" name="emailEmpresa" placeholder="@" 
-                               class="form-control input-lg" ng_model="proveedores.mail_proveedor" required="true"/>    
+                               class="form-control input-lg" ng_model="vm.proveedores.mail_proveedor" required="true"/>    
                         <label for="nit">Nit</label>
                         <input id="nit" type="text" name="nitEmpresa" placeholder="Nit Empresa" 
-                               class="form-control input-lg" ng_model="proveedores.nit_proveedor" />    
+                               class="form-control input-lg" ng_model="vm.proveedores.nit_proveedor" />    
                         <label for="ciudad">Ciudad</label>
-                        <select id="ciudad" class="form-control input-lg" ng_model="proveedores.ciudad">
-                            <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.proveedores.ciudad">
+                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
                         </select>
                         <label for="contacto">Contacto</label>
                         <input id="Contacto" type="text" name="contactoEmpresa" placeholder="Contacto Empresa" 
-                               class="form-control input-lg" ng_model="proveedores.contacto_empresa" />    
+                               class="form-control input-lg" ng_model="vm.proveedores.contacto_empresa" />    
                         <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                         </form>
                     </div>
@@ -161,28 +161,28 @@ and open the template in the editor.
                     <div class="modal-body">
                         <label for="empresa">Empresa</label>
                         <input id="empresa" type="text" name="nombreEmpresa" placeholder="Nombre Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.empresa" />    
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.empresa" />    
                         <label for="direccion">Direccion</label>
                         <input id="direccion" type="text" name="direccion" placeholder="Direccion Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.direccion_proveedor" />       
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.direccion_proveedor" />       
                         <label for="telefono">Telefono</label>
                         <input id="telefono" type="text" name="telefonoEmoresa" placeholder="Telefono Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.telefono_proveedor" />    
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.telefono_proveedor" />    
                         <label for="EMail">EMail</label>
                         <input id="mail" type="email" name="emailEmpresa" placeholder="@" 
-                               class="form-control input-lg" ng_model="proveedorModificar.mail_proveedor" />    
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.mail_proveedor" />    
                         <label for="nit">Nit</label>
                         <input id="nit" type="text" name="nitEmpresa" placeholder="Nit Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.nit_proveedor" />    
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.nit_proveedor" />    
                         <label for="ciudad">Ciudad</label>
-                        <select id="ciudad" class="form-control input-lg" ng_model="proveedorModificar.ciudad">
-                            <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.proveedorModificar.ciudad">
+                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
                         </select>
                         <label for="contacto">Contacto</label>
                         <input id="Contacto" type="text" name="contactoEmpresa" placeholder="Contacto Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.contaco_empresa" />   
-                        <input type="text" hidden="false" ng_model="proveedorModificar.id_proveedor" value ="{{proveedorModificar.id_proveedor}}">
-                        <input type="button" ng_click="modificarProveedor(proveedorModificar.id_proveedor)"/>
+                               class="form-control input-lg" ng_model="vm.proveedorModificar.contaco_empresa" />   
+                        <input type="text" hidden="false" ng_model="vm.proveedorModificar.id_proveedor" value ="{{proveedorModificar.id_proveedor}}">
+                        <input type="button" ng_click="vm.modificarProveedor(proveedorModificar.id_proveedor)"/>
                     </div>
 
                     <div class="modal-footer">
@@ -211,7 +211,7 @@ and open the template in the editor.
                         
                         <label class="text-uppercase">Buscar:</label>
                         <input class="input-sm" ng_model="buscarCategoria">
-                        <input class="input-sm" ng_value="nitProveedor"> 
+                        <input class="input-sm" ng_value="vm.nitProveedor"> 
                         <table class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
                             <th>
                                 Codigo
@@ -222,17 +222,16 @@ and open the template in the editor.
                             <th>
                                 Seleccionado
                             </th>
-                            <tr ng_repeat="c in categorias | filter :buscarCategoria">
+                            <tr ng_repeat="c in vm.categorias | filter :buscarCategoria">
                                 <td> {{c.id_categoria}}</td>
                                 <td> {{c.categoria}}</td>
                                 <td>
-                                    <input type="checkbox" ng_click="clicModificar(c.id_categoria)" ng_checked="{{c.Seleccion}}">
-                                    {{c.Seleccion}}
+                                    <input type="checkbox" ng_click="vm.clicModificar(c.id_categoria)" ng_checked="{{c.Seleccion}}">
                                 </td>
                             </tr>
                         </table>
                         
-                        <button ng_click="registrarCategoriasSeleccionadas(modificados,nitProveedor)" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        <button ng_click="vm.registrarCategoriasSeleccionadas(vm.modificados,vm.nitProveedor)" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                     </div>
 
                     <div class="modal-footer">

@@ -19,7 +19,7 @@ and open the template in the editor.
                 <br>
                 <br>
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizar();"> Update
                         </button>
                     <div class="panel-title">Gestion de Clientes</div>
                     <div class="panel-body">
@@ -51,7 +51,7 @@ and open the template in the editor.
                             <th>
                                 Accion
                             </th>
-                            <tr ng_repeat="Cli in this.tablaClientes| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize">
+                            <tr ng_repeat="Cli in vm.tablaClientes| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize">
 
                                 <td>
                                     {{Cli.nombre_cliente}}
@@ -75,18 +75,18 @@ and open the template in the editor.
                                     {{Cli.ciudad}}
                                 </td>
                                 <td>
-                                    <button class="btn warning" ng_click="deleteClie(Cli.id_cliente)">X</button>
-                                    <button ng_click="mostrarCliente(Cli.id_cliente)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+                                    <button class="btn warning" ng_click="vm.deleteClie(Cli.id_cliente)">X</button>
+                                    <button ng_click="vm.mostrarCliente(Cli.id_cliente)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
                                         Modificar
                                     </button>
                                 </td>
                             </tr>
                         </table>
                         <div class="center-block">
-                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <button type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage =vm.currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
                             <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <button type='button' ng-disabled='currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                 +
@@ -108,25 +108,25 @@ and open the template in the editor.
                         <h4 class="modal-title" id="myModalLabel">AGREGAR CLIENTES</h4>
                     </div>
                     <div class="modal-body">
-                        <form ng_submit="saveCliente();" role="login">
+                        <form ng_submit="vm.saveCliente();" role="login">
 
-                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+                            <h2 class="h2 text-center label-info">{{vm.aux1}}</h2>
 
                             <label for="producto">Nombre</label>
-                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="cliente.nombreCliente" required="true" />
+                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.cliente.nombreCliente" required="true" />
                             <label for="producto">Apellido</label>
-                            <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="cliente.apellidoCliente" />
+                            <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.cliente.apellidoCliente" />
                             <label for="producto">Telefono</label>
-                            <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="cliente.telefonoCliente" />
+                            <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="vm.cliente.telefonoCliente" />
                             <label for="producto">Direccion</label>
-                            <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="cliente.direccionCliente" />
+                            <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="vm.cliente.direccionCliente" />
                             <label for="producto">Identificacion</label>
-                            <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="cliente.identificacionCliente" />
+                            <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="vm.cliente.identificacionCliente" />
                             <label for="producto">Email</label>
-                            <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="cliente.emailCliente" />
+                            <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="vm.cliente.emailCliente" />
                             <label for="categorias">Ciudad</label>
-                            <select id="marca" class="form-control input-lg" ng_model="cliente.idCiudad">
-                                <option  ng_repeat="ciu in ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                            <select id="marca" class="form-control input-lg" ng_model="vm.cliente.idCiudad">
+                                <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
                             </select>
                             <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                         </form>      
@@ -150,23 +150,23 @@ and open the template in the editor.
                     </div>
                     <div class="modal-body">
                         <label for="producto">Nombre</label>
-                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="clienteModificar.nombre_cliente" />
+                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.clienteModificar.nombre_cliente" />
                         <label for="producto">Apellido</label>
-                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="clienteModificar.apellido_cliente" />
+                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.clienteModificar.apellido_cliente" />
                         <label for="producto">Telefono</label>
-                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="clienteModificar.telefono_cliente" />
+                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="vm.clienteModificar.telefono_cliente" />
                         <label for="producto">Direccion</label>
-                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="clienteModificar.direccion_cliente" />
+                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="vm.clienteModificar.direccion_cliente" />
                         <label for="producto">Identificacion</label>
-                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="clienteModificar.cedula_cliente" />
+                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="vm.clienteModificar.cedula_cliente" />
                         <label for="producto">Email</label>
-                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="clienteModificar.mail_cliente" />
+                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="vm.clienteModificar.mail_cliente" />
                         <label for="categorias">Ciudad</label>
-                            <select id="marca" class="form-control input-lg" ng_model="clienteModificar.ciudad">
-                                <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                            <select id="marca" class="form-control input-lg" ng_model="vm.clienteModificar.ciudad">
+                                <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
                             </select>
-                        <input type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}">
-                        <button ng_click="modificarCliente(clienteModificar.id_cliente)">Modificar Registro </button>
+                        <input type="text" hidden="false" ng_model="vm.clienteModificar.id_cliente" value ="{{vm.clienteModificar.id_cliente}}">
+                        <button ng_click="vm.modificarCliente(vm.clienteModificar.id_cliente)">Modificar Registro </button>
                     </div>
 
                     <div class="modal-footer">

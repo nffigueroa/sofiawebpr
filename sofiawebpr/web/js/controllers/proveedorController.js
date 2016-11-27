@@ -3,176 +3,176 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrProvee', function (auth,$scope, traerProveedor, envioProvee, $cookieStore, ngTableParams,
+app.controller('contrProvee', function (auth, traerProveedor, envioProvee, $cookieStore, ngTableParams,
 eliminarProvee, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,traerCategoriasProveedor,category,registrarCategoriasProveedor) {
     var vm = this;
     var idProveedor;
-    $scope.aux1 = "GESTION PROVEEDOR";
-   // $scope.ciudades = llenarComboCiudad.consultaLlenarComboCiudad($scope);
-    $scope.currentPage = 0;
-    $scope.obtenerAtrr = obtenerAtributoModal3();
-    $scope.ciudades = llenarComboCiudad.consultaLlenarComboCiudad($scope);
-    $scope.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
-    $scope.pages = [];
-    $scope.nitProveedor;
-    $scope.proveedorModificar = [];
-    $scope.tablaProveedores = [];
-    $scope.proveedores = []; 
-    $scope.categoriasSelected = {};
+    vm.aux1 = "GESTION PROVEEDOR";
+   // vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
+    vm.currentPage = 0;
+    vm.obtenerAtrr = obtenerAtributoModal3();
+    vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
+    vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
+    vm.pages = [];
+    vm.nitProveedor;
+    vm.proveedorModificar = [];
+    vm.tablaProveedores = [];
+    vm.proveedores = []; 
+    vm.categoriasSelected = {};
     
-    $scope.agregarSeleccion = function ()
+    vm.agregarSeleccion = function ()
     {
-        for(var i = 0 ; i < $scope.categorias.length ; i ++)
+        for(var i = 0 ; i < vm.categorias.length ; i ++)
         {
-            var cate =  $scope.categorias[i];
+            var cate =  vm.categorias[i];
             if(cate.Seleccion === 1)
             {
-                $scope.categoriasSelected[cate.id_categoria,true];
+                vm.categoriasSelected[cate.id_categoria,true];
             }
         }
         
     };
-    $scope.categorias = category.traerCategorias($scope);
-    $scope.registrarCategoriasSeleccionadas = function (categorias,nitProveedor)
+    vm.categorias = category.traerCategorias(vm);
+    vm.registrarCategoriasSeleccionadas = function (categorias,nitProveedor)
     {
         //var categoriasEnviar = categoriasSelecciondasOnly(categorias);
-        registrarCategoriasProveedor.setCategorias($scope.modificados,nitProveedor);
-        $scope.alerMessages = "Actualizado con exito";
+        registrarCategoriasProveedor.setCategorias(vm.modificados,nitProveedor);
+        vm.alerMessages = "Actualizado con exito";
     }
-    $scope.categoriasProveedor = function (idProveedor,nit){
-            $scope.modificados.ids.splice(0,$scope.modificados.ids.length); //Limpia el array Ids
-            $scope.modificados.seleccionado.splice(0,$scope.modificados.seleccionado.length); //Limpia el array seleccionado
-            traerCategoriasProveedor.getCategorias(idProveedor,$scope,nit);
+    vm.categoriasProveedor = function (idProveedor,nit){
+            vm.modificados.ids.splice(0,vm.modificados.ids.length); //Limpia el array Ids
+            vm.modificados.seleccionado.splice(0,vm.modificados.seleccionado.length); //Limpia el array seleccionado
+            traerCategoriasProveedor.getCategorias(idProveedor,vm,nit);
             
     }
-    $scope.mostrarProveedor = function (idProveedor) // Muestra el proveedor seleccionado en el formulario para modificar
+    vm.mostrarProveedor = function (idProveedor) // Muestra el proveedor seleccionado en el formulario para modificar
     {
-        for (var i = 0; i < $scope.tablaProveedores.length; i++)
+        for (var i = 0; i < vm.tablaProveedores.length; i++)
         {
-            var comparar = $scope.tablaProveedores[i];
+            var comparar = vm.tablaProveedores[i];
 
             if (comparar.id_proveedor === idProveedor)
             {
-                $scope.proveedorModificar = comparar;
+                vm.proveedorModificar = comparar;
             }
         }
     };
-    traerProveedor.llenarTablaProveedor($scope);
-    //$scope.actualizar = {};
-    $scope.actualizar = function ()
+    traerProveedor.llenarTablaProveedor(vm);
+    //vm.actualizar = {};
+    vm.actualizar = function ()
     {
-        traerProveedor.llenarTablaProveedor($scope);
+        traerProveedor.llenarTablaProveedor(vm);
     };
 //    };
-    $scope.saveProveedor = function () {
-        envioProvee.addProveedor($scope.proveedores, $cookieStore);
+    vm.saveProveedor = function () {
+        envioProvee.addProveedor(vm.proveedores, $cookieStore);
     };
-    $scope.deleteProveedor = function (idPr) {
+    vm.deleteProveedor = function (idPr) {
         if (confirm("Desea eliminar Proveedor?"))
         {
-            for (var i = 0; i < $scope.tablaProveedores.length; i++)
+            for (var i = 0; i < vm.tablaProveedores.length; i++)
             {
-                var comparar = $scope.tablaProveedores[i];
+                var comparar = vm.tablaProveedores[i];
                 if (comparar.id_proveedor === idPr)
                 {
-                    var aux2 = $scope.tablaProveedores[i];
+                    var aux2 = vm.tablaProveedores[i];
                     var indexFila = i;
                 }
             }
             eliminarProvee.DeleteProveedor(aux2.id_proveedor, $cookieStore);
             alert("Proveedor Elimiando Correctamente!");
-            $scope.tablaProveedores.splice(indexFila, 1);
+            vm.tablaProveedores.splice(indexFila, 1);
         }
     };
-    $scope.modificarProveedor = function (proveedorModificar) {
+    vm.modificarProveedor = function (proveedorModificar) {
         if (confirm("Modificar"))
         {
-            for (var i = 0; i < $scope.tablaProveedores.length; i++)
+            for (var i = 0; i < vm.tablaProveedores.length; i++)
             {
-                var comparar = $scope.tablaProveedores[i];
-                $scope.proveedorModificar = comparar;
+                var comparar = vm.tablaProveedores[i];
+                vm.proveedorModificar = comparar;
                 if (comparar.id_proveedor === proveedorModificar)
                 {
-                    var aux2 = $scope.tablaProveedores[i];
+                    var aux2 = vm.tablaProveedores[i];
                     var indexFila = i;
                     i = this.tablaProveedores.length;
                 }
             }
             updateProvee.updateProveedor(aux2, $cookieStore);
-            $scope.tablaProveedores.indexOf(indexFila).push(aux2);
+            vm.tablaProveedores.indexOf(indexFila).push(aux2);
         }
     };
-    $scope.configPages = function () {
-        $scope.pages.length = 0;
-        var ini = $scope.currentPage - 4;
-        var fin = $scope.currentPage + 5;
+    vm.configPages = function () {
+        vm.pages.length = 0;
+        var ini = vm.currentPage - 4;
+        var fin = vm.currentPage + 5;
         if (ini < 1) {
             ini = 1;
-            if (Math.ceil($scope.tablaProveedores.length / $scope.pageSize) > 10)
+            if (Math.ceil(vm.tablaProveedores.length / vm.pageSize) > 10)
                 fin = 10;
             else
-                fin = Math.ceil($scope.tablaProveedores.length / $scope.pageSize);
+                fin = Math.ceil(vm.tablaProveedores.length / vm.pageSize);
         } else {
-            if (ini >= Math.ceil($scope.tablaProveedores.length / $scope.pageSize) - 10) {
-                ini = Math.ceil($scope.tablaProveedores.length / $scope.pageSize) - 10;
-                fin = Math.ceil($scope.tablaProveedores.length / $scope.pageSize);
+            if (ini >= Math.ceil(vm.tablaProveedores.length / vm.pageSize) - 10) {
+                ini = Math.ceil(vm.tablaProveedores.length / vm.pageSize) - 10;
+                fin = Math.ceil(vm.tablaProveedores.length / vm.pageSize);
             }
         }
         if (ini < 1)
             ini = 1;
         for (var i = ini; i <= fin; i++) {
-            $scope.pages.push({no: i});
+            vm.pages.push({no: i});
         }
-        if ($scope.currentPage >= $scope.pages.length)
-            $scope.currentPage = $scope.pages.length - 1;
+        if (vm.currentPage >= vm.pages.length)
+            vm.currentPage = vm.pages.length - 1;
     };
-    $scope.setPage = function (index) {
-        $scope.currentPage = index - 1;
+    vm.setPage = function (index) {
+        vm.currentPage = index - 1;
     };
-    $scope.configPages();
-    $scope.modificados = {};
-    $scope.modificados.ids = [];
-    $scope.modificados.seleccionado = [];
-    $scope.clicModificar = function (idCategoria) {
-        if($scope.modificados.ids.length === 0)
+    vm.configPages();
+    vm.modificados = {};
+    vm.modificados.ids = [];
+    vm.modificados.seleccionado = [];
+    vm.clicModificar = function (idCategoria) {
+        if(vm.modificados.ids.length === 0)
         {
-             $scope.modificados.ids.push(idCategoria);
-             $scope.modificados.seleccionado.push(true);
+             vm.modificados.ids.push(idCategoria);
+             vm.modificados.seleccionado.push(true);
         }
         else
         {
-           // var cantidad = $scope.modificados.ids.length;
-                if(buscarenArray($scope.modificados.ids,idCategoria)) // Si ya existe el idProveedor
+           // var cantidad = vm.modificados.ids.length;
+                if(buscarenArray(vm.modificados.ids,idCategoria)) // Si ya existe el idProveedor
                 {
-                    var ind = $scope.modificados.ids.indexOf(idCategoria); // Buscamos el index en el array del proveedor
-                    if($scope.modificados.seleccionado[ind] === true) // Si el idProveedor esta marcado como si
+                    var ind = vm.modificados.ids.indexOf(idCategoria); // Buscamos el index en el array del proveedor
+                    if(vm.modificados.seleccionado[ind] === true) // Si el idProveedor esta marcado como si
                     {
                         
-                        //$scope.modificados.seleccionado[ind] = false; // Si esta verdadero , cambiar a false
-                        $scope.modificados.seleccionado.splice(ind,1);
-                        $scope.modificados.ids.splice(ind,1);
+                        //vm.modificados.seleccionado[ind] = false; // Si esta verdadero , cambiar a false
+                        vm.modificados.seleccionado.splice(ind,1);
+                        vm.modificados.ids.splice(ind,1);
                     }                        
                     else
                     {
-                        $scope.modificados.seleccionado[ind] = true; // SI es false , cambiar a true
+                        vm.modificados.seleccionado[ind] = true; // SI es false , cambiar a true
                     }
                 }
                 else // Si no se encuentra el registro se añade
                 {
-                    $scope.modificados.ids.push(idCategoria); 
-                    $scope.modificados.seleccionado.push(true);
+                    vm.modificados.ids.push(idCategoria); 
+                    vm.modificados.seleccionado.push(true);
                 }
             
         }
     };
-    $scope.modificarProveedor = function ()
+    vm.modificarProveedor = function ()
     {
-        updateProvee.updateProveedor($scope.proveedorModificar);
+        updateProvee.updateProveedor(vm.proveedorModificar);
     }
 });
 app.factory('traerProveedor', function ($http) {
     var log2 = {};
-    log2.llenarTablaProveedor = function ($scope) {
+    log2.llenarTablaProveedor = function (vm) {
         $http({
             url :'Funciones_Proveedor_BF',
             method: 'POST',
@@ -181,7 +181,7 @@ app.factory('traerProveedor', function ($http) {
                 accion:      4 //Consultar
             }
         }).then( function (result){
-            $scope.tablaProveedores = result.data[0];
+            vm.tablaProveedores = result.data[0];
         });
     };
     return log2;
@@ -259,7 +259,7 @@ app.factory('updateProvee', function ($http) {
 });
 app.factory('traerCategoriasProveedor',function ($http){
    var permi = {};
-   permi.getCategorias = function (idProveedor,$scope,nit) {
+   permi.getCategorias = function (idProveedor,vm,nit) {
        $http({
            url : 'Funciones_Proveedor_BF',
            method : 'POST',
@@ -268,18 +268,18 @@ app.factory('traerCategoriasProveedor',function ($http){
                'accion':        5   // Traer las categorias del proveedor
            }
        }).success(function (result){
-           $scope.categorias = result[0];
-           $scope.nitProveedor = nit;
-           for(var i = 0 ; i < $scope.categorias.length;i ++)
+           vm.categorias = result[0];
+           vm.nitProveedor = nit;
+           for(var i = 0 ; i < vm.categorias.length;i ++)
             {
-                var categoriaIterator = $scope.categorias[i];
+                var categoriaIterator = vm.categorias[i];
                 if(categoriaIterator.Seleccion === 1)
                 {
-                    $scope.modificados.ids.push(categoriaIterator.id_categoria);
-                    $scope.modificados.seleccionado.push(true);
+                    vm.modificados.ids.push(categoriaIterator.id_categoria);
+                    vm.modificados.seleccionado.push(true);
                 }
             }
-           //$scope.agregarSeleccion();
+           //vm.agregarSeleccion();
        });
    };
    return permi;

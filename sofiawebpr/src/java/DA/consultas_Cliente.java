@@ -92,7 +92,8 @@ public class consultas_Cliente extends Conexion{
         Object id_categoria = null;
          try {
             
-           CallableStatement cst = conex.prepareCall("CALL GEN_consultaIDComboCiudad()");
+           CallableStatement cst = conex.prepareCall("CALL GEN_consultaIDComboCiudad(?)");
+           cst.setString("ciudadLog", ciudad.toString());
             cst.execute();
             rh =  cst.getResultSet();
             while(rh.next())
@@ -147,7 +148,7 @@ public class consultas_Cliente extends Conexion{
     {
         
         try{
-            CallableStatement cst = conex.prepareCall("CALL CLI_consultaActualizarCliente(?,?,?,?,?,?,?,?,?,?)");
+            CallableStatement cst = conex.prepareCall("CALL CLI_consultaActualizarCliente(?,?,?,?,?,?,?,?)");
             cst.setInt("idUsuarioMod", Integer.parseInt(usuario.toString()));
             cst.setInt("idCliente", Integer.parseInt(id_cliente.toString()));
             cst.setString("nombre", nombre);
@@ -155,7 +156,8 @@ public class consultas_Cliente extends Conexion{
             cst.setString("telefono", telefono);
             cst.setString("direccion", direccion);
             cst.setString("mail", email);
-            cst.setInt("id_ciudad", Integer.parseInt(ciudad.toString()));
+            cst.setInt("ciudad", Integer.parseInt(ciudad.toString()));
+            cst.execute();
         }
         catch(Exception ex)
         {

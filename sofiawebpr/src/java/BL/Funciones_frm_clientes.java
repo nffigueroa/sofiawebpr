@@ -106,14 +106,10 @@ public class Funciones_frm_clientes extends DA.consultas_Cliente{
     public boolean actualizarCliente(int usuarioMod,Object id_cliente,String nombre, String apellido, String email, String direccion, String telefono,Object ciudad)
     {
         Object id_ciudad_1;
-        int usuario;
-        //Constructor_Usuario con_usuario = new Constructor_Usuario();
-        usuario=1;
         Consultas_Generales con_generales = new Consultas_Generales();
         con_generales.registrarHistorial("actualizarCliente", usuarioMod, date.format(now),hora.format(now), "Se modifica Usuariio "+nombre+"");
         id_ciudad_1=consultaIDComboCiudad(ciudad);
         consultaActualizarCliente(usuarioMod,id_cliente, nombre,apellido, email, telefono, direccion,id_ciudad_1);
-        
         return true;
     }
     

@@ -236,7 +236,7 @@ public class consultas_proveedores extends Conexion{
         Object id_categoria = null;
        try{
            CallableStatement cst = conex.prepareCall("Call GEN_consultaIDComboCiudad(?)");
-           cst.setObject("ciudad", ciudad);
+           cst.setObject("ciudadLog", ciudad);
            cst.execute();
            rh = cst.getResultSet();
             while(rh.next())
