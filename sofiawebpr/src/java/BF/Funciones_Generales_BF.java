@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import BL.Funciones_Generales;
+import BL.Funciones_Login;
+import BL.Funciones_frm_Usuario;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 import org.json.JSONArray;
@@ -88,11 +90,14 @@ public class Funciones_Generales_BF extends HttpServlet {
         JSONObject obJ = new JSONObject(sb.toString());
         int opcion = obJ.getInt("accion");
         JSONObject result = new JSONObject();
-        
-        switch(opcion){
-            case 1 : 
-            {
-                
+
+        switch (opcion) {
+            case 1: {
+                BL.Funciones_frm_Usuario fun = new Funciones_frm_Usuario();
+                JSONArray resultJson = new JSONArray();
+                ArrayList lista = fun.funcionesLLenarComboCargo();
+                resultJson.put(0, lista);
+                response.getWriter().print(resultJson);
                 break;
             }
         }

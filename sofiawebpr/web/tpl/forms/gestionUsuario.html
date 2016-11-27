@@ -47,7 +47,7 @@ and open the template in the editor.
                                 UserName
                             </th>
                             <th>
-                                Ciudad
+                                Cargo
                             </th>
                             <th>
                                 Descripcion
@@ -79,7 +79,7 @@ and open the template in the editor.
                                    <div class="text-warning"> {{usuario.usuario}}</div>
                                 </td>
                                 <td>
-                                    {{usuario.ciudad}}
+                                    {{usuario.cargo}}
                                 </td>
                                 <td>
                                     {{usuario.descripcion}}
@@ -90,7 +90,7 @@ and open the template in the editor.
                                 </td>
                                 <td>
                                     <button class="btn warning" ng_click="vm.deleteUsuario(usuario.id_usuario)">X</button>
-                                    <button ng_click="vm.deleteUsuario(usuario.i)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                                    <button ng_click="vm.mostrarUsuario(usuario.id_usuario)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
                                         Modificar
                                     </button> 
                                     <input type="text" ng_model="idProveedorSeleccionado" hidden="true" value="{{proveedor.id_proveedor}}">
@@ -139,10 +139,10 @@ and open the template in the editor.
                         <label for="direccion">Direccion</label>
                         <input id="direccion" type="text" name="direccionUsuario" placeholder="Direccion" 
                                class="form-control input-lg" ng_model="vm.usuario.direccion" />    
-                        <label for="ciudad">Ciudad</label>
+                        <!--<label for="ciudad">Ciudad</label>
                         <select id="ciudad" class="form-control input-lg" ng_model="vm.usuario.ciudad">
                             <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
-                        </select>
+                        </select> -->
                         <label for="ciudad">Cargo</label>
                         <select id="ciudad" class="form-control input-lg" ng_model="vm.usuario.cargo">
                             <option  ng_repeat="ciu in vm.cargo" value="{{ciu.cargo}}">{{ciu.cargo}}</option>
@@ -175,30 +175,41 @@ and open the template in the editor.
                         <h4 class="modal-title" id="myModalLabel">Modificar Proveedor</h4>
                     </div>
                     <div class="modal-body">
-                        <label for="empresa">Empresa</label>
-                        <input id="empresa" type="text" name="nombreEmpresa" placeholder="Nombre Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.empresa" />    
-                        <label for="direccion">Direccion</label>
-                        <input id="direccion" type="text" name="direccion" placeholder="Direccion Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.direccion_proveedor" />       
+                         
+                        <label for="empresa">Nombre</label>
+                        <input id="nombre" type="text" name="nombreUsuario" placeholder="Nombre" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.nombre_usuario" required="true" />    
+                        <label for="direccion">Apellido</label>
+                        <input id="apellido" type="text" name="apellido" placeholder="Apellido" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.apellido_usuario" />       
+                        <label for="identificacion">Identificacion</label>
+                        <input id="identificacion" type="text" name="identificacionUsuario" placeholder="Identificacion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.cc_usuario" />    
                         <label for="telefono">Telefono</label>
-                        <input id="telefono" type="text" name="telefonoEmoresa" placeholder="Telefono Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.telefono_proveedor" />    
-                        <label for="EMail">EMail</label>
-                        <input id="mail" type="email" name="emailEmpresa" placeholder="@" 
-                               class="form-control input-lg" ng_model="proveedorModificar.mail_proveedor" />    
-                        <label for="nit">Nit</label>
-                        <input id="nit" type="text" name="nitEmpresa" placeholder="Nit Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.nit_proveedor" />    
-                        <label for="ciudad">Ciudad</label>
-                        <select id="ciudad" class="form-control input-lg" ng_model="proveedorModificar.ciudad">
-                            <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        <input id="telefono" type="tel" name="telefono" placeholder="Telefono" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.telefono_usuario" required="true"/>    
+                        <label for="direccion">Direccion</label>
+                        <input id="direccion" type="text" name="direccionUsuario" placeholder="Direccion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.direccion_usuario" />    
+                        <!--<label for="ciudad">Ciudad</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuarioModificar.ciudad">
+                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        </select> -->
+                        <label for="ciudad">Cargo</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuarioModificar.cargo">
+                            <option  ng_repeat="ciu in vm.cargo" value="{{ciu.cargo}}">{{ciu.cargo}}</option>
                         </select>
-                        <label for="contacto">Contacto</label>
-                        <input id="Contacto" type="text" name="contactoEmpresa" placeholder="Contacto Empresa" 
-                               class="form-control input-lg" ng_model="proveedorModificar.contaco_empresa" />   
-                        <input type="text" hidden="false" ng_model="proveedorModificar.id_proveedor" value ="{{proveedorModificar.id_proveedor}}">
-                        <input type="button" ng_click="modificarProveedor(proveedorModificar.id_proveedor)"/>
+                        <label for="usuario">Usuario</label>
+                        <input id="usuario" type="text" name="usuarioNombre" placeholder="UserName" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.usuario" />    
+                        <label for="psw">PassWord</label>
+                        <label for="descripcion">Descripcion</label>
+                        <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.descripcion" />    
+                        <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form> 
+                        <input type="text" hidden="false" ng_model="vm.usuarioModificar.id_usuario" value ="{{vm.usuarioModificar.id_usuario}}">
+                        <input type="button" ng_click="vm.modificarUsuario(vm.usuarioModificar.id_usuario)"/>
                     </div>
 
                     <div class="modal-footer">

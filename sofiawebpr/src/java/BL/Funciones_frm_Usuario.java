@@ -57,24 +57,21 @@ public class Funciones_frm_Usuario extends DA.consultas_usuario{
 //       return gr.CargarGrd(consultaLlenarTabla_Usuario(id_empresa), nombreColumnas, ancho);
    }
     
-//    public boolean modificarUsuario(int id_usuario,Object[]Permisos,String nombre,String apellido,String cc, String telefono , String dir, Object id_cargo ,
-//             Object descri,String fecha_cre,int id_usuario_cre,Object id_sucursal,Object usuario, Object psw)
-//    {
-//     
-//        Funciones_Entrada_Inventario fun = new Funciones_Entrada_Inventario();
-//        int numeroCargo=0;
-//        int id_sucur= Integer.parseInt(fun.consultaIdSucursal(id_sucursal).toString());
-//        numeroCargo= Integer.parseInt(consultaIDComboCargo(id_cargo).toString());
-//        psw = encrip.encrypt(psw.toString());
-//        
-//        consultaModificarUsuario(id_usuario,nombre, apellido, cc, telefono, dir, numeroCargo, descri,id_sucur,usuario,psw);
-//        consultaEliminarPermisos(id_usuario);
-//        insertarPermisoUsuario(Permisos, id_usuario);
-//        Consultas_Generales con_generales = new Consultas_Generales();
-//        con_generales.registrarHistorial("modificarUsuario", id_usuario_cre, date.format(now),hora.format(now), "Se modifica usuario "+nombre+"");
-//        
-//        return false;
-//    }
+    public boolean modificarUsuario(int id_usuario,String nombre,String apellido,String cc, String telefono , String dir, Object id_cargo ,
+             Object descri,int id_usuario_cre,int id_sucursal,Object usuario, Object psw)
+    {
+        Funciones_Entrada_Inventario fun = new Funciones_Entrada_Inventario();
+        int numeroCargo=0;
+        //int id_sucur= Integer.parseInt(fun.consultaIdSucursal(id_sucursal).toString());
+        numeroCargo= Integer.parseInt(consultaIDComboCargo(id_cargo).toString());
+       // psw = login.encriptadorSemilla(psw);
+        consultaModificarUsuario(id_usuario,nombre, apellido, cc, telefono, dir, numeroCargo, descri,id_sucursal,usuario,psw);
+        //consultaEliminarPermisos(id_usuario);
+        //insertarPermisoUsuario(Permisos, id_usuario);
+        Consultas_Generales con_generales = new Consultas_Generales();
+        con_generales.registrarHistorial("modificarUsuario", id_usuario_cre, date.format(now),hora.format(now), "Se modifica usuario "+nombre+"");
+        return true;
+    }
     
     public ArrayList permisosUsuario(Object id_usuario) // consulta los permisos
     {
@@ -179,10 +176,10 @@ public class Funciones_frm_Usuario extends DA.consultas_usuario{
         Object id_usuario;
 //        cerrarConexion();
         id_cargo= consultaIDComboCargo(id_cargo);
-        int id_sucur= Integer.parseInt(fun.consultaIdSucursal(id_sucursal).toString());
+        //int id_sucur= Integer.parseInt(fun.consultaIdSucursal(id_sucursal).toString());
         psw = login.encriptadorSemilla(psw);
         String fecha_cre = date.format(now);
-        consultaRegistrarUsuario(nombre, apellido, cc, telefono, dir, id_cargo, descri,fecha_cre,id_usuario_cre,id_sucur,usuario,psw);
+        consultaRegistrarUsuario(nombre, apellido, cc, telefono, dir, id_cargo, descri,fecha_cre,id_usuario_cre,id_sucursal,usuario,psw);
        // cerrarConexion();
         id_usuario = consultaSelectUsuario(cc);
         //insertarPermisoUsuario(Permisos, id_usuario);
@@ -208,51 +205,58 @@ public class Funciones_frm_Usuario extends DA.consultas_usuario{
         return false;
     }
     
-    public Object[] funcionesLLenarComboCargo()
+    public ArrayList funcionesLLenarComboCargo()
     {
-        int columnas=0,i=0,filas=0,q=0;
-        Object [] aux = null;
-        ResultSet r= null;   
-        r=llenarComboCargo();
-       try {
-           meta= r.getMetaData();
-           columnas= meta.getColumnCount();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-       }
         try {
-            while(r.next())
-            {
-                filas=filas+1;
-            }
-            aux= new Object[filas];
-            r.beforeFirst();
-            while(r.next())
-            { 
-                if(q==0)
-                {
-                    r.first();
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-                else
-                {
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-            }
-            r.close();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-           ex.printStackTrace();
-       }
-        return aux;
+            rs = llenarComboCargo();
+            return general.resultSetToArrayList(rs);
+        } catch (Exception e) {
+            return null;
+        }
+        
+//        int columnas=0,i=0,filas=0,q=0;
+//        Object [] aux = null;
+//        ResultSet r= null;   
+//        r=llenarComboCargo();
+//       try {
+//           meta= r.getMetaData();
+//           columnas= meta.getColumnCount();
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//        try {
+//            while(r.next())
+//            {
+//                filas=filas+1;
+//            }
+//            aux= new Object[filas];
+//            r.beforeFirst();
+//            while(r.next())
+//            { 
+//                if(q==0)
+//                {
+//                    r.first();
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//                else
+//                {
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//            }
+//            r.close();
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//           ex.printStackTrace();
+//       }
+//        return aux;
     }
     
      public void eliminarUsuario(int id_usuario,int usuario_sesion)

@@ -61,20 +61,20 @@ public class consultas_usuario extends Conexion {
             Object dir, int id_cargo, Object descr, int id_sucursal, Object user, Object pass) {
         try {
             CallableStatement cst = conex.prepareCall("Call US_consultaModificarUsuario(?,?,?,?,?,?,?,?,?,?,?)");
-            cst.setInt("id_usuario", id_usuario);
+            cst.setInt("idUsuario", id_usuario);
             cst.setObject("nombre", nombre);
             cst.setObject("apellido", apellido);
             cst.setObject("apellido", apellido);
             cst.setObject("cc", cc);
             cst.setObject("tel", tel);
             cst.setObject("dir", dir);
-            cst.setInt("id_cargo", id_cargo);
+            cst.setInt("idCargo", id_cargo);
             cst.setObject("descr", descr);
-            cst.setInt("id_sucursal", id_sucursal);
+            cst.setInt("idSucursal", id_sucursal);
             cst.setObject("user", user);
             cst.setObject("pass", pass);
-            return cst.execute();
-            
+            cst.execute();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

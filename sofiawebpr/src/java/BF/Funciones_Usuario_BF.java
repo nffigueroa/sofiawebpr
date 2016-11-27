@@ -99,7 +99,7 @@ public class Funciones_Usuario_BF extends HttpServlet {
                                                         obJ.getString("descripcionUsuario"),
                                                         obJ.getInt("idUsuario"),
                                                         obJ.getInt("idSucursal"),
-                                                            obJ.getString("usuarioNombre"),
+                                                        obJ.getString("usuarioNombre"),
                                                         obJ.getString("psw"));
                     if (ban) {
 
@@ -120,18 +120,20 @@ public class Funciones_Usuario_BF extends HttpServlet {
                 break;
             }
             case 3: { // Modifica usuario
-                Funciones_frm_Proveedores pro = new Funciones_frm_Proveedores();
+                Funciones_frm_Usuario pro = new Funciones_frm_Usuario();
                 try {
-                    boolean ban = pro.modificarProveedor(obJ.getInt("idProveedor"),
-                                                        obJ.getString("empresa"), 
-                                                        obJ.getString("contacto"),
-                                                        obJ.getString("telefono"), 
-                                                        obJ.getString("direccion"),
-                                                        obJ.getString("mail"),
-                                                        obJ.getString("ciudad"),
+                    boolean ban = pro.modificarUsuario(obJ.getInt("idUsuario"),
+                                                        obJ.getString("nombreUsuario"), 
+                                                        obJ.getString("apellidoUsuario"),
+                                                        obJ.getString("idenUsuario"), 
+                                                        obJ.getString("telefonoUsuario"),
+                                                        obJ.getString("direccionUsuario"),
+                                                        obJ.getString("cargoUsuario"),
+                                                        obJ.getString("descripcionUsuario"),
+                                                        obJ.getInt("idUsuarioCreacion"),
                                                         obJ.getInt("idSucursal"),
-                                                        obJ.getString("usuario"), 
-                                                        obJ.getString("nit"));
+                                                        obJ.getString("usuarioNombre"),
+                                                        null);
                     result.put("resultado","si");
 //                    boolean ban = pro.modificarProveedor(obJ.getInt("idPro"), obJ.getString("nombreProducto1"),
 //                            obJ.getString("categoria1"), obJ.getString("marca1"),

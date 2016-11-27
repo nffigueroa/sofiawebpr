@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 app.controller('contrUsuario', function (auth,traerUsuario, traerPermisosUsuario, envioUsuario, $cookieStore, ngTableParams,
-eliminarUsuario, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,category,registrarPermisoUsuario,llenarComboCargo) 
+eliminarUsuario, llenarComboCiudad, updateUser,$cookies,llenarComboCiudad,category,registrarPermisoUsuario,llenarComboCargo) 
 {
     var vm = this;
     var idProveedor;
@@ -49,7 +49,7 @@ eliminarUsuario, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,cate
             
             
     }
-    vm.mostrarProveedor = function (idUsuario) // Muestra el proveedor seleccionado en el formulario para modificar
+    vm.mostrarUsuario = function (idUsuario) // Muestra el usuario seleccionado en el formulario para modificar
     {
         for (var i = 0; i < vm.tablaUsuario.length; i++)
         {
@@ -88,22 +88,21 @@ eliminarUsuario, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,cate
             vm.tablaUsuario.splice(indexFila, 1);
         }
     };
-    vm.modificarProveedor = function (proveedorModificar) {
+    vm.modificarUsuario = function (usuarioModificar) {
         if (confirm("Modificar"))
         {
-            for (var i = 0; i < vm.tablaProveedores.length; i++)
+            for (var i = 0; i < vm.tablaUsuario.length; i++)
             {
-                var comparar = vm.tablaProveedores[i];
-                vm.proveedorModificar = comparar;
-                if (comparar.id_proveedor === proveedorModificar)
+                var comparar = vm.tablaUsuario[i];
+                if (comparar.id_usuario === usuarioModificar)
                 {
-                    var aux2 = vm.tablaProveedores[i];
+                    var aux2 = vm.tablaUsuario[i];
                     var indexFila = i;
-                    i = this.tablaProveedores.length;
+                    i = vm.tablaUsuario.length;
                 }
             }
-            updateProvee.updateProveedor(aux2, $cookieStore);
-            vm.tablaProveedores.indexOf(indexFila).push(aux2);
+            updateUser.updateUsuario(aux2);
+           // vm.tablaUsuario.indexOf(indexFila).push(aux2);
         }
     };
 
@@ -177,11 +176,10 @@ app.factory('envioUsuario', function ($http) {
                 'telefonoUsuario': usuario.telefono,
                 'direccionUsuario': usuario.direccion,
                 'cargoUsuario': usuario.cargo,
-                'descripcionUsuario': usuario.mail_proveedor,
+                'descripcionUsuario': usuario.descripcion,
                 'idUsuario': sessionStorage.getItem("idUsuario"), // usuario que registra
-                'nit': usuario.nit_proveedor,
                 'idSucursal': sessionStorage.getItem("idSucursal"),
-                'usuarioNombre': usuario.name,
+                'usuarioNombre': usuario.usuarioName,
                 'psw' :usuario.psw,
                 'accion': 1// Insertar
             }
@@ -214,23 +212,24 @@ app.factory('eliminarUsuario', function ($http) {
     };
     return funcion;
 });
-app.factory('updateProvee', function ($http) {
+app.factory('updateUser', function ($http) {
     var modificar = {};
-    modificar.updateProveedor = function (proveedor) {
+    modificar.updateUsuario = function (usuarioModificar) {
         $http({
-            url: 'Funciones_Proveedor_BF',
+            url: 'Funciones_Usuario_BF',
             method: 'POST',
             data: {
-                'idProveedor': proveedor.id_proveedor,
-                'usuario': sessionStorage.getItem("idUsuario"),
-                'empresa': proveedor.empresa,
-                'contacto': proveedor.contaco_empresa,
-                'telefono': proveedor.telefono_proveedor,
-                'direccion': proveedor.direccion_proveedor,
-                'mail': proveedor.mail_proveedor,
-                'ciudad': proveedor.ciudad,
+                'nombreUsuario': usuarioModificar.nombre_usuario,
+                'apellidoUsuario': usuarioModificar.apellido_usuario, // usuario que registra
+                'idenUsuario': usuarioModificar.cc_usuario,
+                'telefonoUsuario': usuarioModificar.telefono_usuario,
+                'direccionUsuario': usuarioModificar.direccion_usuario,
+                'cargoUsuario': usuarioModificar.cargo,
+                'descripcionUsuario': usuarioModificar.descripcion,
+                'idUsuarioCreacion': sessionStorage.getItem("idUsuario"), // usuario que registra
                 'idSucursal': sessionStorage.getItem("idSucursal"),
-                'nit': proveedor.nit_proveedor,
+                'usuarioNombre': usuarioModificar.usuario,
+                'idUsuario': usuarioModificar.id_usuario,
                 'accion': 3 //Modificar
             }
         });
