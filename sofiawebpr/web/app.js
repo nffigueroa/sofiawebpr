@@ -9,9 +9,9 @@ var app = angular.module('sofiaApp',['ngRoute',
                                     ])
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider
-	.when("/sofiaApp",{templateUrl: "tpl/login.tpl.html", controller : "contrLog"})
+	.when("/sofiaApp",{templateUrl: "tpl/login.tpl.html", controller : "contrLog as vm"})
         .when("/master", {templateUrl :  "tpl/masterPage.html" })
-        .when("/GestionProducto", {templateUrl :  "tpl/forms/gestionProducto.html", controller :"contrPro" })
+        .when("/GestionProducto", {templateUrl :  "tpl/forms/gestionProducto.html", controller :"contrPro as vm" })
         .when("/GestionCliente", {templateUrl :  "tpl/forms/gestionCliente.html", controller :"contrCli" })
         .when("/GestionProveedor", {templateUrl :  "tpl/forms/gestionProveedor.html", controller :"contrProvee" })
         .when("/GestionCategoria", {templateUrl :  "tpl/forms/gestionCategoria.html", controller :"contrCategoria as vm" })

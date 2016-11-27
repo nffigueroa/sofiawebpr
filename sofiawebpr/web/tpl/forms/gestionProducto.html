@@ -21,7 +21,7 @@ and open the template in the editor.
                 <br>
                 <br>
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizar()"> Update
                         </button>
                     <div class="panel-title">Gestion de Clientes</div>
                     <div class="panel-body">
@@ -46,7 +46,7 @@ and open the template in the editor.
                                                     <th>
                                                         Opcion
                                                     </th>
-                                                    <tr ng_repeat="product in productos| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize">
+                                                    <tr ng_repeat="product in vm.productos| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize">
 
                                                         <td>
                                                             {{product.nombre_producto}}
@@ -64,8 +64,8 @@ and open the template in the editor.
                                                             {{product.categoria}}
                                                         </td>
                                                         <td>
-                                                            <button class="btn warning" ng_click="deleteProduct(product.id_produccto)">X</button>
-                                                            <button ng_click="mostrarProducto(product.id_produccto)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+                                                            <button class="btn warning" ng_click="vm.deleteProduct(product.id_produccto)">X</button>
+                                                            <button ng_click="vm.mostrarProducto(product.id_produccto)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
                                                 Modificar
                                             </button>
                                                         </td>
@@ -73,10 +73,10 @@ and open the template in the editor.
 
                                                 </table>
                                                 <div class="center-block">
-                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <button type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
                             <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <button type='button' ng-disabled='vm.currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                 +
@@ -93,35 +93,39 @@ and open the template in the editor.
                                                 </button>
                                                 <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
                                             </div>
-                                            <label>Search:</label>
-                                            <input type ="text" class="form-control" ng_model="search" >
                                             <div class="modal-body">
-                                                 <form ng_submit="envioProd();" role="login">
+                                                 <form ng_submit="vm.envioProd();" role="login">
 
-                                <h2 class="h2 text-center label-info">{{aux1}}</h2>
+                                <h2 class="h2 text-center label-info">{{vm.aux1}}</h2>
 
                                 <label for="producto">Producto</label>
-                                <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="producto.nombre1" />
+                                <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="vm.producto.nombre1" />
                                 <label for="categorias">Categoria:</label>
-                                <select id="caterogias" class="form-control input-lg" ng_model="producto.categoria1">
-                                    <option  ng_repeat="cate in categorias" value="{{cate}}">{{cate}}</option>
+                                <select id="caterogias" class="form-control input-lg" ng_model="vm.producto.categoria1">
+                                    <option  ng_repeat="cate in vm.categorias" value="{{cate.categoria}}">{{cate.categoria}}</option>
                                 </select>
                                 <label for="categorias">Marca:</label>
-                                <select id="marca" class="form-control input-lg" ng_model="producto.marca1">
-                                    <option  ng_repeat="mar in marca" value="{{mar}}">{{mar}}</option>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.marca1">
+                                    <option  ng_repeat="mar in vm.marca" value="{{mar}}">{{mar}}</option>
                                 </select>
                                 <label for="categorias">Medicion:</label>
-                                <select id="marca" class="form-control input-lg" ng_model="producto.medicion1">
-                                    <option  ng_repeat="med in medicion" value="{{med}}">{{med}}</option>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.medicion1">
+                                    <option  ng_repeat="med in vm.medicion" value="{{med}}">{{med}}</option>
                                 </select>
                                 <label for="categorias">Presentacion:</label>
-                                <select id="marca" class="form-control input-lg" ng_model="producto.presentacion1">
-                                    <option  ng_repeat="pre in presentacion" value="{{pre}}">{{pre}}</option>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.presentacion1">
+                                    <option  ng_repeat="pre in vm.presentacion" value="{{pre}}">{{pre}}</option>
                                 </select>
                                 <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                               </form>
-                                              </div>
+                            </div>
+       <div class="modal-footer">
 
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                             <!--______________________________________________________________ -->
                                             <!-- Button trigger modal -->
                                            
@@ -138,25 +142,25 @@ and open the template in the editor.
                                                         </div>
                                                         <div class="modal-body">
                                                             <label for="producto">Producto</label>
-                                                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="productoModificar.nombre_producto" />
+                                                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="vm.productoModificar.nombre_producto" />
                                                             <label for="categorias">Categoria:</label>
-                                                            <select id="caterogias" class="form-control input-lg" ng_model="productoModificar.categoria">
-                                                                <option  ng_repeat="cate in categorias" value="{{cate}}">{{cate}}</option>
+                                                            <select id="caterogias" class="form-control input-lg" ng_model="vm.productoModificar.categoria">
+                                                                <option  ng_repeat="cate in vm.categorias" value="{{cate.categoria}}">{{cate.categoria}}</option>
                                                             </select>
                                                             <label for="categorias">Marca:</label>
-                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.marca">
-                                                                <option  ng_repeat="mar in marca" value="{{mar}}">{{mar}}</option>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.marca">
+                                                                <option  ng_repeat="mar in vm.marca" value="{{mar}}">{{mar}}</option>
                                                             </select>
                                                             <label for="categorias">Medicion:</label>
-                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.medicion">
-                                                                <option  ng_repeat="med in medicion" value="{{med}}">{{med}}</option>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.medicion">
+                                                                <option  ng_repeat="med in vm.medicion" value="{{med}}">{{med}}</option>
                                                             </select>
                                                             <label for="categorias">Presentacion:</label>
-                                                            <select id="marca" class="form-control input-lg" ng_model="productoModificar.presentacion">
-                                                                <option  ng_repeat="pre in presentacion" value="{{pre}}">{{pre}}</option>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.presentacion">
+                                                                <option  ng_repeat="pre in vm.presentacion" value="{{pre}}">{{pre}}</option>
                                                             </select>
-                                                            <input type="text" hidden="false" ng_model="productoModificar.idPr" value ="{{productoModificar.id_produccto}}">
-                                                            <input type="button" ng_click="updatePro(productoModificar.id_produccto)"/>
+                                                            <input type="text" hidden="false" ng_model="vm.productoModificar.idPr" value ="{{vm.productoModificar.id_produccto}}">
+                                                            <input type="button" ng_click="vm.updatePro(vm.productoModificar.id_produccto)"/>
                                                         </div>
 
                                                         <div class="modal-footer">
@@ -167,13 +171,7 @@ and open the template in the editor.
                                                 </div>
                                             </div>
 
-                                            <div class="modal-footer">
-
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                     
                     </div>
                 </div>
             </div>

@@ -45,15 +45,7 @@ public class Funciones_GestionProducto extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Funciones_frm_producto pro = new Funciones_frm_producto();
-        JSONArray resultJson = new JSONArray();
-        resultJson.put(0, pro.llenarComboCategoria());
-        resultJson.put(1, pro.llenarComboMarca());
-        resultJson.put(2, pro.llenarComboMedicion());
-        resultJson.put(3, pro.llenarComboPresentacion());
-        ArrayList lista = pro.llenarProductos(1);
-        resultJson.put(4, lista);
-        response.getWriter().print(resultJson);
+        
     }
 
     /**
@@ -117,9 +109,24 @@ public class Funciones_GestionProducto extends HttpServlet {
                     } else {
                         result.put("resultado", "no");
                     }
+                break;
             }
                 catch(Exception e)
-                {e.printStackTrace();}
+                {e.printStackTrace();
+                break;}
+            }
+            case 4:
+            {
+                Funciones_frm_producto pro = new Funciones_frm_producto();
+                JSONArray resultJson = new JSONArray();
+                resultJson.put(0, pro.llenarComboCategoria());
+                resultJson.put(1, pro.llenarComboMarca());
+                resultJson.put(2, pro.llenarComboMedicion());
+                resultJson.put(3, pro.llenarComboPresentacion());
+                ArrayList lista = pro.llenarProductos(obJ.getInt("idSucursal"));
+                resultJson.put(4, lista);
+                response.getWriter().print(resultJson);
+                break;
             }
         }
 

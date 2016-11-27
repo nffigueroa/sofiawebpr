@@ -5,24 +5,24 @@
  */
 
 app.
-controller("contrLog", function (auth,$scope,loguear,$location,llenarSesion,$cookieStore,$cookies) {
-
-$scope.meesage= "Details";
-$scope.aux = [];
+controller("contrLog", function (auth,loguear,$location,llenarSesion,$cookieStore,$cookies) {
+var vm = this;
+vm.meesage= "Details";
+vm.aux = [];
 auth.flash = "";
     //función que llamamos al hacer sumbit al formulario
-    $scope.login = function(){
-        loguear.validarLogin($scope.usuario,$scope,$location,$cookieStore);
-        auth.login($scope.usuario);
+vm.login = function(){
+        loguear.validarLogin(vm.usuario,vm,$location,$cookieStore);
+        auth.login(vm.usuario);
     }
-//$scope.login = function(){
-//    loguear.validarLogin($scope.usuario,$scope,$location,$cookieStore);
+//vm.login = function(){
+//    loguear.validarLogin(vm.usuario,vm,$location,$cookieStore);
 //    llenarSesion.getSession($cookieStore,$cookies);
 //  };
-})
-.factory('loguear',function ($http){
+});
+app.factory('loguear',function ($http){
 	var log = {};
-	log.validarLogin = function(usuario,$scope,$location){
+	log.validarLogin = function(usuario,vm,$location){
 		 $http({
 		     	url : 'Funciones_Login',
 		        method : "POST",
@@ -33,8 +33,8 @@ auth.flash = "";
 		        }
                        
 		        }).then(function (response){
-                                $scope.aux.push(response.data);
-                                if(!$scope.aux[0].resultado === "ok")
+                                vm.aux.push(response.data);
+                                if(!vm.aux[0].resultado === "ok")
                                 {
                                 //    $location.path("/master");
                                 alert("Error Verifique sus datos");
@@ -47,114 +47,129 @@ auth.flash = "";
 	};
 	return log;
 });
-app.controller('contrPro', function($scope,category,updatePr,envioPro,$cookieStore,ngTableParams,eliminarPro,$cookies) {
-
-$scope.currentPage = 0;
-$scope.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
-$scope.pages = [];
-$scope.configPages = function() {
-   $scope.pages.length = 0;
-   var ini = $scope.currentPage - 4;
-   var fin = $scope.currentPage + 5;
+app.controller('contrPro', function(category,updatePr,envioPro,$cookieStore,ngTableParams,eliminarPro,$cookies) {
+var vm = this;
+vm.currentPage = 0;
+vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
+vm.pages = [];
+vm.configPages = function() {
+   vm.pages.length = 0;
+   var ini = vm.currentPage - 4;
+   var fin = vm.currentPage + 5;
    if (ini < 1) {
       ini = 1;
-      if (Math.ceil($scope.productos.length / $scope.pageSize) > 10) fin = 10;
-      else fin = Math.ceil($scope.productos.length / $scope.pageSize);
+      if (Math.ceil(vm.productos.length / vm.pageSize) > 10) fin = 10;
+      else fin = Math.ceil(vm.productos.length / vm.pageSize);
    } else {
-      if (ini >= Math.ceil($scope.productos.length / $scope.pageSize) - 10) {
-         ini = Math.ceil($scope.productos.length / $scope.pageSize) - 10;
-         fin = Math.ceil($scope.productos.length / $scope.pageSize);
+      if (ini >= Math.ceil(vm.productos.length / vm.pageSize) - 10) {
+         ini = Math.ceil(vm.productos.length / vm.pageSize) - 10;
+         fin = Math.ceil(vm.productos.length / vm.pageSize);
       }
    }
    if (ini < 1) ini = 1;
    for (var i = ini; i <= fin; i++) {
-      $scope.pages.push({ no: i });
+      vm.pages.push({ no: i });
    }
-   if ($scope.currentPage >= $scope.pages.length)
-      $scope.currentPage = $scope.pages.length - 1;
+   if (vm.currentPage >= vm.pages.length)
+      vm.currentPage = vm.pages.length - 1;
 };
-$scope.eliminar="Eliminar";
-$scope.elim = [];
-$scope.setPage = function(index) {
-   $scope.currentPage = index - 1;
+vm.eliminar="Eliminar";
+vm.elim = [];
+vm.setPage = function(index) {
+   vm.currentPage = index - 1;
 };
-$scope.productoModificar= [];
-$scope.categorias = [];
-$scope.medicion = [];
-$scope.marca = [];
-$scope.presentacion = [];
-$scope.productos = [];
-$scope.aux1 = "GESTION PRODUCTO";
-$scope.categorias = category.traerCategorias($scope);
-$scope.envioProd = function () {
-envioPro.envioProducto($scope.producto,$cookieStore);
+vm.productoModificar= [];
+vm.categorias = [];
+vm.medicion = [];
+vm.marca = [];
+vm.presentacion = [];
+vm.productos = [];
+vm.aux1 = "GESTION PRODUCTO";
+vm.categorias = category.traerCategorias(vm);
+vm.envioProd = function () {
+envioPro.envioProducto(vm.producto);
 };
-$scope.configPages();
-$scope.deleteProduct = function (idPr){ 
+vm.configPages();
+vm.deleteProduct = function (idPr){ 
         if(confirm("Desea eliminar"))
             {
-                for (var i =0 ; i < $scope.productos.length ; i++)
+                for (var i =0 ; i < vm.productos.length ; i++)
                 {
-                    var comparar = $scope.productos[i];
+                    var comparar = vm.productos[i];
                     if( comparar.id_produccto === idPr)
                     {
-                        var aux2 = $scope.productos[i];
+                        var aux2 = vm.productos[i];
                         var indexFila = i;
                     }
                 }
                 eliminarPro.DeletePr(aux2.id_produccto,$cookieStore);
-                $scope.productos.splice(indexFila,1);             
+                vm.productos.splice(indexFila,1);             
             }
 };
-$scope.mostrarProducto = function (idProducto)
+vm.mostrarProducto = function (idProducto)
 {
-    for (var i =0 ; i < $scope.productos.length ; i++)
+    for (var i =0 ; i < vm.productos.length ; i++)
                 {
-                    var comparar = $scope.productos[i];
+                    var comparar = vm.productos[i];
                     
                     if( comparar.id_produccto === idProducto)
                     {
-                        $scope.productoModificar = comparar;
+                        vm.productoModificar = comparar;
                     }
                 }
 };
-$scope.updatePro = function (idProducto){
+vm.updatePro = function (idProducto){
     if(confirm("Modificar"))
     {
-        for (var i =0 ; i < $scope.productos.length ; i++)
+        for (var i =0 ; i < vm.productos.length ; i++)
                 {
-                    var comparar = $scope.productos[i];
-                    $scope.productoModificar = comparar;
+                    var comparar = vm.productos[i];
+                    vm.productoModificar = comparar;
                     if( comparar.id_produccto === idProducto)
                     {
-                        var aux2 = $scope.productos[i];
+                        var aux2 = vm.productos[i];
                         var indexFila = i;
                         i = this.productos.length;
                     }
                 }
                 updatePr.updateProducto(aux2,$cookieStore);
-                $scope.productos.indexOf(indexFila).push(aux2);
+                vm.productos.indexOf(indexFila).push(aux2);
     }
 };
         });
 app.factory('category', function ($http) {
             var log2 = {};
-            log2.traerCategorias = function ($scope){
-                 $http.get("Funciones_GestionProducto").success( function (result)
-                   {
-                        $scope.categorias = result[0];
-                        $scope.marca = result[1];
-                        $scope.medicion = result[2];
-                        $scope.presentacion= result[3];
-                        $scope.productos = (result[4]);
-                    });
+            log2.traerCategorias = function (vm){
+                $http({
+                    method: 'POST',
+                    url: 'Funciones_GestionProducto',
+                    data :
+                            {
+                                'accion': 4 ,
+                                'idSucursal': sessionStorage.getItem("idSucursal")
+                            }
+                }).success(function (result){
+                      vm.categorias = result[0];
+                        vm.marca = result[1];
+                        vm.medicion = result[2];
+                        vm.presentacion= result[3];
+                        vm.productos = (result[4]);
+                });
+//                 $http.get("Funciones_GestionProducto").success( function (result)
+//                   {
+//                        vm.categorias = result[0];
+//                        vm.marca = result[1];
+//                        vm.medicion = result[2];
+//                        vm.presentacion= result[3];
+//                        vm.productos = (result[4]);
+//                    });
             };
            return log2;
         });
 app.factory('envioPro', function ($http) {
     var envio = {};
     
-    envio.envioProducto = function (producto,$cookies) {
+    envio.envioProducto = function (producto) {
         $http({
             url: "Funciones_GestionProducto",
             method : "POST",
@@ -164,7 +179,7 @@ app.factory('envioPro', function ($http) {
                'medicion1':         producto.medicion1,
                'presentacion1':     producto.presentacion1,
                'categoria1':        producto.categoria1,
-               'usuario':           $cookies.idSucursal,
+               'usuario':           sessionStorage.getItem("idSucursal"),
                'accion' :            1 // Consultar 
            }
         }).then( function (response){
@@ -267,10 +282,10 @@ app.factory('llenarComboCargo', function ($http){
 });
 app.factory('llenarComboCiudad', function ($http){
     var llenar = {};
-            llenar.consultaLlenarComboCiudad = function ($scope){
+            llenar.consultaLlenarComboCiudad = function (vm){
                  $http.get("Funciones_Generales_BF").success( function (result)
                    {
-                        $scope.ciudades = (result[0]);
+                        vm.ciudades = (result[0]);
                     });
             };
            return llenar;
