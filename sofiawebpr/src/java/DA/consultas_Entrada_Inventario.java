@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import javax.json.JsonObject;
+import org.json.JSONObject;
 
 /**
  *
@@ -25,6 +28,7 @@ public class consultas_Entrada_Inventario extends Conexion{
     PreparedStatement ps;
     Conexion con;
     String sql = null;
+    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
     
     public consultas_Entrada_Inventario()
     {
@@ -161,38 +165,75 @@ public class consultas_Entrada_Inventario extends Conexion{
         }
         return rh;
     }
-    
-    public boolean consultaRegistrarProductoInventario(Object id_producto,Object cantidad,Object stock,Object id_sucursal,Object id_proveedor,
-            Object barras, float precio1, float precio2, String iva, Object expiracion,Object id_usuario,float utilidad,Object fecha_creacion)
+     public boolean consultaRegistrarProductoInventario(JSONObject productos,int idUsuario, int idSucursal)
+//    public boolean consultaRegistrarProductoInventario(JSONObject productos,Object id_producto,
+//            Object cantidad,Object stock,Object id_sucursal,Object id_proveedor,
+//            Object barras, float precio1, float precio2, String iva, Object expiracion,Object id_usuario,
+//            float utilidad,Object fecha_creacion)
     {
-        if(expiracion ==(""))
-        {
-            expiracion = "1900/01/01";
+//        if(expiracion ==(""))
+//        {
+//            expiracion = "1900/01/01";
+//        }
+//     
+//     try
+//     {
+         try {
+            int cantidades = productos.getJSONArray("categoria").length();
+         for (int i = 0; i < cantidades; i++) {
+             CallableStatement cst = conex.prepareCall("Call IVN_consultaRegistrarProductoInventario(?,?,?,?,?,?,?,?,?,?,?) ");
+             int id = productos.getJSONArray("idProducto").getInt(i);
+             cst.setInt("id_producto", id);
+             Object cantidad = productos.getJSONArray("cantidad").get(i);
+             cst.setObject("cantidad", cantidad);
+             Object stock = productos.getJSONArray("stock").get(i);
+             cst.setObject("stock", stock);
+             Object sucursal = productos.getJSONArray("sucursal").get(i);
+             cst.setString("id_sucursalLog", sucursal.toString());
+             Object proveedor = productos.getJSONArray("proveedor").get(i);
+             cst.setObject("id_proveedor", proveedor);
+             Object barras= productos.getJSONArray("barras").get(i);
+             cst.setObject("barras", barras);
+             Object precio1 = productos.getJSONArray("precioVenta").get(i);
+             cst.setObject("precio1", precio1);
+             Object precio2 = productos.getJSONArray("precioCompra").get(i);
+             cst.setObject("precio2", precio2);
+             Object iva = productos.getJSONArray("iva").get(i);
+             cst.setObject("iva", iva);
+             Object expiracion = date.format(Date.parse(productos.getJSONArray("expiracion").get(i).toString()));
+             cst.setObject("expiracion", expiracion);
+             //Object id_usuario = productos.getJSONArray("id_usuario").get(i);
+             cst.setObject("id_usuario", idUsuario);
+             cst.execute();
+         }
+        } catch (Exception e) {
+            return false;
         }
-     
-     try
-     {
-         CallableStatement cst = conex.prepareCall("Call IVN_consultaRegistrarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
-         cst.setInt("id_producto", Integer.parseInt(id_producto.toString()));
-         cst.setObject("cantidad", cantidad);
-         cst.setObject("stock", stock);
-         cst.setInt("id_sucursalLog", Integer.parseInt((id_sucursal.toString())));
-         cst.setInt("id_proveedor", Integer.parseInt(id_proveedor.toString()));
-         cst.setObject("barras", barras);
-         cst.setFloat("precio1", precio1);
-         cst.setFloat("precio2", precio2);
-         cst.setObject("iva", (iva));
-         cst.setObject("expiracion", expiracion);
-         cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
-         cst.setFloat("utilidad", utilidad);
-         cst.setObject("fecha_creacion", fecha_creacion);
-         return cst.execute();
-     }
-     catch(SQLException ex)
-     {
-         ex.printStackTrace();
+         
+//         CallableStatement cst = conex.prepareCall("Call IVN_consultaRegistrarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+//         cst.setInt("id_producto", Integer.parseInt(id_producto.toString()));
+//         cst.setObject("cantidad", cantidad);
+//         cst.setObject("stock", stock);
+//         cst.setInt("id_sucursalLog", Integer.parseInt((id_sucursal.toString())));
+//         cst.setInt("id_proveedor", Integer.parseInt(id_proveedor.toString()));
+//         cst.setObject("barras", barras);
+//         cst.setFloat("precio1", precio1);
+//         cst.setFloat("precio2", precio2);
+//         cst.setObject("iva", (iva));
+//         cst.setObject("expiracion", expiracion);
+//         cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
+//         cst.setFloat("utilidad", utilidad);
+//         cst.setObject("fecha_creacion", fecha_creacion);
+//         cst.execute();
+//         }
+//         return true;
+//     }
+//     catch(SQLException ex)
+//     {
+//         ex.printStackTrace();
+//         return false;
+//     }
          return false;
-     }
     }
     
     public Object consultaIdProducto(Object producto)
@@ -200,10 +241,11 @@ public class consultas_Entrada_Inventario extends Conexion{
         Object id = null;
         try {
                 CallableStatement cst = conex .prepareCall("Call IVN_consultaIdProducto(?)");
-                cst.setObject("producto", producto);
+                cst.setInt("producto",Integer.parseInt(producto.toString()));
                 cst.execute();
+                rh = cst.getResultSet();
                 while(rh.next())
-                id = rh.getInt(1);
+                id = rh.getInt("id_producto");
             
         } catch (SQLException ex) {
             Logger.getLogger(consultas_Producto.class.getName()).log(Level.SEVERE, null, ex);
@@ -222,12 +264,12 @@ public class consultas_Entrada_Inventario extends Conexion{
         }
        try
      {
-         CallableStatement cst = conex.prepareCall("Call IVN_consultaActualizarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?,?) ");
-         cst.setInt("id_producto", Integer.parseInt(id_producto.toString()));
-         cst.setObject("cantidad", cantidad);
+         CallableStatement cst = conex.prepareCall("Call IVN_consultaActualizarProductoInventario(?,?,?,?,?,?,?,?,?,?,?,?) ");
+         cst.setInt("idProducto", Integer.parseInt(id_producto.toString()));
+         cst.setDouble("cantidad", Float.parseFloat(cantidad.toString()));
          cst.setObject("stock", stock);
-         cst.setInt("id_scuursal", Integer.parseInt((id_sucursal.toString())));
-         cst.setInt("id_proveedor", Integer.parseInt(id_proveedor.toString()));
+         cst.setInt("idSucursal", Integer.parseInt((id_sucursal.toString())));
+         cst.setInt("idProveedor", Integer.parseInt(id_proveedor.toString()));
          cst.setObject("barras", barras);
          cst.setFloat("precio1", Float.parseFloat(precio1.toString()));
          cst.setFloat("precio2", Float.parseFloat(precio1.toString()));

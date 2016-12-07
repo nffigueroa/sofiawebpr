@@ -16,6 +16,9 @@ import javax.swing.table.TableModel;
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 import DA.Consultas_Generales;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import javax.json.JsonObject;
+import org.json.JSONObject;
 /**
  *
  * @author Nestor1
@@ -28,6 +31,7 @@ public class Funciones_Entrada_Inventario extends DA.consultas_Entrada_Inventari
    SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
    public ResultSet rh = null;
    DecimalFormat formateador = new DecimalFormat("###,###");
+   Funciones_Generales general = new Funciones_Generales();
    public boolean descontarCantidad(Object id_producto_inventario,float cantidad,Object motivo, int id_usuario)
    {
        motivo=funcionConsultarIdMotivo(motivo);
@@ -44,7 +48,7 @@ public class Funciones_Entrada_Inventario extends DA.consultas_Entrada_Inventari
        if(consultaRegistrarCantidadProductoExistente(cantidad, id_producto_inventario))
        {
 Funciones_Generales fun = new Funciones_Generales();
-           fun.registrarHistorialEntradaInventairio(id_producto_inventario, cantidad2, id_usuario);
+           fun.registrarHistorialEntradaInventairio(id_producto_inventario, cantidad2, id_usuario,null,0);
            fun.registrarHistorial("agregarCantidadProductoExistente", id_usuario, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+id_producto_inventario+"");           
        }
        else
@@ -151,123 +155,155 @@ Funciones_Generales fun = new Funciones_Generales();
        return total_mostrar;
    }
    
-    public TableModel llenarTablaInventarioFunciones(int id_sucursal,String[] nombreColumnas, int[] ancho)
+    public ArrayList llenarTablaInventarioFunciones(int id_sucursal)
    {
-       return null;
+       try {
+           rh = llenarTabla_inventario(id_sucursal);
+           return general.resultSetToArrayList(rh);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return null;
+       }
 //       Grillas gr = new Grillas();
 //       rh = llenarTabla_inventario(id_sucursal);
 //       return gr.CargarGrd(rh, nombreColumnas, ancho);
    }
     
-   public Object[] llenarComboProveedor()
+    
+   public ArrayList llenarComboProveedor()
     {
-        int columnas=0,i=0,filas=0,q=0;
-        Object [] aux = null;
-        ResultSet r= null;   
-        r=consultaLlenarComboProveedor();
-       try {
-           meta= r.getMetaData();
-           columnas= meta.getColumnCount();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-       }
         try {
-            while(r.next())
-            {
-                filas=filas+1;
-            }
-            aux= new Object[filas];
-            r.beforeFirst();
-            while(r.next())
-            { 
-                if(q==0)
-                {
-                    r.first();
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-                else
-                {
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-            }
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-           ex.printStackTrace();
-       }
-        return aux;
+            rh= consultaLlenarComboProveedor();
+            return general.resultSetToArrayList(rh);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+//        int columnas=0,i=0,filas=0,q=0;
+//        Object [] aux = null;
+//        ResultSet r= null;   
+//        r=consultaLlenarComboProveedor();
+//       try {
+//           meta= r.getMetaData();
+//           columnas= meta.getColumnCount();
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//        try {
+//            while(r.next())
+//            {
+//                filas=filas+1;
+//            }
+//            aux= new Object[filas];
+//            r.beforeFirst();
+//            while(r.next())
+//            { 
+//                if(q==0)
+//                {
+//                    r.first();
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//                else
+//                {
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//            }
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//           ex.printStackTrace();
+//       }
+//        return aux;
     } 
    
-    public Object[] llenarComboSucursal(int id_sucursal)
+    public ArrayList llenarComboSucursal(int id_sucursal)
     {
-        int columnas=0,i=0,filas=0,q=0,id_empresa=0;
-        Object [] aux = null;
-        ResultSet r= null;   
-        id_empresa= consultaIdEmpresa(id_sucursal);
-        r=consultaLlenarComboSucursal(id_empresa);
-       try {
-           meta= r.getMetaData();
-           columnas= meta.getColumnCount();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-       }
         try {
-            while(r.next())
-            {
-                filas=filas+1;
-            }
-            aux= new Object[filas];
-            r.beforeFirst();
-            while(r.next())
-            { 
-                if(q==0)
-                {
-                    r.first();
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-                else
-                {
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-            }
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-           ex.printStackTrace();
-       }
-        return aux;
+            int id_empresa =0;
+            id_empresa= consultaIdEmpresa(id_sucursal);
+            rh = consultaLlenarComboSucursal(id_empresa);
+            return general.resultSetToArrayList(rh);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+//        int columnas=0,i=0,filas=0,q=0,id_empresa=0;
+//        Object [] aux = null;
+//        ResultSet r= null;   
+//        id_empresa= consultaIdEmpresa(id_sucursal);
+//        r=consultaLlenarComboSucursal(id_empresa);
+//       try {
+//           meta= r.getMetaData();
+//           columnas= meta.getColumnCount();
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//        try {
+//            while(r.next())
+//            {
+//                filas=filas+1;
+//            }
+//            aux= new Object[filas];
+//            r.beforeFirst();
+//            while(r.next())
+//            { 
+//                if(q==0)
+//                {
+//                    r.first();
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//                else
+//                {
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//            }
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//           ex.printStackTrace();
+//       }
+//        return aux;
     } 
-   
-  public boolean registrarProductoInventario(int id_sucursal_sesion,Object id_producto,Object cantidad,Object stock,Object sucursal,Object proveedor,
-            Object barras, float precio1, float precio2, String iva, String expiracion, int id_usuario_sesion)
+   public Object registrarProductoInventario(JSONObject productos,int idSucursal, int idUsuario)
+//  public boolean registrarProductoInventario(JSONObject productos,int id_sucursal_sesion,Object id_producto,Object cantidad,Object stock,Object sucursal,Object proveedor,
+//            Object barras, float precio1, float precio2, String iva, String expiracion, int id_usuario_sesion)
   {
       Funciones_Generales con_generales = new Funciones_Generales();
-      con_generales.registrarHistorial("registrarProductoInventario", id_usuario_sesion, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+id_producto+"");
+//      con_generales.registrarHistorial("registrarProductoInventario", id_usuario_sesion, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+id_producto+"");
       float utilidad =0;
-      utilidad = Math.round(precio1-precio2);
-      Object id_sucursal,id_proveedor,id_usuario;
-      id_usuario= id_usuario_sesion;//con_usuario.getId_usuario();
-      id_sucursal=consultaIdSucursal(sucursal);
-      id_proveedor=consultaIdProveedor(proveedor);
-      consultaRegistrarProductoInventario(id_producto, cantidad, stock, id_sucursal, id_proveedor, barras, precio1, precio2, iva, expiracion,id_usuario,utilidad,date.format(now));
-      int id_inventario;
-      id_inventario = con_generales.consultaUltimoIdInventario(Integer.parseInt(id_sucursal.toString()));
-      con_generales.registrarHistorialEntradaInventairio(id_inventario, cantidad, id_usuario_sesion);
-      return true;
+      consultaRegistrarProductoInventario(productos, idUsuario, idSucursal);
+ //      utilidad = Math.round(precio1-precio2);
+//      Object id_sucursal,id_proveedor,id_usuario;
+//      id_usuario= id_usuario_sesion;//con_usuario.getId_usuario();
+//      id_sucursal=consultaIdSucursal(sucursal);
+//      id_proveedor=consultaIdProveedor(proveedor);
+      //consultaRegistrarProductoInventario(productosnow));
+//      int id_inventario;
+      int id_inventario = con_generales.consultaUltimoIdInventario(idSucursal);
+      Object consecutivo =con_generales.consultaConsecutivo(idSucursal);
+      for (int i = 0; i < productos.getJSONArray("cantidad").length(); i++) {
+          con_generales.registrarHistorialEntradaInventairio(id_inventario,
+                                                        productos.getJSONArray("cantidad").get(i),
+                                                        idUsuario,
+                                                        consecutivo,
+                                                        idSucursal);
+      }
+    
+      return consecutivo;
   }
   
   public boolean actualizarProductoInventario(Object cantidad,Object stock,Object sucursal,Object proveedor,

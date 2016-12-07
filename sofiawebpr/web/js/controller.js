@@ -211,33 +211,6 @@ app.factory('eliminarPro', function ($http) {
    };
    return funcion;
 });
-app.factory('llenarSesion', function ($http){
- var session = {};
- session.getSession = function ($cookieStore,$cookies)
- {
-      $http({
-         url :"session_BF",
-         method :"POST",
-         data : {
-             'usuario' : $cookieStore.get("nombreUsuario")
-         }
-     }).then( function (result){
-         
-//       // $cookieStore.put("nombreUsuario",result.data.usuario);
-//        $cookies.idSucursal = result.data.idSucursal;
-//        $cookieStore.put("idSucursal",result.data.idSucursal);
-//        $cookies.idUsuario;
-//        $cookieStore.put("idUsuario",result.data.idUsuario);
-//        $cookies.idCargo;
-//        $cookieStore.put("idCargo",result.data.idCargo);
-//        $cookies.nombreReal;
-//        $cookieStore.put("nombreReal",result.data.nombre);
-//        $cookies.apellido;
-//        $cookieStore.put("apellido",result.data.apellido);
-     });
- };
- return session;
-});
 app.filter('startFromGrid', function() {
    return function(input, start) {
       start = +start;
@@ -365,6 +338,7 @@ app.run(function($rootScope, $location, auth){
         //en el caso de que intente acceder al login y ya haya iniciado sesión lo mandamos a la home
         if(($location.path() === '/login') && auth.isLoggedIn()){
             $location.path("/master");
+            alert("si");
         }
     })
 })

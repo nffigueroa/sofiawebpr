@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+         <script>
+        $( document ).ready(function() {
+            $('#fecha').datepicker();
+        });
+    </script>
+    <style>
+    #mdialTamanio{
+      width: 80% !important;
+    }
+  </style>
+        <script>
+            function ocultarModal3 () {
+                $('#myModal3').modal('hide')
+            }
+            function ocultarModal1 () {
+                $('#myModal').modal('hide')
+            }
+             $('#myModal3').on('hidden.bs.modal', function () {
+                $('#myModal').modal('show');
+            })
+             
+        </script>
+        
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div >
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-primary">
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
+                        </button>
+                    <div class="panel-title">{{vm.aux1}}</div>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
+                            <th>
+                                Identificacion
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Iva
+                            </th>
+                            <th>
+                                Marca
+                            </th>
+                            <th>
+                                Categoria
+                            </th><th>
+                                Presentacion
+                            </th>
+                            <th>
+                                Expiracion
+                            </th>
+                            <th>
+                                Medicion
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Stock
+                            </th>
+                            <th>
+                                Barras
+                            </th>
+                            <th>
+                                Precio 1
+                            </th>
+                            <th>
+                                Precio 2
+                            </th>
+                            <th>
+                                Sucursal
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                            
+                            <tr ng_repeat="c in vm.tablaInventario | filter : search">
+                                <td> {{c.id_producto_inventario}}</td>
+                                <td> {{c.nombre_producto}}</td>
+                                <td> {{c.iva_producto_inventario}}</td>
+                                <td> {{c.marca}}</td>
+                                <td> {{c.categoria}}</td>
+                                <td> {{c.presentacion}}</td>
+                                <td> {{c.expiracion_producto_inventario}}</td>
+                                <td> {{c.medicion}}</td>
+                                <td> {{c.cantidad_producto_inventario}}</td>
+                                <td> {{c.stock_producto_inventario}}</td>
+                                <td> {{c.barras_producto_inventario}}</td>
+                                <td> {{c.precio_producto_inventario}}</td>
+                                <td> {{c.nombre_sucursal}}</td>
+                                <td> {{c.empresa}}</td>
+                                <td>
+                                    <button class="btn warning" ng_click="vm.deleteProduct(product.id_produccto)">X</button>
+                                    <button ng_click="vm.mostrarProductoModificar(c.id_producto_inventario)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal5">
+                                                Modificar
+                                            </button>
+                                </td>
+                            </tr>
+                        </table>
+                      </div>
+                        <div class="center-block">
+                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <!-- Navegar hacia adelante -->
+                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" data-dismiss ="modal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">SOLICITUD INGRESO INVENTARIO</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-control form-horizontal" ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
+                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+                            <div class="input-group">
+                                <span onclick="ocultarModal1()" class="input-group-addon input-group" data-toggle="modal" data-target="#myModal3">Ver..</span>
+                            <input ng_disabled="true" ng_model="vm.producto.nombreProducto" type="text" class="input-group form-control" placeholder="Nombre de Producto">
+                          </div>
+                            <label class="text">Categoria</label>
+                            <input ng_disabled="true" type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.categoria" />
+                            <label class="text">Presentacion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.presentacion" />
+                            <label class="text">Medicion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.medicion" />
+                            <label class="text">Marca</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.marca" />
+                            <label class="text">Stock</label>
+                            <input type="number" class="form-control" name="myDecimal" placeholder="Decimal" ng-model="vm.producto.stock" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+                            <label class="text">Iva</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.iva" />
+                            <label class="text">Expiracion</label>
+                            <input type="text" id="fecha" name="fecha" class="form-control date" ng_model="vm.producto.expiracion" />
+                            <label class="text">Barras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.codigoBarras" />
+                            <label class="text">Precio Ventas</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.precioVenta" />
+                            <label class="text">Precio Compras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.precioCompra" />
+                            <label class="text">Cantidad</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.cantidad" />
+                            <label class="text">Sucursal</label>
+                            <select class="input-lg" ng_model="vm.producto.sucursal">
+                                <option ng_repeat="c in vm.comboSucursal" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                            </select>
+                            <label class="text">Proveedor</label>
+                            <select class="input-lg" ng_model="vm.producto.proveedor">
+                                <option ng_repeat="c in vm.comboProveedores" value="{{c.id_proveedor}}">{{c.empresa}}</option>
+                            </select>
+                            <button class="btn" ng_click="vm.agregarProductoACargar();">Agregar Pedido</button>
+                            <button class="btn" ng_click=""  onclick="ocultarModal1()" data-toggle="modal" data-target="#myModal4">Ir a Confirmar Pedido</button>
+                            </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+  <!-- Modal -->
+            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR PRODUCTO INVENTARIO</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-control form-horizontal" ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
+                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+                            <div class="input-group">
+                            <input ng_disabled="true" ng_model="vm.productoModificar.nombre_producto" type="text" class="input-group form-control" placeholder="Nombre de Producto">
+                          </div>
+                            <label class="text">Categoria</label>
+                            <input ng_disabled="true" type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.categoria" />
+                            <label class="text">Presentacion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.presentacion" />
+                            <label class="text">Medicion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.medicion" />
+                            <label class="text">Marca</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.marca" />
+                            <label class="text">Stock</label>
+                            <input type="number" class="form-control" name="myDecimal" placeholder="Decimal" ng-model="vm.productoModificar.stock_producto_inventario" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+                            <label class="text">Iva</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.iva_producto_inventario" />
+                            <label class="text">Expiracion</label>
+                            <input type="text" id="fecha" name="fecha" class="form-control date" ng_model="vm.productoModificar.expiracion_producto_inventario" />
+                            <label class="text">Barras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.barras_producto_inventario" />
+                            <label class="text">Precio Ventas</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.precio_producto_inventario" />
+                            <label class="text">Precio Compras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.precio_secundario_producto_inventario" />
+                            <label class="text">Cantidad</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificar.cantidad_producto_inventario" />
+                            <label class="text">Sucursal</label>
+                            <select class="input-lg" ng_model="vm.productoModificar.nombre_sucursal">
+                                <option ng_repeat="c in vm.comboSucursal" value="{{c.nombre_sucursal}}">{{c.nombre_sucursal}}</option>
+                            </select>
+                            <label class="text">Proveedor</label>
+                            <select class="input-lg" ng_model="vm.productoModificar.empresa">
+                                <option ng_repeat="c in vm.comboProveedores" value="{{c.empresa}}">{{c.empresa}}</option>
+                            </select>
+                            <button class="btn" ng_click="vm.modificarProductoSeleccionado();">Agregar Pedido</button>
+                            </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+            <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Productos</h4>
+                    </div>
+                    <div class="modal-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="searchProd" >
+                                  <table class="table table-hover table-condensed">
+                                                    <th>
+                                                        Producto
+                                                    </th>
+                                                    <th>
+                                                        Presentacion
+                                                    </th>
+                                                    <th>
+                                                        Marca
+                                                    </th>
+                                                    <th>
+                                                        Medicion
+                                                    </th>
+                                                    <th>
+                                                        Categoria
+                                                    </th>
+                                                    <th>
+                                                        Opcion
+                                                    </th>
+                                                    <tr ng_repeat="product in vm.productos| filter: searchProd">
+
+                                                        <td>
+                                                            {{product.nombre_producto}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.presentacion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.marca}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.medicion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.categoria}}
+                                                        </td>
+                                                        <td>
+                                                            <button class="warning"ng_click="vm.clicSeleccionarProducto(product.id_produccto)">Seleccionar</button>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                        
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="mdialTamanio">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Productos</h4>
+                    </div>
+                    <div class="modal-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="searchProd" >
+                                  <table class="table table-hover table-responsive">
+                                                    <th>
+                                                        Producto
+                                                    </th>
+                                                    <th>
+                                                        Presentacion
+                                                    </th>
+                                                    <th>
+                                                        Marca
+                                                    </th>
+                                                    <th>
+                                                        Medicion
+                                                    </th>
+                                                    <th>
+                                                        Categoria
+                                                    </th>
+                                                    <th>
+                                                        Stock
+                                                    </th>
+                                                    <th>
+                                                        Cantidad
+                                                    </th>
+                                                  
+                                                    <th>
+                                                        Iva
+                                                    </th>
+                                                    <th>
+                                                        Expiracion
+                                                    </th>
+                                                    <th>
+                                                        Barras
+                                                    </th>
+                                                    <th>
+                                                        Precio Venta
+                                                    </th>
+                                                    <th>
+                                                        Precio Compra
+                                                    </th>
+                                                      <th>
+                                                        Sucursal
+                                                    </th>
+                                                    <th>
+                                                        Proveedor
+                                                    </th>
+                                                      <th>
+                                                        Editar
+                                                    </th>
+                                             
+                                                    <tr ng_repeat="c in vm.mostrarProducto">
+
+                                                        <td >
+                                                            {{c.nombreProducto}}
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            {{c.presentacion}}
+                                                        </td>
+                                                        
+                                                        <td >
+                                                            {{c.marca}}
+                                                        </td>
+                                                       <td >
+                                                            {{c.medicion}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.categoria}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.stock}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.cantidad}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.iva}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.expiracion}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.codigoBarras}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.precioVenta}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.precioCompra}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.sucursal}}
+                                                        </td>
+                                                        <td >
+                                                            {{c.proveedor}}
+                                                        </td>
+                                                         <td>
+                                                             <button type="button" class="btn">Modificar</button>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                        <button type="button" ng_click="vm.insertarProductoInventario();" class="btn">Confirmar Pedido</button>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
+

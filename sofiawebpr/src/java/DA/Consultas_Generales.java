@@ -154,16 +154,24 @@ public class Consultas_Generales extends Conexion {
         return id_inventario;
     }
 
-    public boolean consultaRegistrarHistorialInventarioIngreso(Object id_inventario, Object cantidad, Object hora, Object fecha, int id_usuario) {
+    public boolean consultaRegistrarHistorialInventarioIngreso(Object id_inventario, 
+                                                                Object cantidad, 
+                                                                Object hora, 
+                                                                Object fecha, 
+                                                                int id_usuario,
+                                                                Object consecutivo,
+                                                                int idSucursal) {
         boolean ban = false;
         try
         {
-            CallableStatement cst = conex.prepareCall("CALL GEN_consultaRegistrarHistorialInventarioIngreso(?,?,?,?,?)");
+            CallableStatement cst = conex.prepareCall("CALL GEN_consultaRegistrarHistorialInventarioIngreso(?,?,?,?,?,?)");
             cst.setObject("id_inventario", id_inventario);
             cst.setObject("cantidad", cantidad);
             cst.setObject("hora", hora);
             cst.setObject("fecha", fecha);
-            cst.setInt("id_usuario", id_usuario);
+            cst.setInt("idUsuario", id_usuario);
+            cst.setInt("idSucursal", idSucursal);
+            cst.setObject("consecutivo", consecutivo);
             ban=cst.execute();
         }
         catch(SQLException ex)
@@ -171,7 +179,27 @@ public class Consultas_Generales extends Conexion {
             ex.printStackTrace();
             return false;
         }
-        return ban;
+        return true;
+    }
+    
+    public Object consultaConsecutivo(int idSucursal)
+    {
+        Object consecutivo = null;
+        try {
+            CallableStatement cst = conex.prepareCall("CALL GEN_consultaConsecutivo(?)");
+            cst.setInt("idSucursal", idSucursal);
+            cst.execute();
+            rh = cst.getResultSet();
+            
+            while (rh.next()) {
+                if (rh.last()) {
+                    consecutivo = rh.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return consecutivo;
     }
 
     public int consultaIdSesion(int id_usuario) {

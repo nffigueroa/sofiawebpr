@@ -89,9 +89,9 @@ public class Funciones_Generales extends DA.Consultas_Generales {
     return results;
 }
     
-    public boolean registrarHistorialEntradaInventairio(Object id_inventario, Object cantidad, int id_usuario) {
+    public boolean registrarHistorialEntradaInventairio(Object id_inventario, Object cantidad, int id_usuario,Object consecutivo,int idSucursal) {
         Object hora_pasar = hora.format(now), fecha = date.format(now);
-        return consultaRegistrarHistorialInventarioIngreso(id_inventario, cantidad, hora_pasar, fecha, id_usuario);
+        return consultaRegistrarHistorialInventarioIngreso(id_inventario, cantidad, hora_pasar, fecha, id_usuario,consecutivo,idSucursal);
     }
 
     public int ideEmpresaXIdeSucursal(int id_sucursal)
