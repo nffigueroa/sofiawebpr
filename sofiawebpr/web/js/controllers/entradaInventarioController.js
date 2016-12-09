@@ -11,13 +11,17 @@ app.controller('contrInventario', function (insertarProductoInventario,
         traerProveedores,
         traerSucursalesEmpresa,
         modificarProductoInventario,
-        agregarCantidadProductoInventario) {
+        agregarCantidadProductoInventario,
+        traerMotivoCombo,
+        descontarProductoInventario,
+        eliminarProductoInventario) {
     var vm = this;
     vm.aux1 = 'Entrada y Salida Inventario';
     vm.productos = [];
     vm.tablaInventario = [];
     vm.consecutivo;
     vm.producto = [];
+    vm.productoEliminarInventario;
     vm.productoModificar = [];
     vm.productoACargarMostrar = [];
     vm.productosACargar = {};
@@ -38,6 +42,7 @@ app.controller('contrInventario', function (insertarProductoInventario,
     vm.productosEnviarPedido.proveedor = [];
     vm.productosEnviarPedido.idProducto = [];
     vm.mostrarProducto = [];
+    vm.comboMotivoEliminacion = [];
     vm.productoModificarCantidad = [];
     vm.comboProveedores = [];
     traerProveedores.selectProveedores(vm); //Llena combo proveedor
@@ -168,8 +173,52 @@ app.controller('contrInventario', function (insertarProductoInventario,
             }
         }
     };
-    
+    vm.cargarProductoModificarDescontarCantidad = function (idProducto) {
+        for (var i = 0; i < vm.tablaInventario.length; i++)
+        {
+            var comparar = vm.tablaInventario[i];
 
+            if (comparar.id_producto_inventario === idProducto)
+            {
+                vm.productoModificarDescontarCantidad = comparar;
+            }
+        }
+    };
+    vm.cargarProductoEliminarInventario = function (idProducto) {
+        for (var i = 0; i < vm.tablaInventario.length; i++)
+        {
+            var comparar = vm.tablaInventario[i];
+
+            if (comparar.id_producto_inventario === idProducto)
+            {
+                vm.productoEliminarInventario = comparar;
+            }
+        }
+    };
+    vm.descontarCantidadProducto = function () {
+        descontarProductoInventario.discountProduct(vm);
+    };
+    vm.eliminarProductoInventario = function () {
+      eliminarProductoInventario.deleteProductoInventario(vm);  
+    };
+    traerMotivoCombo.selectMotivoEliminacion(vm);
+
+});
+
+app.factory('traerMotivoCombo', function ($http) {
+    var log = {};
+    log.selectMotivoEliminacion = function (vm){
+      $http({
+          url : 'Funciones_EntradaInventario_BF',
+          method: 'POST',
+          data : {
+              'accion': 8 // Consulta Combo Motivo Eliminacion
+          }
+      }).success(function (result) {
+          vm.comboMotivoEliminacion = result [0];
+      });
+    };
+    return log;
 });
 
 app.factory('traerInventario', function ($http) {
@@ -368,7 +417,45 @@ return log;
 });
 
 app.factory('descontarProductoInventario', function ($http) {
+var log = {};
+log.discountProduct= function (vm){
+  $http({
+      url:  'Funciones_EntradaInventario_BF',
+      method:   'POST',
+      data:{
+          'accion': 7, // Insertar el descuento del producto
+          'idProductoInventario' :  vm.productoModificarDescontarCantidad.id_producto_inventario,
+          'cantidad':               vm.productoModificarDescontarCantidad.cantidadNueva,
+          'motivo':                 vm.productoModificarDescontarCantidad.motivo,
+          'idUsuario':              sessionStorage.getItem('idUsuario'),
+          'idSucursal':             sessionStorage.getItem('idSucursal')
+      }
+  }).success(function (result){
+      vm.consecutivo = result[0];
+  });  
+};
+return log;
+});
 
+app.factory('eliminarProductoInventario', function ($http){
+    var log = {};
+    log.deleteProductoInventario = function (vm) {
+        $http({
+           url: 'Funciones_EntradaInventario_BF',
+           method:'POST',
+           data : {
+            'accion' : 9, // eliminar producto inventario
+            'idProductoInventario' :    vm.productoEliminarInventario.id_producto_inventario,
+            'idUsuario':                sessionStorage.getItem('idUsuario'),
+            'idSucursal':               sessionStorage.getItem('idSucursal'),
+            'motivo':                   vm.productoEliminarInventario.motivo
+           }
+        }).success(function (result) {
+            vm.consecutivo = result[0];
+            alert('Consecutivo : '+vm.consecutivo);
+        });
+    };
+    return log;
 });
 
 

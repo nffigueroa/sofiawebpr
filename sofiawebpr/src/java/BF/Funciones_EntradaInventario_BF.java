@@ -163,6 +163,47 @@ public class Funciones_EntradaInventario_BF extends HttpServlet {
                 }
                 break;
             }
+            
+            case 7: {
+                try {
+                    BL.Funciones_Entrada_Inventario fun = new Funciones_Entrada_Inventario();
+                    Object consecutivo = fun.descontarCantidad(obJ.getInt("idProductoInventario"), 
+                                                                Float.parseFloat(obJ.get("cantidad").toString()), 
+                                                                obJ.get("motivo"), 
+                                                                obJ.getInt("idUsuario"),
+                                                                obJ.getInt("idSucursal"));
+                    JSONArray resultJson = new JSONArray();
+                    resultJson.put(0,consecutivo);
+                    response.getWriter().print(resultJson);
+                } catch (Exception e) {
+                }
+                break;
+            }
+            case 8 : {
+                try {
+                    BL.Funciones_Entrada_Inventario fun = new Funciones_Entrada_Inventario();
+                    JSONArray resultJson = new JSONArray();
+                    resultJson.put(0,fun.motivoEliminacionCombo());
+                    response.getWriter().print(resultJson);
+                } catch (Exception e) {
+                }
+                break;
+            }
+            case 9: {
+                try {
+                    BL.Funciones_Entrada_Inventario fun = new Funciones_Entrada_Inventario();
+                    Object consecutivo =fun.eliminarProductoInventario(obJ.getInt("idProductoInventario"), 
+                                                    obJ.get("motivo"), 
+                                                    obJ.getInt("idSucursal"),
+                                                    obJ.getInt("idUsuario"));
+                    JSONArray resultJson = new JSONArray();
+                    resultJson.put(0,consecutivo);
+                    response.getWriter().print(resultJson);
+                } catch (Exception e) {
+                }
+                break;
+            }
+            
         }
     }
 

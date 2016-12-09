@@ -327,9 +327,10 @@ public class consultas_Entrada_Inventario extends Conexion{
     public boolean consultaEliminarProductoInventario(Object id)
     {
        try{
-           CallableStatement cst  = conex.prepareCall("Calll IVN_consultaEliminarProductoInventario(?)");
-           cst.setObject("id", id);
-           return cst.execute();
+           CallableStatement cst  = conex.prepareCall("Call IVN_consultaEliminarProductoInventario(?)");
+           cst.setInt("id",Integer.parseInt(id.toString()));
+           cst.execute();
+           return true;
        }
        catch(SQLException e)
        {

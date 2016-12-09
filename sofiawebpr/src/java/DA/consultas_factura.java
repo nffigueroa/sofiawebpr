@@ -99,7 +99,7 @@ public class consultas_factura extends Conexion{
         float cantidad =0;
         try{
             CallableStatement cst = conex.prepareCall("Call IVN_consultaExistencia(?)");
-            cst.setInt("idProductoinventario", Integer.parseInt(id_producto_inventario.toString()));
+            cst.setInt("idProductoInventario", Integer.parseInt(id_producto_inventario.toString()));
             cst. execute();
             rh = cst.getResultSet();
             while(rh.next())
