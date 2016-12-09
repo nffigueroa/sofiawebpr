@@ -59,7 +59,8 @@ public class consultas_Entrada_Inventario extends Conexion{
         CallableStatement cst = conex.prepareCall("CALL IVN_consultaRegistrarCantidadProductoExistente(?,?)");
         cst.setFloat("cantidad", cantidad);
         cst.setInt("id_producto", id_producto);
-        return cst.execute();
+        cst.execute();
+        return true;
         }
         catch(SQLException e)
         {

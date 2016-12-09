@@ -43,19 +43,14 @@ public class Funciones_Entrada_Inventario extends DA.consultas_Entrada_Inventari
        return consultaRegistrarDescuentoProducto(id_producto_inventario, motivo,cantidad,id_usuario);
    }
    
-   public boolean agregarCantidadProductoExistente(int id_producto_inventario,float cantidad,int id_usuario,float cantidad2)
+   public Object agregarCantidadProductoExistente(int id_producto_inventario,float cantidad,int id_usuario,float cantidad2,int idSucursal)
    {
-       if(consultaRegistrarCantidadProductoExistente(cantidad, id_producto_inventario))
-       {
-Funciones_Generales fun = new Funciones_Generales();
-           fun.registrarHistorialEntradaInventairio(id_producto_inventario, cantidad2, id_usuario,null,0);
-           fun.registrarHistorial("agregarCantidadProductoExistente", id_usuario, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+id_producto_inventario+"");           
-       }
-       else
-       {
-           
-       }
-       return true;
+       Object consecutivo =general.consultaConsecutivo(idSucursal);
+       consultaRegistrarCantidadProductoExistente(cantidad2, id_producto_inventario);
+       Funciones_Generales fun = new Funciones_Generales();
+       fun.registrarHistorialEntradaInventairio(id_producto_inventario, cantidad2, id_usuario,consecutivo,idSucursal);
+       fun.registrarHistorial("agregarCantidadProductoExistente", id_usuario, date.format(now),hora.format(now), "Se Actualizo producto en inventario ID:"+id_producto_inventario+"");           
+       return consecutivo;
    }
    public Object totalInversionInventario(int id_sucursal)
     {

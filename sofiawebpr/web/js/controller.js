@@ -5,7 +5,7 @@
  */
 
 app.
-controller("contrLog", function (auth,loguear,$location,llenarSesion,$cookieStore,$cookies) {
+controller("contrLog", function (auth,loguear,$location,$cookieStore,$cookies) {
 var vm = this;
 vm.meesage= "Details";
 vm.aux = [];

@@ -10,7 +10,8 @@ app.controller('contrInventario', function (insertarProductoInventario,
         traerProducto,
         traerProveedores,
         traerSucursalesEmpresa,
-        modificarProductoInventario) {
+        modificarProductoInventario,
+        agregarCantidadProductoInventario) {
     var vm = this;
     vm.aux1 = 'Entrada y Salida Inventario';
     vm.productos = [];
@@ -37,6 +38,7 @@ app.controller('contrInventario', function (insertarProductoInventario,
     vm.productosEnviarPedido.proveedor = [];
     vm.productosEnviarPedido.idProducto = [];
     vm.mostrarProducto = [];
+    vm.productoModificarCantidad = [];
     vm.comboProveedores = [];
     traerProveedores.selectProveedores(vm); //Llena combo proveedor
     vm.comboSucursal = [];
@@ -45,10 +47,7 @@ app.controller('contrInventario', function (insertarProductoInventario,
     vm.llenarTablaInventarioEmpresa = traerInventario.selectInventario(vm); // Llena grilla de inventario empresa
     vm.llenartablaProducto = traerProducto.selectProducto(vm);
     vm.insertarProductoInventario = function () {
-         insertarProductoInventario.addProductoInventario(vm, vm.productosEnviarPedido);
-        
-        
-       
+         insertarProductoInventario.addProductoInventario(vm, vm.productosEnviarPedido);       
     };
     vm.clicSeleccionarProducto = function (productoSeleccionado) {
         for (var i = 0; i < vm.productos.length; i++)
@@ -155,6 +154,21 @@ app.controller('contrInventario', function (insertarProductoInventario,
             }
         }
     };
+    vm.agregarCantidadProductoUnico = function (){
+      agregarCantidadProductoInventario.addCantidadProducto(vm);
+    };
+    vm.cargarProductoModificarCantidad = function (idProducto) {
+        for (var i = 0; i < vm.tablaInventario.length; i++)
+        {
+            var comparar = vm.tablaInventario[i];
+
+            if (comparar.id_producto_inventario === idProducto)
+            {
+                vm.productoModificarCantidad = comparar;
+            }
+        }
+    };
+    
 
 });
 
@@ -332,7 +346,25 @@ app.factory('modificarProductoInventario', function ($http) {
 });
 
 app.factory('agregarCantidadProductoInventario', function ($http) {
-
+var log  = {};
+log.addCantidadProducto = function (vm) {
+    $http({
+       url : 'Funciones_EntradaInventario_BF',
+       method : 'POST',
+       data : {
+           'idProductoInventario' : vm.productoModificarCantidad.id_producto_inventario,
+           'cantidad':              vm.productoModificarCantidad.cantidad_producto_inventario,
+           'idUsuario':              sessionStorage.getItem('idUsuario'),
+           'cantidad2':             vm.productoModificarCantidad.cantidadNueva,
+           'idSucursal':            sessionStorage.getItem('idSucursal'),
+           'accion':                6 // agregar Cantidad Producto Unitario
+       }
+    }).success(function (result){
+        vm.consecutivo = result[0];
+        alert('Ingreso Correcto! Consecutivo : ' + vm.consecutivo);
+    });
+}
+return log;
 });
 
 app.factory('descontarProductoInventario', function ($http) {

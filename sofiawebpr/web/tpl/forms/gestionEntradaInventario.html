@@ -18,6 +18,9 @@ and open the template in the editor.
     #mdialTamanio{
       width: 80% !important;
     }
+    #mdialTamanio{
+      width: 80% !important;
+    }
   </style>
         <script>
             function ocultarModal3 () {
@@ -94,7 +97,7 @@ and open the template in the editor.
                                 Accion
                             </th>
                             
-                            <tr ng_repeat="c in vm.tablaInventario | filter : search">
+                            <tr ng_repeat="c in vm.tablaInventario | filter : search" ng_dblclick="">
                                 <td> {{c.id_producto_inventario}}</td>
                                 <td> {{c.nombre_producto}}</td>
                                 <td> {{c.iva_producto_inventario}}</td>
@@ -110,10 +113,21 @@ and open the template in the editor.
                                 <td> {{c.nombre_sucursal}}</td>
                                 <td> {{c.empresa}}</td>
                                 <td>
-                                    <button class="btn warning" ng_click="vm.deleteProduct(product.id_produccto)">X</button>
-                                    <button ng_click="vm.mostrarProductoModificar(c.id_producto_inventario)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal5">
-                                                Modificar
-                                            </button>
+                                    <div class="btn-group">
+                                    <button class="btn warning" ng_click="vm.deleteProduct(c.id_produccto)">
+                                        <span class="glyphicon glyphicon-trash" ></span>
+                                    </button>
+                                    </div>
+                                    <div class="btn-group">
+                                    <button ng_click="vm.mostrarProductoModificar(c.id_producto_inventario)" type="button" class="btn warning" data-toggle="modal" data-target="#myModal5">
+                                        <span class="glyphicon glyphicon glyphicon-wrench"></span>
+                                         </button>
+                                        </div>
+                                    <div class="btn-group">
+                                    <button ng_click="vm.cargarProductoModificarCantidad(c.id_producto_inventario)" type="button" class="btn warning" data-toggle="modal" data-target="#myModal6">
+                                        <span class="glyphicon glyphicon glyphicon-plus-sign"></span>
+                                         </button>
+                                        </div>
                                 </td>
                             </tr>
                         </table>
@@ -144,7 +158,7 @@ and open the template in the editor.
                         <h4 class="modal-title" id="myModalLabel">SOLICITUD INGRESO INVENTARIO</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-control form-horizontal" ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
+                        <form class="form-control" ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
                             <h2 class="h2 text-center label-info">{{aux1}}</h2>
                             <div class="input-group">
                                 <span onclick="ocultarModal1()" class="input-group-addon input-group" data-toggle="modal" data-target="#myModal3">Ver..</span>
@@ -426,6 +440,36 @@ and open the template in the editor.
                     <div class="modal-footer">
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+  
+             <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">INGRESAR CANTIDAD PRODUCTO UNITARIO</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-control form-horizontal" ng_submit="" role="login">
+                         <label class="text">Cantidad Ingresar:</label>
+                         <input type="number" class="form-control" name="myDecimal" placeholder="Ingresar Cantidad..." ng-model="vm.productoModificarCantidad.cantidadNueva" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+                         <label class="text">Producto Seleccionado</label>
+                         <input ng_disabled="true" type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificarCantidad.nombre_producto" />
+                         <label class="text">Cantidad Actual</label>
+                         <input ng_disabled="true" type="text" class="form-control input-lg form-horizontal" ng_model="vm.productoModificarCantidad.cantidad_producto_inventario" />
+                         <input type="hidden" id="idProductoInventario" ng_model="vm.productoModificarCantidad.id_producto_inventario" />
+                         <div class="btn-group">
+                             <button class="btn btn-success" ng_click="vm.agregarCantidadProductoUnico()">Guardar
+                                 <span class="glyphicon glyphicon-floppy-disk"></span>
+                             </button>
+                         </div>
+                         </form>      
                     </div>
                 </div>
             </div>

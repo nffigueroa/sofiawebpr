@@ -144,6 +144,25 @@ public class Funciones_EntradaInventario_BF extends HttpServlet {
                 }
                 break;
             }
+            case 6 : {
+                try
+                {
+                BL.Funciones_Entrada_Inventario fun = new BL.Funciones_Entrada_Inventario();
+                Object consecutivo= fun.agregarCantidadProductoExistente(obJ.getInt("idProductoInventario"), 
+                                                    Float.parseFloat(obJ.get("cantidad").toString()), // cantidad nueva
+                                                    obJ.getInt("idUsuario"),
+                                                    Float.parseFloat(obJ.get("cantidad2").toString()),
+                                                    obJ.getInt("idSucursal")); // Cantidad nueva
+                JSONArray resultJson = new JSONArray();
+                resultJson.put(0,consecutivo);
+                response.getWriter().print(resultJson);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
