@@ -9,6 +9,11 @@ and open the template in the editor.
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+        <style>
+    #mdialTamanio{
+      width: 70% !important;
+    }
+  </style>
     </head>
     <body>
         <div ng_include src="'tpl/menu.html'"></div>
@@ -18,39 +23,36 @@ and open the template in the editor.
                 <div class="col-md-5">
                
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
+                    <button class="btn warning" value="Actualizar" ng_click="" data-toggle="modal" data-target="#myModal3"> Ver Importe
                         </button>
+                    <button class="btn warning" value="Actualizar" data-toggle="modal" data-target="#myModal"> Ver Facutra
+                        </button>
+                    <button class="btn" ng_click="" data-toggle="modal" data-target="#myModal4">Generar Corte Caja </button>
                     <div class="panel-title">{{vm.aux1}}</div>
                     <div class="panel-body">
-                        Search:
-                        <input type ="text" class="form-control" ng_model="search" >
-                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
-                            <th>
-                                Codigo
-                            </th>
-                            <th>
-                                Categoria
-                            </th>
-                            <th>
-                                Accion
-                            </th>
-                            <tr ng_repeat="c in vm.categoriasMostrar | filter : search">
-                                <td> {{c.id_categoria}}</td>
-                                <td> {{c.categoria}}</td>
-                                <td>
-                                </td>
-                            </tr>
-                        </table>
-                      </div>
-                        <div class="center-block">
-                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
-                            <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                +
-                            </button>
+                    <label for="producto">Otros Ingresos</label>
+                    <input disabled="true" id="producto" type="text" name="nombreProducto" placeholder="Otros Ingresos" class="form-control input-lg" ng_model="vm.datosCorteCaja[4]" />
+                        <label for="producto">Total Ventas</label>
+                        <input disabled="true" id="totalVenta" type="text" name="totalVentas" placeholder="Total Ventas" class="form-control input-lg" ng_model="vm.datosCorteCaja[0]" />
+                        <label for="producto">Transaccion</label>
+                        <input disabled="true" id="producto" type="text" name="Telefono" placeholder="Transaccion" class="form-control input-lg" ng_model="vm.datosCorteCaja[8]" />
+                        <label for="producto">Efectivo Inicial</label>
+                        <input disabled="true" id="producto" type="text" name="Identificacion" placeholder="Efectivo Inicial" class="form-control input-lg" ng_model="vm.datosCorteCaja[9]" />
+                        <label for="producto">Credito</label>
+                        <input disabled="true" id="producto" type="text" name="text" placeholder="Credito" class="form-control input-lg" ng_model="vm.datosCorteCaja[5]" />
+                        <label for="producto">Otros Egresos</label>
+                        <input disabled="true" id="producto" type="text" name="text" placeholder="Otros Egresos" class="form-control input-lg" ng_model="vm.datosCorteCaja[3]" />
+                        <label for="producto">Tarjeta Credito</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Tarjeta Credito" class="form-control input-lg" ng_model="vm.datosCorteCaja[6]" />
+                        <label for="producto">Cheques</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Cheques" class="form-control input-lg" ng_model="vm.datosCorteCaja[1]" />
+                        <label for="producto">Efectivo Total</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Efectivo Total" class="form-control input-lg" ng_model="vm.datosCorteCaja[2]" />
+                        <label for="producto">Tarjeta Debito</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Tarjeta Debito" class="form-control input-lg" ng_model="vm.datosCorteCaja[7]" />
+                        <!--<input disabled="true" type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}"> -->
+                        
+                       
                         </div>
                     </div>
                 </div>
@@ -59,23 +61,93 @@ and open the template in the editor.
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal-dialog" id="mdialTamanio">
+                <div class="modal-content" >
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">AGREGAR CLIENTES</h4>
+                        <h4 class="modal-title" id="myModalLabel">FACTURA DETALLE</h4>
                     </div>
                     <div class="modal-body">
-                        <form ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
-
-                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
-
-                            <label for="nombre">Categoria:</label>
-                            <input id="categoriaNombre" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.categoriaIngresar.nombreCategoria" required="true" />
-                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
-                        </form>      
+                        <form>
+                         <table class="table table-hover table-condensed">
+                             <th>
+                                 Folio
+                                 </th>
+                                 <th>
+                                 Total
+                                 </th>
+                                 <th>
+                                 SubTotal
+                                 </th>
+                                 <th>
+                                 Descuento
+                                 </th>
+                                 <th>
+                                 Iva
+                                 </th>
+                                 <th>
+                                 Recibe
+                                 </th>
+                                 <th>
+                                 Cambio
+                                 </th>
+                                 <th>
+                                 Forma Pago
+                                 </th>
+                                 <th>
+                                 Tarjeta
+                                 </th>
+                                 <th>
+                                 Descripcion
+                                 </th>
+                                 <th>
+                                 Cliente
+                                 </th>
+                                 <th>
+                                 Fecha
+                                 </th>
+                                 <tr ng_repeat="c in vm.tablaFacturaDetalle">
+                                     <td>
+                                         {{c.folio}}
+                                         </td>
+                                         <td>
+                                         {{c.total}}
+                                         </td>
+                                         <td>
+                                         {{c.subtotal}}
+                                         </td>
+                                         <td>
+                                         {{c.descuento}}
+                                         </td>
+                                         <td>
+                                         {{c.iva}}
+                                         </td>
+                                         <td>
+                                         {{c.recibe}}
+                                         </td>
+                                         <td>
+                                         {{c.cambio}}
+                                         </td>
+                                         <td>
+                                         {{c.forma_pago}}
+                                         </td>
+                                         <td>
+                                         {{c.digitos_tarjeta}}
+                                         </td>
+                                         <td>
+                                         {{c.descripcion}}
+                                         </td>
+                                         <td>
+                                         {{c.nombre_cliente}}
+                                         </td>
+                                         <td>
+                                         {{c.fecha_creacion}}
+                                         </td>
+                                     </tr>
+                          </table>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -85,36 +157,22 @@ and open the template in the editor.
 
 
         <!-- Modal -->
-        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
+                        <h4 class="modal-title" id="myModalLabel">REGISTRAR CORTE CAJA</h4>
                     </div>
                     <div class="modal-body">
-                        <label for="producto">Nombre</label>
-                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="clienteModificar.nombre_cliente" />
-                        <label for="producto">Apellido</label>
-                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="clienteModificar.apellido_cliente" />
-                        <label for="producto">Telefono</label>
-                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="clienteModificar.telefono_cliente" />
-                        <label for="producto">Direccion</label>
-                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="clienteModificar.direccion_cliente" />
-                        <label for="producto">Identificacion</label>
-                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="clienteModificar.cedula_cliente" />
-                        <label for="producto">Email</label>
-                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="clienteModificar.mail_cliente" />
-                        <label for="categorias">Ciudad</label>
-                            <select id="marca" class="form-control input-lg" ng_model="clienteModificar.ciudad">
-                                <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
-                            </select>
-                        <input type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}">
-                        <button ng_click="modificarCliente(clienteModificar.id_cliente)">Modificar Registro </button>
+                        <label for="producto">Cantidad en Caja</label>
+                        <input ng_keypress="vm.eventoPress($event)" id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.datosCorteCaja.CantidadRelCaja" />
+                        <label for="producto">Efectivo Faltante</label>
+                        <input disabled="true" id="efectivoFaltante" type="text" name="efectivoFaltante" class="form-control input-lg" ng_model="vm.datosCorteCaja.efectivoFaltante"  />
+                        <button class="btn" ng_click="vm.ingresarCorteCaja();">Confirmar Cierre Caja</button>
                     </div>
-
                     <div class="modal-footer">
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -122,6 +180,62 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        
+         <!-- Modal -->
+        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="mdialTamanio">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">IMPORTES DETALLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                         <table class="table table-hover table-condensed">
+                             <th>
+                                 Importe
+                                 </th>
+                                 <th>
+                                 Descripcion
+                                 </th>
+                                 <th>
+                                 Tipo
+                                 </th>
+                                 <th>
+                                 Motivo
+                                 </th>
+                                 <th>
+                                 Fecha
+                                 </th>
+                                 
+                                 <tr ng_repeat="c in vm.tablaImportes">
+                                     <td>
+                                         {{c.importe}}
+                                         </td>
+                                         <td>
+                                         {{c.descripcion_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.tipo_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.motivo_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.fecha}}
+                                         </td>
+                                        
+                                     </tr>
+                          </table>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
         <div class="col-md-4"></div>
     </body>
 </html>

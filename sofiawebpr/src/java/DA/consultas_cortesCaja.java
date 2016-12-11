@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class consultas_cortesCaja extends Conexion{
     
-    private ResultSet rh = null;
+    public ResultSet rh = null;
      Connection conex = null;
     PreparedStatement ps;
     Conexion con;
@@ -91,11 +91,17 @@ public class consultas_cortesCaja extends Conexion{
         }
         return fecha;
     }
-    public boolean consultaRegistrarCorteCaja(Constructores.Contructor_CortesCaja corte,Object id_sucursal,Object faltante,Object feIni,Object fecFin,Object efecREal,int ide)
+    public boolean consultaRegistrarCorteCaja(Constructores.Contructor_CortesCaja corte,
+                                            Object id_sucursal,
+                                            Object faltante,
+                                            Object feIni,
+                                            Object fecFin,
+                                            Object efecREal,
+                                            int ide) // IdCorte Caja
     {
 
         try {
-            CallableStatement cst = conex.prepareCall("Call CON_consultaRegistrarCorteCaja(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            CallableStatement cst = conex.prepareCall("Call CON_consultaRegistrarCorteCaja(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             cst.setObject("total", corte.getTotal());
             cst.setObject("totalTarjetaCredito", corte.getTotal_tarjeta_credito());
             cst.setObject("totalTarjetaDebito", corte.getTotal_tarjeta_debito());
@@ -111,7 +117,8 @@ public class consultas_cortesCaja extends Conexion{
             cst.setObject("fechaFinal", fecFin);
             cst.setObject("idSucursal", id_sucursal);
             cst.setInt("idCorteCaja", ide);
-            return cst.execute();
+            cst.execute();
+            return true;
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -38,6 +38,10 @@
         <servlet-name>Funciones_Usuario_BF</servlet-name>
         <servlet-class>BF.Funciones_Usuario_BF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Funciones_CorteCaja_BF</servlet-name>
+        <servlet-class>BF.Funciones_CorteCaja_BF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Funciones_Login</servlet-name>
         <url-pattern>/Funciones_Login</url-pattern>
@@ -73,6 +77,10 @@
     <servlet-mapping>
         <servlet-name>Funciones_Usuario_BF</servlet-name>
         <url-pattern>/Funciones_Usuario_BF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Funciones_CorteCaja_BF</servlet-name>
+        <url-pattern>/Funciones_CorteCaja_BF</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
