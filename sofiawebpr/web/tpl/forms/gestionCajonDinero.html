@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                <br>
+                <br>
+                <br>
+                <div class="panel panel-primary">
+                   <!-- <button class="btn warning" value="Actualizar" ng_click="vm.actualizar();"> Update
+                        </button> -->
+                    <div class="panel-title">Cajon Dinero</div>
+                    <div class="panel-body">
+                     <div class="form-group">
+                       
+                           <label for="tipoImporte">Tipo Importe</label>
+                           <select ng_change="vm.eventoCambioItem();" id="tipoImporte" class="form-control input-lg" ng_model="vm.importeEnviar.idTipoImporte">
+                                <option  ng_repeat="c in vm.tiposImporte" value="{{c.id_tipo_importe}}">{{c.tipo_importe}}</option>
+                            </select>
+                            <label for="motivoImporte">Motivo Importe</label>
+                           <select id="tipoImporte" class="form-control input-lg" ng_model="vm.importeEnviar.idMotivoTipoImporte">
+                                <option  ng_repeat="c in vm.tiposMotivoImporte" value="{{c.id_motivo_importe}}">{{c.motivo_importe}}</option>
+                            </select>
+                            <label for="importe">Importe</label>
+                            <input type="number" class="form-control" name="myDecimal" placeholder="Decimal" ng-model="vm.importeEnviar.importe" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+                            <label for="importe">Descripcion</label>
+                            <textarea ng_model="vm.importeEnviar.descripcion" class="form-control" rows="3"></textarea>
+                            <br>
+                            <div class="btn-group">
+                                <button ng_click="vm.enviarImporteToBD();" class="btn btn-success">Guardar
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
+                            </div>
+                     </div>   
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">AGREGAR CLIENTES</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng_submit="vm.saveCliente();" role="login">
+
+                            <h2 class="h2 text-center label-info">{{vm.aux1}}</h2>
+
+                            <label for="producto">Nombre</label>
+                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.cliente.nombreCliente" required="true" />
+                            <label for="producto">Apellido</label>
+                            <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.cliente.apellidoCliente" />
+                            <label for="producto">Telefono</label>
+                            <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="vm.cliente.telefonoCliente" />
+                            <label for="producto">Direccion</label>
+                            <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="vm.cliente.direccionCliente" />
+                            <label for="producto">Identificacion</label>
+                            <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="vm.cliente.identificacionCliente" />
+                            <label for="producto">Email</label>
+                            <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="vm.cliente.emailCliente" />
+                            <label for="categorias">Ciudad</label>
+                            <select id="marca" class="form-control input-lg" ng_model="vm.cliente.idCiudad">
+                                <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                            </select>
+                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="producto">Nombre</label>
+                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.clienteModificar.nombre_cliente" />
+                        <label for="producto">Apellido</label>
+                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.clienteModificar.apellido_cliente" />
+                        <label for="producto">Telefono</label>
+                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="vm.clienteModificar.telefono_cliente" />
+                        <label for="producto">Direccion</label>
+                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="vm.clienteModificar.direccion_cliente" />
+                        <label for="producto">Identificacion</label>
+                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="vm.clienteModificar.cedula_cliente" />
+                        <label for="producto">Email</label>
+                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="vm.clienteModificar.mail_cliente" />
+                        <label for="categorias">Ciudad</label>
+                            <select id="marca" class="form-control input-lg" ng_model="vm.clienteModificar.ciudad">
+                                <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                            </select>
+                        <input type="text" hidden="false" ng_model="vm.clienteModificar.id_cliente" value ="{{vm.clienteModificar.id_cliente}}">
+                        <button ng_click="vm.modificarCliente(vm.clienteModificar.id_cliente)">Modificar Registro </button>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </body>
+</html>
+

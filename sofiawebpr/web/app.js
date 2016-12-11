@@ -19,6 +19,7 @@ var app = angular.module('sofiaApp',['ngRoute',
         .when("/GestionUsuario", {templateUrl :  "tpl/forms/gestionUsuario.html", controller :"contrUsuario as vm" })
         .when("/GestionIngresoInventario", {templateUrl :  "tpl/forms/gestionEntradaInventario.html", controller :"contrInventario as vm" })
         .when("/GestionCorteCaja", {templateUrl :  "tpl/forms/gestionCorteCaja.html", controller :"contrCorteCaja as vm" })
+        .when("/GestionCajonDinero", {templateUrl :  "tpl/forms/gestionCajonDinero.html", controller :"contrCajonDinero as vm" })
 	.otherwise({redirectTo : "/sofiaApp"})
 ;
 }]);

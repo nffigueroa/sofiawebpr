@@ -17,7 +17,6 @@ import org.omg.CORBA.OBJECT_NOT_EXIST;
 import DA.Consultas_Generales;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import javax.json.JsonObject;
 import org.json.JSONObject;
 /**
  *

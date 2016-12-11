@@ -129,12 +129,13 @@ public class consultas_importe extends Conexion{
       {
           try {
               CallableStatement cst = conex.prepareCall("Call CON_consultaRegistrarImporte(?,?,?,?,?)");
-              cst.setInt("id_sucursal", id_sucursal);
+              cst.setInt("id_sucursalLog", id_sucursal);
               cst.setInt("idTipoImporte", Integer.parseInt(idTipoImporte.toString()));
               cst.setObject("motivoImporte", motivoImporte);
               cst.setObject("importe", importe);
               cst.setObject("descripcion", descripcion);
-              return cst.execute();
+              cst.execute();
+              return true;
           } catch (Exception e) {
               e.printStackTrace();
               return false;
