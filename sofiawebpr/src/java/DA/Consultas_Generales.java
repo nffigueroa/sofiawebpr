@@ -291,7 +291,7 @@ public class Consultas_Generales extends Conexion {
         try {
             int idSucursial = Integer.parseInt(id_sucursal.toString());
             CallableStatement cst =  conex.prepareCall("CALL CON_consultaEfectivoInicial(?)");
-            cst.setInt("id_sucursal", idSucursial);
+            cst.setInt("id_sucursalLog", idSucursial);
             cst.execute();
             rh = cst.getResultSet();
 //        rh = ejecutarSQLSelect("SELECT efectivo_inicio,id_sucursal,total_ventas FROM corte_caja WHERE total_ventas=0 AND id_sucursal="+id_sucursal+"");

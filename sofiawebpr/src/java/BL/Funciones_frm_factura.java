@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,8 @@ public class Funciones_frm_factura extends DA.consultas_factura{
    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
    SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
    DecimalFormat formateador2 = new DecimalFormat("###,###.##");
+   ResultSet rs = null;
+   BL.Funciones_Generales general = new Funciones_Generales();
    
    
    public boolean funcionGenerarHistorial(java.util.Date fecha,int cuotas, int id_sucursal)
@@ -181,10 +184,18 @@ public class Funciones_frm_factura extends DA.consultas_factura{
        return registrarCotizacionDetalle(id_producto_inventario, item, cantidad_factura_detallado, descuento_factura_detalle, valor_unidad_producto, subtotal_factura_detalle,id_cotizacion);
    }
    
-   public TableModel llenarTablaFacturas(boolean ban,int id_sucursal,String fecha,String fechaHasta,String[] nombreColumnas, int[] ancho)
+   public ArrayList llenarTablaFacturas(boolean ban,int id_sucursal,String fecha,String fechaHasta)
    {
-       
-       return null;
+       try {
+           ResultSet rs = null;
+           rs=consultaLlenarTablaFactura(id_sucursal, fecha, fechaHasta, ban);
+           BL.Funciones_Generales fun = new Funciones_Generales();
+          return  fun.resultSetToArrayList(rs);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return null;
+       }
+       //return null;
 //       Grillas gr = new Grillas();
 //       try
 //       {
@@ -213,17 +224,23 @@ public class Funciones_frm_factura extends DA.consultas_factura{
        
    }
    
-   public String primerFecha()
+   public String primerFecha(int idSucursal)
    {
        String fecha= null;
-       fecha = consultaPrimerFecha();
+       fecha = consultaPrimerFecha(idSucursal);
        return fecha;
    }
    
-   public TableModel llenarArticulos(Object id_factura,String[] nombreColumnas, int[] ancho)
+   public ArrayList llenarArticulos(Object id_factura)
    {
+       try {
+           rs = consultaLlenarArticulos(id_factura);
+           return general.resultSetToArrayList(rs);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return null;
+       }
        
-       return null;
 //       Grillas gr = new Grillas();
 //      
 //       return gr.CargarGrd(consultaLlenarArticulos(id_factura), nombreColumnas, ancho);
@@ -270,50 +287,57 @@ public class Funciones_frm_factura extends DA.consultas_factura{
        return ganancia;
    }
    
-   public Object[] llenarComboMotivoAnulacion()
+   public ArrayList llenarComboMotivoAnulacion()
     {
-        int columnas=0,i=0,filas=0,q=0;
-        Object [] aux = null;
-        ResultSet r= null;   
-        r=consultaMotivoAnulacion();
-       try {
-           meta= r.getMetaData();
-           columnas= meta.getColumnCount();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-       }
         try {
-            while(r.next())
-            {
-                filas=filas+1;
-            }
-            aux= new Object[filas];
-            r.beforeFirst();
-            while(r.next())
-            { 
-                if(q==0)
-                {
-                    r.first();
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-                else
-                {
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-            }
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-           ex.printStackTrace();
-       }
-        return aux;
+            rs = consultaMotivoAnulacion();
+            return general.resultSetToArrayList(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+//        int columnas=0,i=0,filas=0,q=0;
+//        Object [] aux = null;
+//        ResultSet r= null;   
+//        r=consultaMotivoAnulacion();
+//       try {
+//           meta= r.getMetaData();
+//           columnas= meta.getColumnCount();
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//       }
+//        try {
+//            while(r.next())
+//            {
+//                filas=filas+1;
+//            }
+//            aux= new Object[filas];
+//            r.beforeFirst();
+//            while(r.next())
+//            { 
+//                if(q==0)
+//                {
+//                    r.first();
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//                else
+//                {
+//                    for ( i = 1; i <= columnas; i++) 
+//                    {
+//                        aux[q]=r.getObject(i);
+//                    }
+//                    q=q+1;
+//                }
+//            }
+//       } catch (SQLException ex) {
+//           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+//           ex.printStackTrace();
+//       }
+//        return aux;
     }
    
    public  Boolean funcionAnularFactura(Object id_factura,Object motivo, int id_usuario_sesion)
@@ -321,10 +345,11 @@ public class Funciones_frm_factura extends DA.consultas_factura{
        Consultas_Generales con_generales = new Consultas_Generales();
        con_generales.registrarHistorial("funcionAnularFactura", id_usuario_sesion, date.format(now),hora.format(now), "Se anula factura"+id_factura+"");
        int usuario=1, id_motivo=0,id_anulado=0;
-       id_motivo = cosultaIdMotivo(motivo);
-       consultaRegistrarFacturaAnulada(id_factura, id_motivo, usuario,date.format(now),hora.format(now));
-       id_anulado= cosultaIdFacturaAnulada();
-       return consultaLlenaarIdAnulacionFactura(id_anulado,id_factura);
+       //id_motivo = cosultaIdMotivo(motivo);
+       consultaRegistrarFacturaAnulada(id_factura, motivo, id_usuario_sesion,date.format(now),hora.format(now));
+       //id_anulado= cosultaIdFacturaAnulada();
+       return true;
+               //consultaLlenaarIdAnulacionFactura(id_anulado,id_factura);
 //       if(consultaAnularFactura(id_factura))
 //       return true;
 //       else

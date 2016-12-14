@@ -590,11 +590,12 @@ public class consultas_factura extends Conexion{
          }
      }
      
-    public String consultaPrimerFecha()
+    public String consultaPrimerFecha(int idSucursal)
     {
         String fecha=null;
         try{
-            CallableStatement cst = conex.prepareCall("Call CON_consultaPrimerFechaFactura()");
+            CallableStatement cst = conex.prepareCall("Call CON_consultaPrimerFechaFactura(?)");
+            cst.setInt("idSucursal", idSucursal);
             cst.execute();
             rh = cst.getResultSet();
                 if(rh.first())

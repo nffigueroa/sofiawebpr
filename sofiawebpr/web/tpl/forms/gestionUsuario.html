@@ -85,7 +85,10 @@ and open the template in the editor.
                                     {{usuario.descripcion}}
                                 </td>
                                 <td>
-                                    <button ng_click="vm.permisosUsuario(usuario.id_usuario,usuario.cc_usuario)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3">Ver</button>     
+                                    <div class="btn-group">
+                                    <button ng_click="vm.permisosUsuario(usuario.id_usuario,usuario.cc_usuario)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"> 
+                                        <span class="glyphicon glyphicon-eye-close"></span></button>     
+                                    </div>
                                     
                                 </td>
                                 <td>
@@ -207,7 +210,6 @@ and open the template in the editor.
                         <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion" 
                                class="form-control input-lg" ng_model="vm.usuarioModificar.descripcion" />    
                         <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
-                        </form> 
                         <input type="text" hidden="false" ng_model="vm.usuarioModificar.id_usuario" value ="{{vm.usuarioModificar.id_usuario}}">
                         <input type="button" ng_click="vm.modificarUsuario(vm.usuarioModificar.id_usuario)"/>
                     </div>
