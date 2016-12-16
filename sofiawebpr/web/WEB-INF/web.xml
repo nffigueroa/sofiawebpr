@@ -50,6 +50,10 @@
         <servlet-name>Funciones_Factura_BF</servlet-name>
         <servlet-class>BF.Funciones_Factura_BF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Funciones_CuentasCobrar_BF</servlet-name>
+        <servlet-class>BF.Funciones_CuentasCobrar_BF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Funciones_Login</servlet-name>
         <url-pattern>/Funciones_Login</url-pattern>
@@ -97,6 +101,10 @@
     <servlet-mapping>
         <servlet-name>Funciones_Factura_BF</servlet-name>
         <url-pattern>/Funciones_Factura_BF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Funciones_CuentasCobrar_BF</servlet-name>
+        <url-pattern>/Funciones_CuentasCobrar_BF</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -204,7 +204,7 @@ app.factory('eliminarPro', function ($http) {
            url : "Funciones_GestionProducto",
            data : {
                'idProducto':    idProducto,
-               'idUsuario':     $cookieStore.get("idUsuario"),
+               'idUsuario':     sessionStorage.getItem()("idUsuario"),
                'accion':        2 //Eliminar
            }
        });

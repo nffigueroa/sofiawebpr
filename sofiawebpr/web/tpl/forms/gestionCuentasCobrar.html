@@ -14,8 +14,8 @@ and open the template in the editor.
         <div ng_include src="'tpl/menu.html'"></div>
         <div class="container">
             <div class="row" id="pwd-container">
-                <div class="col-md-3"></div>
-                <div class="col-md-5">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
                 <br>
                 <br>
                 <br>
@@ -27,19 +27,47 @@ and open the template in the editor.
                         Search:
                         <input type ="text" class="form-control" ng_model="search" >
                         <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
-                            <th>
-                                Codigo
-                            </th>
-                            <th>
-                                Categoria
-                            </th>
-                            <th>
-                                Accion
-                            </th>
-                            <tr ng_repeat="c in vm.marcaMostrar | filter : search">
-                                <td> {{c.id_marca}}</td>
-                                <td> {{c.marca}}</td>
+                            <th>Cuota</th>
+                            <th>Cantidad</th>
+                            <th>SubTotal</th>
+                            <th>iva</th>
+                            <th>Descuento</th>
+                            <th>% Interes</th>
+                            <th>Cuotas</th>
+                            <th>Cuotas Pagas</th>
+                            <th>Cuotas Pdtes</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            
+                            <tr ng_repeat="c in vm.tablaCuentasCobrar | filter : search">
+                                <td> {{c.valor_pagar_mensual}}</td>
+                                <td> {{c.cantidad_credito}}</td>
+                                <td> {{c.subtotal}}</td>
+                                <td> {{c.iva}}</td>
+                                <td> {{c.descuento}}</td>
+                                <td> {{c.porcentaje_interes}}</td>
+                                <td> {{c.cuotas}}</td>
+                                <td> {{c.cuotas_pagas}}</td>
+                                <td> {{c.cuotas_pendientes}}</td>
+                                <td> {{c.estado}}</td>
+                                <td> {{c.usuario}}</td>
+                                <td> {{c.fecha}}</td>
+                                <td> {{c.hora}}</td>
                                 <td>
+                                    <div class="btn-group">
+                                        <button class="btn" data-toggle="modal" data-target ="#myModal" ng_click="vm.mostrarHistorialCredito(c.id_credito);">
+                                            <span class="glyphicon glyphicon-stats"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn" data-toggle="modal" data-target ="#myModal2" ng_click="vm.mostrarDatosCredito(c.id_cliente,c.id_credito);">
+                                            <span class="glyphicon glyphicon-piggy-bank"></span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -67,17 +95,26 @@ and open the template in the editor.
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">AGREGAR MARCA</h4>
+                        <h4 class="modal-title" id="myModalLabel">ABONAR CREDITO</h4>
                     </div>
                     <div class="modal-body">
-                        <form ng_submit="vm.insertarMarca(vm.marcaIngresar);" role="login">
-
-                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
-
-                            <label for="nombre">Categoria:</label>
-                            <input id="marcaNombre" type="text" name="nombreMarca" placeholder="Nombre" class="form-control input-lg" ng_model="vm.marcaIngresar.nombreMarca" required="true" />
-                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
-                        </form>      
+                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
+                            <th># Cuota</th>
+                            <th>Recibe</th>
+                            <th>Cambio</th>
+                            <th>Fecha Pagar</th>
+                            <th>Fecha Pago</th>
+                            <th>Hora Pago</th>
+                            <th>Usuario</th>
+                            <tr ng_repeat="c in vm.detalleCuentaCobrar | filter : search">
+                                <td> {{c.numero_cuota}}</td>
+                                <td> {{c.recibe}}</td>
+                                <td> {{c.cambio}}</td>
+                                <td> {{c.fecha_pagar}}</td>
+                                <td> {{c.fecha}}</td>
+                                <td> {{c.hora}}</td>
+                                <td> {{c.id_usuario}}</td>
+                       </table>
                     </div>
                 </div>
             </div>
@@ -97,24 +134,35 @@ and open the template in the editor.
                         <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
                     </div>
                     <div class="modal-body">
-                        <label for="producto">Nombre</label>
-                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="clienteModificar.nombre_cliente" />
-                        <label for="producto">Apellido</label>
-                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="clienteModificar.apellido_cliente" />
-                        <label for="producto">Telefono</label>
-                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="clienteModificar.telefono_cliente" />
-                        <label for="producto">Direccion</label>
-                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="clienteModificar.direccion_cliente" />
-                        <label for="producto">Identificacion</label>
-                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="clienteModificar.cedula_cliente" />
-                        <label for="producto">Email</label>
-                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="clienteModificar.mail_cliente" />
-                        <label for="categorias">Ciudad</label>
-                            <select id="marca" class="form-control input-lg" ng_model="clienteModificar.ciudad">
-                                <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
-                            </select>
-                        <input type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}">
-                        <button ng_click="modificarCliente(clienteModificar.id_cliente)">Modificar Registro </button>
+                       <form class="form-control">
+                         <label>Cliente</label>  
+                         <input disabled type="text" class="input" ng_value="vm.nomreApellidoCliente" >
+                         <label>Cedula</label>  
+                         <input disabled type="text" class="input" ng_value="vm.cedulaCliente" ><br>
+                         <label>Recibe</label>  
+                         <input required="true" type="text" class="input" ng_model="vm.recibe" ng_keypress="vm.calcularCambio($event);">
+                         <label>Cambio</label>  
+                         <input type="text" class="input" ng_model="vm.diferenciaCambio">
+                         <div class="btn-group">
+                             <button class="btn btn-success" ng_click="vm.addAbono();">
+                                 <span class="glyphicon glyphicon-floppy-open"></span> </button>
+                             </div>
+                       </form>
+                        <form class="form-control">
+                            <label for ="cuotaNumero">Cuota</label>
+                            <input id="cuotaNumero" disabled type="text" class="input-sm" ng_value="vm.siguienteCuota" />
+                            <label>Estado</label>
+                            <input disabled="true" type="text" class="input-sm" ng_value="vm.estadoCredito"><br>
+                            <label>Pendientes</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.cuotasPendientes" >
+                            <label>Credito #</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.idCredito" >
+                            <label>Cuota Mensual</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.cuotaMensual" >
+                            <label>Total Credito</label>
+                           <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.totalCredito" >
+                            </form>
+                        
                     </div>
 
                     <div class="modal-footer">
