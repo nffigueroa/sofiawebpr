@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <style>
+    #mdialTamanio{
+      width: 100% !important;
+    }
+  
+  </style>
+   <script>
+        $( document ).ready(function() {
+            $('#fecha').datepicker();
+            $('#fecha2').datepicker();
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <br><br><br>
+        <div id="mdialTamanio"  class="container col-lg-1">
+            <div class="row" id="pwd-container">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation"><a role="tab" ng_click="vm.traerinformStock();" data-toggle="tab" data-target="#productoStock">Producto Stock</a></li>
+                                <li role="presentation"><a role="tab" data-toggle="tab" data-target="#masVendido">Producto Mas vendido</a></li> 
+                                <li role="presentation"><a role="tab" data-toggle="tab" data-target="#">Ventas Por Categoria</a></li> 
+                                <li><a data-toggle="tab" data-target="#">Entrada / Salida Producto</a></li> 
+                             </ul>
+                             <div class="tab-content">
+                                        <div role="tabpanel" id="productoStock" class="tab-pane fade in active">
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <th class="small">IDENTIFICACION</th>
+                                                <th class="small">NOMBRE</th>
+                                             <!--   <th class="small">IVA</th> -->
+                                                <th class="small">MARCA</th> 
+                                                <th class="small">CATEGORIA</th> 
+                                                <th class="small">PRESENTACION</th> 
+                                            <!--    <th class="small">EXPIRACION</th>-->
+                                                <th class="small">MEDICION</th> 
+                                                <th class="small">CANT</th>
+                                                <th class="small">STOCK</th>
+                                           <!--     <th class="small">PRE. IN</th> -->
+                                                <th class="small">SUCURSAL</th>
+                                            <!--    <th class="small">UTILIDAD C/U</th> -->
+                                                <th class="small">BARRAS</th>
+                                           <!--     <th class="small">UTILIDAD</th> -->
+                                                <th class="small">PROVEEDOR</th>
+                                                <tr ng_repeat="c in vm.tablaInventarioStock">
+                                                    <td>{{c.id_producto_inventario}}</td> 
+                                                    <td>{{c.nombre_producto}}</td>
+                                                 <!--   <td>{{c.iva_producto_inventario}}</td> -->
+                                                    <td>{{c.marca}}</td>
+                                                    <td>{{c.categoria}}</td>
+                                                    <td>{{c.presentacion}}</td> 
+                                                 <!--   <td>{{c.expiracion_producto_inventario}}</td>-->
+                                                    <td>{{c.medicion}}</td> 
+                                                    <td>{{c.cantidad_producto_inventario}}</td>
+                                                    <td>{{c.stock_producto_inventario}}</td>
+                                                <!--    <td>{{c.precio_producto_inventario}}</td> -->
+                                                    <td>{{c.nombre_sucursal}}</td>
+                                                 <!--   <td>{{c.utilidad}}</td> -->
+                                                    <td>{{c.barras_producto_inventario}}</td>
+                                                    <td>{{c.empresa}}</td>
+                                                </table>
+                                        </div>
+                                    
+                            <!-- Reporte Mas Vendidos -->
+                            
+                           
+                                        <div role="tabpanel" id="masVendido" class="tab-pane fade">
+                                            <label class="text">Fecha Inicio</label>
+                                            <input type="text" id="fecha" name="fecha" class="date" ng_model="vm.fechaInicial" />
+                                            <label class="text">Fecha Final</label>
+                                            <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vm.fechaFinal" pattern="yyyy-MM-dd"/> 
+                                            <button class="btn" ng_click="vm.traerMasVendido();">Filtrar</button>
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                  <th class="small">CODIGO</th>
+                                                <th class="small">PROUDUCTO</th>
+                                                <th class="small">CANTIDAD</th>
+                                                <th class="small">EFECTIVO</th>
+                                                <th class="small">SUBTOTAL</th>
+                                                <th class="small">IVA</th>
+                                                <th class="small">DESCUENTO</th>
+                                                <th class="small">TOTAL CREDITO</th>
+                                                <th class="small">SUBTOTAL CREDITO</th>
+                                                <th class="small">IVA CREDITO</th>
+                                                <th class="small">DESCUENTO CREDITO</th>
+                                                <th class="small">FORMA PAGO</th>
+                                               
+                                                <tr ng_repeat="c in vm.tablaMasVendido">
+                                                    <td>{{c.id_producto_inventario}}</td> 
+                                                    <td>{{c.nombre_producto}}</td> 
+                                                    <td>{{c.cantidad_factura_detallado}}</td> 
+                                                    <td>{{c.total}}</td> 
+                                                    <td>{{c.subtotal}}</td> 
+                                                    <td>{{c.iva}}</td> 
+                                                    <td>{{c.descuento}}</td>
+                                                    <td>{{c.cantidad_credito}}</td>
+                                                    <td>{{c.subtotal_credito}}</td>
+                                                    <td>{{c.iva_credito}}</td>
+                                                    <td>{{c.descuento_credito}}</td>
+                                                    <td>{{c.forma_pago}}</td>
+                                                </table>
+                                                
+                                        </div>
+                                        <div role="tabpanel" id="categoriaVentas" class="tab-pane fade">
+                                            <label class="text">Fecha Inicio</label>
+                                            <input type="text" id="fecha" name="fecha" class="date" ng_model="vm.fechaInicial" />
+                                            <label class="text">Fecha Final</label>
+                                            <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vm.fechaHasta" pattern="yyyy-MM-dd"/> 
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <th class="small">CODIGO</th>
+                                                <th class="small">PROUDUCTO</th>
+                                                <th class="small">CANTIDAD</th>
+                                                <th class="small">EFECTIVO</th>
+                                                <th class="small">SUBTOTAL</th>
+                                                <th class="small">IVA</th>
+                                                <th class="small">DESCUENTO</th>
+                                                <th class="small">TOTAL CREDITO</th>
+                                                <th class="small">SUBTOTAL CREDITO</th>
+                                                <th class="small">IVA CREDITO</th>
+                                                <th class="small">DESCUENTO CREDITO</th>
+                                                <th class="small">FORMA PAGO</th>
+                                               
+                                                <tr ng_repeat="c in vm.tablaMasVendido">
+                                                    <td>{{c.id_producto_inventario}}</td> 
+                                                    <td>{{c.nombre_producto}}</td> 
+                                                    <td>{{c.cantidad_factura_detallado}}</td> 
+                                                    <td>{{c.total}}</td> 
+                                                    <td>{{c.subtotal}}</td> 
+                                                    <td>{{c.iva}}</td> 
+                                                    <td>{{c.descuento}}</td>
+                                                    <td>{{c.cantidad_credito}}</td>
+                                                    <td>{{c.subtotal_credito}}</td>
+                                                    <td>{{c.iva_credito}}</td>
+                                                    <td>{{c.descuento_credito}}</td>
+                                                    <td>{{c.forma_pago}}</td>
+                                                </table>
+                                        </div>
+                                    </div>
+                        </div>    
+                    </div> 
+                </div>
+                    
+            </div>
+        </div>     
+<!-- Creacion de los tabs -->
+
+
+    </body>
+</html>

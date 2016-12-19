@@ -6,6 +6,7 @@
 package DA;
 
 import Constructores.Constructor_Proveedor;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ public class consultas_informeStock extends Conexion{
     public consultas_informeStock()
     {
         con = new Conexion();
+        conex = con.crearConexionNueva();
     }
     
     private ResultSet consultaResusltados(String sql) {
@@ -102,22 +104,28 @@ public class consultas_informeStock extends Conexion{
        
        public ResultSet llenarTabla_inventario(int id_empresa)
     {
-        
-        sql=("SELECT DISTINCT PRO.id_producto_inventario,PR.nombre_producto,PRO.iva_producto_inventario,MAR.marca,"
-                + "CAT.categoria,PRE.presentacion,PRO.expiracion_producto_inventario,MED.medicion,"
-                + "PRO.cantidad_producto_inventario,PRO.stock_producto_inventario," +
-"PRO.barras_producto_inventario,PRO.precio_producto_inventario,PRO.precio_secundario_producto_inventario,"
-                + "SUC.nombre_sucursal,PRO.utilidad,PROVE.empresa,PRO.id_proveedor,PRO.id_producto,PRO.id_sucursal,PRO.iva_producto_inventario," +
-"PRO.id_sucursal,PR.id_produccto,PR.id_categoria,PR.id_medicion" +
-",PRO.id_proveedor,PR.id_presentacion,PR.id_marca,MAR.id_marca,CAT.id_categoria,MED.id_medicion," +
-"PRE.id_presentacion,SUC.id_sucursal,SUC.id_empresa,PROVE.id_proveedor FROM PRODUCTO_INVENTARIO AS PRO, "
-                + "PRODUCTO AS PR , CATEGORIA AS CAT , SUCURSAL AS SUC,MARCA AS MAR, PROVEEDOR AS PROVE ,"
-                + "MEDICION AS MED,PRESENTACION AS PRE WHERE PRO.id_producto = PR.id_produccto"
-                + " AND PRO.id_proveedor = PROVE.id_proveedor AND PR.id_presentacion = PRE.id_presentacion "
-                + "AND PR.id_categoria = CAT.id_categoria AND PR.id_medicion = MED.id_medicion "
-                + "AND PR.id_marca = MAR.id_marca AND SUC.id_empresa="+id_empresa+" AND PRO.id_sucursal=SUC.id_sucursal AND PR.id_presentacion = PRE.id_presentacion AND PRO.id_sucursal = SUC.id_sucursal AND PRO.id_proveedor" +
-"= PROVE.id_proveedor ORDER BY PR.nombre_producto");
-        return consultaResusltados(sql);
+        try {
+            CallableStatement cst = conex.prepareCall("Call IVN_llenarTabla_inventarioStock(?)");
+            cst.setInt("idEmpresa", id_empresa);
+            return cst.executeQuery();
+        } catch (Exception e) {
+            return null;
+        }
+//        sql=("SELECT DISTINCT PRO.id_producto_inventario,PR.nombre_producto,PRO.iva_producto_inventario,MAR.marca,"
+//                + "CAT.categoria,PRE.presentacion,PRO.expiracion_producto_inventario,MED.medicion,"
+//                + "PRO.cantidad_producto_inventario,PRO.stock_producto_inventario," +
+//"PRO.barras_producto_inventario,PRO.precio_producto_inventario,PRO.precio_secundario_producto_inventario,"
+//                + "SUC.nombre_sucursal,PRO.utilidad,PROVE.empresa,PRO.id_proveedor,PRO.id_producto,PRO.id_sucursal,PRO.iva_producto_inventario," +
+//"PRO.id_sucursal,PR.id_produccto,PR.id_categoria,PR.id_medicion" +
+//",PRO.id_proveedor,PR.id_presentacion,PR.id_marca,MAR.id_marca,CAT.id_categoria,MED.id_medicion," +
+//"PRE.id_presentacion,SUC.id_sucursal,SUC.id_empresa,PROVE.id_proveedor FROM PRODUCTO_INVENTARIO AS PRO, "
+//                + "PRODUCTO AS PR , CATEGORIA AS CAT , SUCURSAL AS SUC,MARCA AS MAR, PROVEEDOR AS PROVE ,"
+//                + "MEDICION AS MED,PRESENTACION AS PRE WHERE PRO.id_producto = PR.id_produccto"
+//                + " AND PRO.id_proveedor = PROVE.id_proveedor AND PR.id_presentacion = PRE.id_presentacion "
+//                + "AND PR.id_categoria = CAT.id_categoria AND PR.id_medicion = MED.id_medicion "
+//                + "AND PR.id_marca = MAR.id_marca AND SUC.id_empresa="+id_empresa+" AND PRO.id_sucursal=SUC.id_sucursal AND PR.id_presentacion = PRE.id_presentacion AND PRO.id_sucursal = SUC.id_sucursal AND PRO.id_proveedor" +
+//"= PROVE.id_proveedor ORDER BY PR.nombre_producto");
+    //    return consultaResusltados(sql);
         
     }
        

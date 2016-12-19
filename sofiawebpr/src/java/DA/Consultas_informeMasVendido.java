@@ -62,12 +62,14 @@ public class Consultas_informeMasVendido extends Conexion {
      }
     
 
-    public ResultSet consultaProductoVendido(int id_sucursal) {
+    public ResultSet consultaProductoVendido(int id_sucursal,String fechaIni, String fechafin) {
         
         try
             {
-            CallableStatement cst = conex.prepareCall("CALL IVN_consultaProductoVendidoXSucursal(?)");
+            CallableStatement cst = conex.prepareCall("CALL IVN_consultaProductoVendidoXSucursal(?,?,?)");
             cst.setInt("id_sucursalLog", ((id_sucursal)));
+            cst.setDate("fechaIni", Date.valueOf(fechaIni));
+            cst.setDate("fechaFin", Date.valueOf(fechafin));
             cst.execute();
             rh =cst.getResultSet();
             } catch (SQLException ex) 

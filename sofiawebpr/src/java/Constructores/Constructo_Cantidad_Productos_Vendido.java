@@ -15,6 +15,71 @@ public class Constructo_Cantidad_Productos_Vendido {
     private int[] id_producto;
     private String[] producto;
     private float[] cantidad;
+    private float[] iva;
+    private float[] descuento;
+    private float[] efectivo;
+    private float[] credito;
+    private float[] notaCredito;
+    private float[] totalVenta;
+    private float[] subTotal ;
+    private float[] subtotalTarjetaCredito;
+
+    public float[] getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(float[] subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public float[] getCredito() {
+        return credito;
+    }
+
+    public void setCredito(float[] credito) {
+        this.credito = credito;
+    }
+
+    public float[] getNotaCredito() {
+        return notaCredito;
+    }
+
+    public void setNotaCredito(float[] notaCredito) {
+        this.notaCredito = notaCredito;
+    }
+
+    public float[] getTotalVenta() {
+        return totalVenta;
+    }
+
+    public void setTotalVenta(float[] totalVenta) {
+        this.totalVenta = totalVenta;
+    }
+
+    public float[] getIva() {
+        return iva;
+    }
+
+    public void setIva(float[] iva) {
+        this.iva = iva;
+    }
+
+    public float[] getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(float[] descuento) {
+        this.descuento = descuento;
+    }
+
+    public float[] getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(float[] efectivo) {
+        this.efectivo = efectivo;
+    }
+    
 
     public int[] getId_producto_inventario() {
         return id_producto_inventario;
