@@ -35,7 +35,8 @@ and open the template in the editor.
                                 <li role="presentation"><a role="tab" ng_click="vm.traerinformStock();" data-toggle="tab" data-target="#productoStock">Producto Stock</a></li>
                                 <li role="presentation"><a role="tab" data-toggle="tab" data-target="#masVendido">Producto Mas vendido</a></li> 
                                 <li role="presentation"><a role="tab" data-toggle="tab" data-target="#">Ventas Por Categoria</a></li> 
-                                <li><a data-toggle="tab" data-target="#">Entrada / Salida Producto</a></li> 
+                                <li role="presentation"><a role="tab" ng_click="vm.traerMovimientoProducto();" data-toggle="tab" data-target="#entradaSalidaProducto">Entrada Producto</a></li> 
+                                <li role="presentation"><a role="tab" data-toggle="tab" data-target="#SalidaProducto">Salida Producto</a></li> 
                              </ul>
                              <div class="tab-content">
                                         <div role="tabpanel" id="productoStock" class="tab-pane fade in active">
@@ -56,6 +57,7 @@ and open the template in the editor.
                                                 <th class="small">BARRAS</th>
                                            <!--     <th class="small">UTILIDAD</th> -->
                                                 <th class="small">PROVEEDOR</th>
+                                                <th class="small">VER PROVEEDOR</th>
                                                 <tr ng_repeat="c in vm.tablaInventarioStock">
                                                     <td>{{c.id_producto_inventario}}</td> 
                                                     <td>{{c.nombre_producto}}</td>
@@ -72,6 +74,11 @@ and open the template in the editor.
                                                  <!--   <td>{{c.utilidad}}</td> -->
                                                     <td>{{c.barras_producto_inventario}}</td>
                                                     <td>{{c.empresa}}</td>
+                                                    <td><div class="btn-group">
+                                                            <button class="btn btn-sm">
+                                                                <span class="glyphicon glyphicon-eye-open"></span>
+                                                            </button>
+                                                        </div></td>
                                                 </table>
                                         </div>
                                     
@@ -148,6 +155,73 @@ and open the template in the editor.
                                                     <td>{{c.forma_pago}}</td>
                                                 </table>
                                         </div>
+                            <div role="tabpanel" id="entradaSalidaProducto" class="tab-pane fade">
+                                            <label class="text">Fecha Inicio</label>
+                                            <input type="text" id="fecha" name="fecha" class="date" ng_model="vm.fechaInicial" />
+                                            <label class="text">Fecha Final</label>
+                                            <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vm.fechaFinal" pattern="yyyy-MM-dd"/> 
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <th class="small">CODIGO</th>
+                                                <th class="small">PROUDUCTO</th>
+                                                <th class="small">CANTIDAD</th>
+                                                <th class="small">CATEGORIA</th>
+                                                <th class="small">PRESENTACION</th>
+                                                <th class="small">MEDICION</th>
+                                                <th class="small">MARCA</th>
+                                                <th class="small">FECHA</th>
+                                                <th class="small">HORA</th>
+                                                <th class="small">USUARIO</th>
+                                                <th class="small">SUCURSAL</th>
+                                               
+                                                <tr ng_repeat="c in vm.tablaEntradaProducto">
+                                                    <td>{{c.id_producto_inventario}}</td> 
+                                                    <td>{{c.nombre_producto}}</td> 
+                                                    <td>{{c.cantidad}}</td>
+                                                    <td>{{c.categoria}}</td>
+                                                    <td>{{c.presentacion}}</td>
+                                                    <td>{{c.medicion}}</td>
+                                                    <td>{{c.marca}}</td>
+                                                    <td>{{c.fecha_historial}}</td>
+                                                    <td>{{c.hora_historial}}</td>
+                                                    <td>{{c.usuario}}</td>
+                                                    <td>{{c.nombre_sucursal}}</td>
+                                                </table>
+                                        </div>
+                            <!-- Reporte Salida Producto -->
+                             <div role="tabpanel" id="SalidaProducto" class="tab-pane fade">
+                                            <label class="text">Fecha Inicio</label>
+                                            <input type="text" id="fecha" name="fecha" class="date" ng_model="vm.fechaInicial" />
+                                            <label class="text">Fecha Final</label>
+                                            <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vm.fechaFinal" pattern="yyyy-MM-dd"/> 
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <th class="small">CODIGO</th>
+                                                <th class="small">PROUDUCTO</th>
+                                                <th class="small">CANTIDAD</th>
+                                                <th class="small">CATEGORIA</th>
+                                                <th class="small">PRESENTACION</th>
+                                                <th class="small">MEDICION</th>
+                                                <th class="small">MARCA</th>
+                                                <th class="small">FECHA</th>
+                                                <th class="small">HORA</th>
+                                                <th class="small">USUARIO</th>
+                                                <th class="small">SUCURSAL</th>
+                                                <th class="small">MOTIVO</th>
+                                               
+                                                <tr ng_repeat="c in vm.tablaSalidaProducto">
+                                                    <td>{{c.id_producto_inventario}}</td> 
+                                                    <td>{{c.nombre_producto}}</td> 
+                                                    <td>{{c.cantidad_factura_detallado}}</td>
+                                                    <td>{{c.categoria}}</td>
+                                                    <td>{{c.presentacion}}</td>
+                                                    <td>{{c.medicion}}</td>
+                                                    <td>{{c.marca}}</td>
+                                                    <td>{{c.fecha_creacion}}</td>
+                                                    <td>{{c.hora_creacion}}</td>
+                                                    <td>{{c.usuario}}</td>
+                                                    <td>{{c.nombre_sucursal}}</td>
+                                                    <td>{{c.motivo}}</td>
+                                                </table>
+                                        </div>
                                     </div>
                         </div>    
                     </div> 
@@ -155,8 +229,60 @@ and open the template in the editor.
                     
             </div>
         </div>     
-<!-- Creacion de los tabs -->
-
+<!-- Creacion de los Modales -->
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Hemos Encontrado Proveedores...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-control" ng_submit="vm.insertarCategoria(vm.categoriaIngresar);" role="login">
+                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+                            <div class="input-group">
+                                <span onclick="ocultarModal1()" class="input-group-addon input-group" data-toggle="modal" data-target="#myModal3">Ver..</span>
+                            <input ng_disabled="true" ng_model="vm.producto.nombreProducto" type="text" class="input-group form-control" placeholder="Nombre de Producto">
+                          </div>
+                            <label class="text">Categoria</label>
+                            <input ng_disabled="true" type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.categoria" />
+                            <label class="text">Presentacion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.presentacion" />
+                            <label class="text">Medicion</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.medicion" />
+                            <label class="text">Marca</label>
+                            <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.marca" />
+                            <label class="text">Stock</label>
+                            <input type="number" class="form-control" name="myDecimal" placeholder="Decimal" ng-model="vm.producto.stock" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+                            <label class="text">Iva</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.iva" />
+                            <label class="text">Expiracion</label>
+                            <input type="text" id="fecha" name="fecha" class="form-control date" ng_model="vm.producto.expiracion" />
+                            <label class="text">Barras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.codigoBarras" />
+                            <label class="text">Precio Ventas</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.precioVenta" />
+                            <label class="text">Precio Compras</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.precioCompra" />
+                            <label class="text">Cantidad</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.cantidad" />
+                            <label class="text">Sucursal</label>
+                            <select class="input-lg" ng_model="vm.producto.sucursal">
+                                <option ng_repeat="c in vm.comboSucursal" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                            </select>
+                            <label class="text">Proveedor</label>
+                            <select class="input-lg" ng_model="vm.producto.proveedor">
+                                <option ng_repeat="c in vm.comboProveedores" value="{{c.id_proveedor}}">{{c.empresa}}</option>
+                            </select>
+                            <button class="btn" ng_click="vm.agregarProductoACargar();">Agregar Pedido</button>
+                            <button class="btn" ng_click=""  onclick="ocultarModal1()" data-toggle="modal" data-target="#myModal4">Ir a Confirmar Pedido</button>
+                            </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </body>
 </html>

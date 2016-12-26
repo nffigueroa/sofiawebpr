@@ -6,11 +6,15 @@
 
 
 app.controller('contrInformesInventario', function (traerProductoStock,
-                                                     traerMasVedido,$filter) {
+                                                     traerMasVedido,
+                                                     $filter,
+                                                     traerEntradaSalidaInventario) {
     var vm = this;
     vm.aux1 = 'INFORME STOCK'; 
     vm.tablaInventarioStock= [];
     vm.tablaMasVendido = [];
+    vm.tablaSalidaProducto = [];
+    vm.tablaEntradaProducto = [];
     var today = new Date();
     vm.fechaInicial = new Date(today.getTime() - (30 * 24 * 3600 * 1000));
     vm.fechaFinal= $filter('date')(new Date(),'yyyy-MM-dd') ;
@@ -24,6 +28,9 @@ app.controller('contrInformesInventario', function (traerProductoStock,
     vm.traerMasVendido = function () {
      
         traerMasVedido.selectMasVendido(vm);
+    };
+    vm.traerMovimientoProducto = function () {
+      traerEntradaSalidaInventario.selectEntradaSalida(vm);  
     };
 });
 
@@ -63,4 +70,40 @@ app.factory('traerMasVedido', function ($http) {
       });
     };
     return log;
+});
+
+app.factory('traerEntradaSalidaInventario', function ($http) {
+    var log =  {};
+    
+    log.selectEntradaSalida = function (vm) {
+      $http({
+        url : 'Funciones_InformesInventario_BF',
+        method : 'POST',
+        data : {
+            'accion': 3,
+            'idSucursal': sessionStorage.getItem('idSucursal'),
+            'fechaIni': vm.fechaInicial,
+            'fechaFin': vm.fechaFinal
+        }
+      }).success(function (result){
+        vm.tablaSalidaProducto = result [1];
+        vm.tablaEntradaProducto = result[0];
+      });
+    };
+    return log;
+});
+
+app.factory('traerCoincidenciaProveedores', function () {
+   var log= {} ;
+   log.selectCoincidencias = function (){
+       $http({
+          url: 'Funciones_InformesInventario_BF',
+          methd: 'POST',
+          data : {
+              'accion': 4,
+              'idSucursal':sessionStorage.getItem('idSucursal'),
+          }
+       });
+   };
+   return log;
 });

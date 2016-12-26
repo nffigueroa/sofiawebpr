@@ -164,7 +164,7 @@ public class Consultas_Generales extends Conexion {
         boolean ban = false;
         try
         {
-            CallableStatement cst = conex.prepareCall("CALL GEN_consultaRegistrarHistorialInventarioIngreso(?,?,?,?,?,?)");
+            CallableStatement cst = conex.prepareCall("CALL GEN_consultaRegistrarHistorialInventarioIngreso(?,?,?,?,?,?,?)");
             cst.setObject("id_inventario", id_inventario);
             cst.setObject("cantidad", cantidad);
             cst.setObject("hora", hora);
@@ -172,14 +172,14 @@ public class Consultas_Generales extends Conexion {
             cst.setInt("idUsuario", id_usuario);
             cst.setInt("idSucursal", idSucursal);
             cst.setObject("consecutivo", consecutivo);
-            ban=cst.execute();
+            cst.execute();
+            return true;
         }
         catch(SQLException ex)
         {
             ex.printStackTrace();
             return false;
         }
-        return true;
     }
     
     public Object consultaConsecutivo(int idSucursal)

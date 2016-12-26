@@ -5,6 +5,7 @@
  */
 package BF;
 
+import BL.Funciones_entradaSalidaInventarioInforme;
 import BL.Funciones_frm_MasVendido;
 import BL.Funciones_frm_factura;
 import BL.Funciones_frm_informeStock;
@@ -119,7 +120,11 @@ public class Funciones_InformesInventario_BF extends HttpServlet {
             } // Para mostrar detalle factura
             case 3 : {
                 try {
-                           
+                    BL.Funciones_entradaSalidaInventarioInforme fun = new Funciones_entradaSalidaInventarioInforme();
+                    JSONArray jsonResult = new JSONArray();
+                    jsonResult.put(0,fun.llenarTablaEntradaProducto(obJ.getInt("idSucursal")));
+                    jsonResult.put(1,fun.llenarTablaSalidaProducto(obJ.getInt("idSucursal")));
+                    response.getWriter().print(jsonResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

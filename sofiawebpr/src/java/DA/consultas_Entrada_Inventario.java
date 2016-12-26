@@ -205,6 +205,7 @@ public class consultas_Entrada_Inventario extends Conexion{
              //Object id_usuario = productos.getJSONArray("id_usuario").get(i);
              cst.setObject("id_usuario", idUsuario);
              cst.execute();
+             return true;
          }
         } catch (Exception e) {
             return false;

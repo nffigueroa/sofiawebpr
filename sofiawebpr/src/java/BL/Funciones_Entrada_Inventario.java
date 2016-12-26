@@ -280,7 +280,7 @@ public class Funciones_Entrada_Inventario extends DA.consultas_Entrada_Inventari
 //            Object barras, float precio1, float precio2, String iva, String expiracion, int id_usuario_sesion)
   {
       Funciones_Generales con_generales = new Funciones_Generales();
-//      con_generales.registrarHistorial("registrarProductoInventario", id_usuario_sesion, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+id_producto+"");
+        
       float utilidad =0;
       consultaRegistrarProductoInventario(productos, idUsuario, idSucursal);
  //      utilidad = Math.round(precio1-precio2);
@@ -293,6 +293,7 @@ public class Funciones_Entrada_Inventario extends DA.consultas_Entrada_Inventari
       int id_inventario = con_generales.consultaUltimoIdInventario(idSucursal);
       Object consecutivo =con_generales.consultaConsecutivo(idSucursal);
       for (int i = 0; i < productos.getJSONArray("cantidad").length(); i++) {
+           con_generales.registrarHistorial("registrarProductoInventario", idUsuario, date.format(now),hora.format(now), "Se registro producto en inventario ID:"+ productos.getJSONArray("idProducto").get(i)+"");
           con_generales.registrarHistorialEntradaInventairio(id_inventario,
                                                         productos.getJSONArray("cantidad").get(i),
                                                         idUsuario,
