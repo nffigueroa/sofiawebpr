@@ -56,13 +56,17 @@ public class consultas_informeStock extends Conexion{
         }
          return ban;
     }
-       public ResultSet consultaPosiblesProveedores(Object id_categoria)
+       public ResultSet consultaPosiblesProveedores(int idProductoInventario)
        {
-           sql=("SELECT PRO.id_proveedor,PRO.empresa,PRO.direccion_proveedor,PRO.nit_proveedor,CIU.ciudad,"
-                   + "PRO.id_ciudad,CAT.id_proveedor,CAT.id_categoria,CIU.id_ciudad FROM "
-                   + "categoria_proveedor AS CAT, proveedor AS PRO, ciudad AS CIU WHERE CAT.id_categoria = "+id_categoria+" AND "
-                   + "CAT.id_proveedor=PRO.id_proveedor AND PRO.id_ciudad=CIU.id_ciudad ");
-           return consultaResusltados(sql);
+           try {
+               CallableStatement st = conex.prepareCall("Call GEN_LlenarCoincidenciasProveedor(?)");
+               st.setInt("idProductoInventario", idProductoInventario);
+               return st.executeQuery();
+           } catch (Exception e) {
+               e.printStackTrace();
+               return null;
+           }
+          /// return consultaResusltados(sql);
        }
        
        public ResultSet consultaDatosProveedor(Object id_proveedor)

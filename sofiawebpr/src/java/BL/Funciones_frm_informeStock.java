@@ -34,9 +34,15 @@ public class Funciones_frm_informeStock extends DA.consultas_informeStock{
    ResultSet rs = null;
   
    
-   public ArrayList llenarCoincidenciasProveedor(Object id_inventario)
+   public ArrayList llenarCoincidenciasProveedor(int id_inventario)
    {
-       return null;
+       try {
+           rs = consultaPosiblesProveedores(id_inventario);
+           return general.resultSetToArrayList(rs);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return null;
+       }
 //     //  Grillas gr = new Grillas();
 //       int id_producto=0,id_categoria=0;
 //       id_producto = consultaIdProducto(id_inventario);

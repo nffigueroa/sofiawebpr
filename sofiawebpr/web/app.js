@@ -5,7 +5,8 @@ var app = angular.module('sofiaApp',['ngRoute',
                                     'ngTable',
                                     'ui.grid',
                                     'ui.grid.edit',
-                                    'checklist-model'
+                                    'checklist-model',
+                                    'ngSanitize'
                                     ])
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider

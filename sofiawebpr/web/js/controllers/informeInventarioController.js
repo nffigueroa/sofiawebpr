@@ -8,13 +8,17 @@
 app.controller('contrInformesInventario', function (traerProductoStock,
                                                      traerMasVedido,
                                                      $filter,
-                                                     traerEntradaSalidaInventario) {
+                                                     traerEntradaSalidaInventario,
+                                                     traerCoincidenciaProveedores) {
     var vm = this;
     vm.aux1 = 'INFORME STOCK'; 
+    vm.idInventario;
+    vm.htmlMensaje='';
     vm.tablaInventarioStock= [];
     vm.tablaMasVendido = [];
     vm.tablaSalidaProducto = [];
     vm.tablaEntradaProducto = [];
+    vm.tablaCoincidenciasProveedor = [];
     var today = new Date();
     vm.fechaInicial = new Date(today.getTime() - (30 * 24 * 3600 * 1000));
     vm.fechaFinal= $filter('date')(new Date(),'yyyy-MM-dd') ;
@@ -31,6 +35,10 @@ app.controller('contrInformesInventario', function (traerProductoStock,
     };
     vm.traerMovimientoProducto = function () {
       traerEntradaSalidaInventario.selectEntradaSalida(vm);  
+    };
+    vm.trarCoincidenciasInventario = function (idInventario){ 
+        vm.idInventario= idInventario;
+        traerCoincidenciaProveedores.selectCoincidencias(vm);
     };
 });
 
@@ -93,16 +101,24 @@ app.factory('traerEntradaSalidaInventario', function ($http) {
     return log;
 });
 
-app.factory('traerCoincidenciaProveedores', function () {
+app.factory('traerCoincidenciaProveedores', function ($http) {
    var log= {} ;
-   log.selectCoincidencias = function (){
+   log.selectCoincidencias = function (vm){
        $http({
           url: 'Funciones_InformesInventario_BF',
-          methd: 'POST',
+          method: 'POST',
           data : {
               'accion': 4,
               'idSucursal':sessionStorage.getItem('idSucursal'),
+              'idInventario' : vm.idInventario
           }
+       }).success(function (result)
+       {
+           vm.tablaCoincidenciasProveedor= result[0];
+           if( vm.tablaCoincidenciasProveedor.length === 0) 
+                vm.htmlMensaje = '<div class="alert alert-warning">No se han encontrado resultados</div>';
+           else
+                vm.htmlMensaje = '<div class="alert alert-success">Hemos Encontrado Proveedores</div>';           
        });
    };
    return log;
