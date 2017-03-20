@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 app.controller('contrProvee', function (auth, traerProveedor, envioProvee, $cookieStore, ngTableParams,
-eliminarProvee, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,traerCategoriasProveedor,category,registrarCategoriasProveedor) {
+eliminarProvee, llenarComboCiudad, updateProvee,cerrarSesionS,llenarComboCiudad,traerCategoriasProveedor,category,registrarCategoriasProveedor) {
     var vm = this;
     var idProveedor;
     vm.aux1 = "GESTION PROVEEDOR";
@@ -14,6 +14,13 @@ eliminarProvee, llenarComboCiudad, updateProvee,$cookies,llenarComboCiudad,traer
     vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
     vm.pages = [];
+      vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.nitProveedor;
     vm.proveedorModificar = [];
     vm.tablaProveedores = [];

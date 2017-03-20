@@ -12,22 +12,23 @@ and open the template in the editor.
     </head>
     <body>
         <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
         <div class="container">
 
             <div class="row" id="pwd-container">
 
                 <div class="col-md-4"></div>
-                <br>
-                <br>
-                <br>
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                   
+                    <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+            <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
                     </button>
-                    <div class="panel-title">Gestion de Usuario</div>
                     <div class="panel-body">
                         Search:
                         <input type ="text" class="form-control" ng_model="search" >
-                        <table class="table table-hover table-condensed">
+                        <table class="table-hover table-bordered table-responsive">
                             <th>
                                 Nombre
                             </th>
@@ -58,7 +59,7 @@ and open the template in the editor.
                             <th>
                                 Accion
                             </th>
-                            <tr ng_repeat="usuario in vm.tablaUsuario| filter: search  | startFromGrid: currentPage * pageSize | limitTo: pageSize ">
+                            <tr ng_repeat="usuario in vm.tablaUsuario| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize ">
 
                                 <td>
                                     {{usuario.nombre_usuario}}
@@ -102,11 +103,11 @@ and open the template in the editor.
 
                         </table>
                         <div class="center-block">
-                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
-                            <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
-                            <!-- Button trigger modal -->
+                           <div class='btn-group'>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage === 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage == page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{page.no}}</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage >= vm.marcaMostrar.length/vm.pageSize - 1' , ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+                            </div><!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                 +
                             </button>
@@ -251,7 +252,7 @@ and open the template in the editor.
                             <th>
                                 Seleccionado
                             </th>
-                            <tr ng_repeat="c in vm.permisos | filter : buscarPermiso">
+                            <tr ng_repeat="c in vm.permisos | filter : buscarPermiso ">
                                 <td> {{c.id_permiso}}</td>
                                 <td> {{c.permiso}}</td>
                                 <td>
@@ -271,4 +272,5 @@ and open the template in the editor.
             </div>
         </div>
     </body>
+    
 </html>

@@ -17,11 +17,14 @@ and open the template in the editor.
     </head>
     <body>
         <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
         <div class="container">
             <div class="row" id="pwd-container">
                 <div class="col-md-3"></div>
                 <div class="col-md-5">
-               
+                <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
                 <div class="panel panel-primary">
                     <button class="btn warning" value="Actualizar" ng_click="" data-toggle="modal" data-target="#myModal3"> Ver Importe
                         </button>

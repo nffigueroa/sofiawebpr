@@ -7,12 +7,20 @@
 app.controller('contrCorteCaja', function (traerFacturaDetalle,
                                             traerTablaImportes,
                                             traerTotalesCorteCaja,
-                                            insertarCorteCaja) {
+                                            insertarCorteCaja,
+                                            cerrarSesionS) {
    var vm = this; 
    vm.aux1= 'Corte Caja';
    vm.datosCorteCaja = [];
    vm.tablaFacturaDetalle = [];
    vm.tablaImportes = [];
+    vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
    vm.factura = {};
    vm.importe = {};
    vm.factura.apellido_cliente = [];

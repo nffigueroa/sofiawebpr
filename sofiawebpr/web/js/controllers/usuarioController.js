@@ -3,38 +3,48 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrUsuario', function (auth,traerUsuario, traerPermisosUsuario, envioUsuario, $cookieStore, ngTableParams,
-eliminarUsuario, llenarComboCiudad, updateUser,$cookies,llenarComboCiudad,category,registrarPermisoUsuario,llenarComboCargo) 
+app.controller('contrUsuario', function (ControlSesion,traerUsuario, traerPermisosUsuario, envioUsuario, 
+eliminarUsuario, llenarComboCiudad, updateUser,llenarComboCiudad,registrarPermisoUsuario,llenarComboCargo,cerrarSesionS) 
 {
     var vm = this;
-    var idProveedor;
     vm.aux1 = "GESTION USUARIO";
    // vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.currentPage = 0;
     vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.cargo = llenarComboCargo.consultaLlenarComboCargo(vm);
-    vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
-    vm.pages = [];
     vm.usuario = [];
+    vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.usuario();
     vm.ccUsuario;
     vm.usuarioModificar = [];
     vm.tablaUsuario = [];
     vm.proveedores = []; 
-   // vm.categoriasSelected = {};
-    
-//    vm.agregarSeleccion = function ()
-//    {
-//        for(var i = 0 ; i < vm.permisos.length ; i ++)
-//        {
-//            var cate =  vm.permisos[i];
-//            if(cate.Seleccion === 1)
-//            {
-//                vm.categoriasSelected[cate.id_permiso,true];
-//            }
-//        }
-//        
-//    };
-    //vm.categorias = category.traerCategorias(vm);
+    vm.currentPage = 0;
+    vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
+    vm.pages = [];
+    vm.configPages = function() {
+        vm.pages.length = 0;
+        var ini = vm.currentPage - 4;
+        var fin = vm.currentPage + 5;
+        if (ini < 1) {
+          ini = 1;
+          if (Math.ceil(vm.tablaUsuario.length / vm.pageSize) > 10) fin = 10;
+          else fin = Math.ceil(vm.tablaUsuario.length / vm.pageSize);
+       } else {
+          if (ini >= Math.ceil(vm.tablaUsuario.length / vm.pageSize) - 10) {
+             ini = Math.ceil(vm.tablaUsuario.length / vm.pageSize) - 10;
+             fin = Math.ceil(vm.tablaUsuario.length / vm.pageSize);
+          }
+       }
+       if (ini < 1) ini = 1;
+       for (var i = ini; i <= fin; i++) {
+          vm.pages.push({ no: i });
+       }
+       if (vm.currentPage >= vm.pages.length)
+          vm.currentPage = vm.pages.length - 1;
+};
     vm.registrarPermisosSeleccionados = function (ccUsuario)
     {
         //var categoriasEnviar = categoriasSelecciondasOnly(categorias);
@@ -105,7 +115,9 @@ eliminarUsuario, llenarComboCiudad, updateUser,$cookies,llenarComboCiudad,catego
            // vm.tablaUsuario.indexOf(indexFila).push(aux2);
         }
     };
-
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
     vm.modificados = {};
     vm.modificados.ids = [];
     vm.modificados.seleccionado = [];
@@ -158,6 +170,7 @@ app.factory('traerUsuario', function ($http) {
             }
         }).then( function (result){
             vm.tablaUsuario = result.data[0];
+            vm.configPages();
         });
     };
     return log2;

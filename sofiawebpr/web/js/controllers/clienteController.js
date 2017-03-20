@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrCli', function (traerClientes, envioClie, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
+app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
     var vm = this;
     vm.aux1 = "GESTION CLIENTE";
     vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
@@ -14,6 +14,13 @@ app.controller('contrCli', function (traerClientes, envioClie, ngTableParams, el
     vm.elim = [];
     vm.clienteModificar = [];
     vm.tablaClientes = [];
+     vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.mostrarCliente = function (idCliente)
     {
         for (var i = 0; i < vm.tablaClientes.length; i++)

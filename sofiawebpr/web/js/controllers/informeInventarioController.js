@@ -9,11 +9,19 @@ app.controller('contrInformesInventario', function (traerProductoStock,
                                                      traerMasVedido,
                                                      $filter,
                                                      traerEntradaSalidaInventario,
-                                                     traerCoincidenciaProveedores) {
+                                                     traerCoincidenciaProveedores,
+                                                     cerrarSesionS) {
     var vm = this;
     vm.aux1 = 'INFORME STOCK'; 
     vm.idInventario;
     vm.htmlMensaje='';
+     vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.tablaInventarioStock= [];
     vm.tablaMasVendido = [];
     vm.tablaSalidaProducto = [];

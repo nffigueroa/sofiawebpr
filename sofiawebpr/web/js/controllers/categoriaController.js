@@ -9,13 +9,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrCategoria', function ($scope, traerCategoria, envioCategoria, $cookieStore, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
+app.controller('contrCategoria', function (cerrarSesionS,$scope, traerCategoria, envioCategoria, $cookieStore, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
     
     var vm = this;
     vm.aux1 = "GESTION CATEGORIA";
     vm.categoriaIngresar={};
     vm.categoriasMostrar = [];
     traerCategoria.llenarTablaCategoria(vm);
+    vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.insertarCategoria =  function (categorias)
     {
             envioCategoria.addCategoria(categorias);

@@ -14,13 +14,20 @@ app.controller('contrInventario', function (insertarProductoInventario,
         agregarCantidadProductoInventario,
         traerMotivoCombo,
         descontarProductoInventario,
-        eliminarProductoInventario) {
+        cerrarSesionS) {
     var vm = this;
     vm.aux1 = 'Entrada y Salida Inventario';
     vm.productos = [];
     vm.tablaInventario = [];
     vm.consecutivo;
     vm.producto = [];
+     vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.productoEliminarInventario;
     vm.productoModificar = [];
     vm.productoACargarMostrar = [];

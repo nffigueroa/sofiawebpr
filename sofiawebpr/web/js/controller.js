@@ -5,7 +5,7 @@
  */
 
 app.
-controller("contrLog", function (auth,loguear,$location,$cookieStore,$cookies) {
+controller("contrLog", function (auth,loguear,$location,$cookieStore) {
 var vm = this;
 vm.meesage= "Details";
 vm.aux = [];
@@ -19,6 +19,8 @@ vm.login = function(){
 //    loguear.validarLogin(vm.usuario,vm,$location,$cookieStore);
 //    llenarSesion.getSession($cookieStore,$cookies);
 //  };
+
+ 
 });
 app.factory('loguear',function ($http){
 	var log = {};
@@ -47,11 +49,18 @@ app.factory('loguear',function ($http){
 	};
 	return log;
 });
-app.controller('contrPro', function(category,updatePr,envioPro,$cookieStore,ngTableParams,eliminarPro,$cookies) {
+app.controller('contrPro', function(cerrarSesionS,category,updatePr,envioPro,$cookieStore,ngTableParams,eliminarPro,$cookies) {
 var vm = this;
 vm.currentPage = 0;
 vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
 vm.pages = [];
+vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
 vm.configPages = function() {
    vm.pages.length = 0;
    var ini = vm.currentPage - 4;
@@ -272,6 +281,7 @@ app.factory ("auth", function ($http,$location,ControlSesion,mensajeFlash) {
         ControlSesion.set("idCargo",datosUsuario.idCargo); // Cargo del usuario registrado
         ControlSesion.set("apellido",datosUsuario.apellido); // Apellido del usuario
         ControlSesion.set("username",username); // Nombrel del usuario
+        ControlSesion.set("isLogged",true); // Nombrel del usuario
     }
     var unCacheSesion = function (user) {
         ControlSesion.unset("UserLogin");
@@ -294,7 +304,7 @@ app.factory ("auth", function ($http,$location,ControlSesion,mensajeFlash) {
         })
     },
      isLoggedIn : function(){
-         var retornar = ControlSesion.get("UserLogin");
+         var retornar = ControlSesion.get("isLogged");
             return retornar;
         }
     }
@@ -324,21 +334,49 @@ app.factory("mensajeFlash", function ($rootScope) {
     }
 });
 
+app.service("cerrarSesionS", function (ControlSesion) {
+    var aux = {};
+    aux.BorrarSesion = function (){
+        ControlSesion.unset("UserLogin");
+        ControlSesion.unset("nombreReal");
+        ControlSesion.unset("idSucursal");
+        ControlSesion.unset("idUsuario");
+        ControlSesion.unset("idCargo");
+        ControlSesion.unset("apellido");
+        ControlSesion.unset("username");
+        ControlSesion.unset("isLogged");
+    };
+        return aux;
+});
+
 app.run(function($rootScope, $location, auth){
 	//creamos un array con las rutas que queremos controlar
-    var rutasPrivadas = ["/master","/info","/login"];
+    var rutasPrivadas = ["/master",
+                        "/login",
+                        "/GestionUsuario",
+                        "/GestionProducto",
+                        "/GestionCliente",
+                        "/GestionProveedor",
+                        "/GestionCategoria",
+                        "/GestionMarca",
+                        "/GestionCorteCaja",
+                        "/GestionIngresoInventario",
+                        "/GestionCajonDinero",
+                        "/GestionFactura",
+                        "/GestionCuentasCobrar",
+                        "/GestionReportes"];
     //al cambiar de rutas
     $rootScope.$on('$routeChangeStart', function(){
     	//si en el array rutasPrivadas existe $location.path(), locationPath en el login
     	//es /login, en la home /home etc, o el usuario no ha iniciado sesión, lo volvemos 
     	//a dejar en el formulario de login
         if(in_array($location.path(),rutasPrivadas) && !auth.isLoggedIn()){
-            $location.path("/login");
+            $location.path("/sofiaApp");
+            alert("No tienes permiso o no estas autenticado!");
         }
         //en el caso de que intente acceder al login y ya haya iniciado sesión lo mandamos a la home
-        if(($location.path() === '/login') && auth.isLoggedIn()){
+        if((($location.path() == '/login') || ($location.path() == '/sofiaApp'))  && auth.isLoggedIn()){
             $location.path("/master");
-            alert("si");
         }
     })
 })

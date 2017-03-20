@@ -5,7 +5,8 @@
  */
 app.controller('contrCajonDinero',function (traerMotivoTipoImporte,
                                             traerTipoImporte,
-                                            insertarImporte){
+                                            insertarImporte,
+                                            cerrarSesionS){
     var vm = this;
     vm.tiposImporte = [];
     vm.tiposMotivoImporte = [];
@@ -17,6 +18,13 @@ app.controller('contrCajonDinero',function (traerMotivoTipoImporte,
     vm.enviarImporteToBD = function () {
         insertarImporte.insertImporte(vm);
     };
+    vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
 });
 
 app.factory('traerTipoImporte', function ($http){

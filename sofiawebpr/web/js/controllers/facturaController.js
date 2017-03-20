@@ -5,7 +5,7 @@
  */
 
 
-app.controller('contrFactura', function (traerFacturasSinAnular,
+app.controller('contrFactura', function (cerrarSesionS,
                                             traerFechainicialFacturacion,
                                             $filter,
                                             traerDetalleFactura,
@@ -18,6 +18,13 @@ app.controller('contrFactura', function (traerFacturasSinAnular,
     vm.fechaHasta = date;
     vm.detalleFactura = [];
     vm.comboMotivoEliminacion = [];
+    vm.usuario = function () {
+        vm.user = sessionStorage.getItem("nombreReal");
+    };
+    vm.cerrarSesion = function (){
+        cerrarSesionS.BorrarSesion();
+    }
+    vm.usuario();
     vm.idFactura;
     vm.facturaAnular = [];
     traerFechainicialFacturacion.selectFechaInicial(vm);

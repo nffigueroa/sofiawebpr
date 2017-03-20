@@ -25,11 +25,17 @@ and open the template in the editor.
     </head>
     <body>
         <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'">
+            <div ng_include="'tpl/header.html'"></div>
+    </div>
         <br><br><br>
         <div id="mdialTamanio"  class="container col-lg-1">
             <div class="row" id="pwd-container">
                 <div class="col-lg-12">
                     <div class="panel panel-primary">
+                         <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
                         <div class="panel-body">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation"><a role="tab" ng_click="vm.traerinformStock();" data-toggle="tab" data-target="#productoStock">Producto Stock</a></li>
