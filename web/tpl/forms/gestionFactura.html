@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <script>
+        $( document ).ready(function() {
+            $('#fecha').datepicker();
+            $('#fecha2').datepicker();
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+
+            <div class="row" id="pwd-container">
+                <div class="col-md-4"></div>
+                <div class="panel panel-primary">
+                    <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                    <button class="btn warning" value="Actualizar" ng_click=""> Update
+                    </button>
+                      <label class="text">Fecha Inicio</label>
+                    <input type="text" id="fecha" name="fecha" class="date" ng_model="vm.fechaInicial" />
+                    <label class="text">Fecha Final</label>
+                    <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vm.fechaHasta" pattern="yyyy-MM-dd"/> 
+                <br>
+                <br>
+                    <div class="panel-title">Gestion de Usuario</div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-condensed">
+                            <th>
+                                Factura
+                            </th>
+                            <th>
+                                Folio
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                            <th>
+                                Subtotal
+                            </th>
+                            <th>
+                                Descuento
+                            </th>
+                            <th>
+                                Iva
+                            </th>
+                            <th>
+                                Recibe
+                            </th>
+                            <th>
+                                Cambio
+                            </th>
+                            <th>
+                                Forma Pago
+                            </th>
+                            <th>
+                                Tarjeta
+                            </th>
+                            <th>
+                                Descripcion
+                            </th>
+                            <th>
+                                Cliente
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Hora
+                            </th>
+                            <th>
+                                Anular
+                            </th>
+                            <th>
+                                Detalle
+                            </th>
+                            <th>
+                                Imprimir
+                            </th>
+                            <tr ng_repeat="c in vm.tablaFacturaSinAnular">
+
+                                <td>
+                                    {{c.numero_factura}}
+                                </td>
+                                <td>
+                                    {{c.folio}}
+                                </td>
+                                <td>
+                                    {{c.total}}
+                                </td>
+                                <td>
+                                    {{c.subtotal}}
+                                </td>
+                                <td>
+                                    {{c.descuento}}
+                                </td>
+                                <td>
+                                   <div class="text-warning"> {{c.iva}}</div>
+                                </td>
+                                <td>
+                                    {{c.recibe}}
+                                </td>
+                                <td>
+                                    {{c.cambio}}
+                                </td>
+                                <td>
+                                     {{c.forma_pago}}
+                                </td>
+                                 <td>
+                                     {{c.digitos_tarjeta}}
+                                </td>
+                                 <td>
+                                     {{c.descripcion}}
+                                </td>
+                                 <td>
+                                     {{c.cedula_cliente}}
+                                </td>
+                                 <td>
+                                     {{c.fecha_creacion}}
+                                </td>
+                                 <td>
+                                     {{c.hora_creacion}}
+                                </td>
+                                <td>
+                                    <div class="btn-group" ng_click="vm.mostrarFacturaAnular(c.id_factura)" data-toggle="modal" data-target ="#myModal2">
+                                      <button class="btn">
+                                          <span class="glyphicon glyphicon-minus-sign"></span>
+                                      </button>
+                                      </div>
+                                </td>
+                                <td>
+                                  <div class="btn-group">
+                                      <button class="btn" ng_click="vm.facturaDetalleTraer(c.id_factura)" data-toggle="modal" data-target="#myModal">
+                                          <span class="glyphicon glyphicon-eye-open"></span>
+                                      </button>
+                                      </div>
+                                </td>
+                                <td>
+                                  <div class="btn-group">
+                                      <button class="btn">
+                                          <span class="glyphicon glyphicon-print"></span>
+                                      </button>
+                                      </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-lg center-block" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h2 class="h2 text-center label-info">FACTURA DETALLE</h2>
+                    <div class="modal-body">
+                        <table class="table table-hover table-condensed">
+                            <th>
+                                Item
+                                </th>
+                                 <th>
+                                Producto
+                                </th>
+                                 <th>
+                                Presentacion
+                                </th>
+                                 <th>
+                                Medicion
+                                </th>
+                                 <th>
+                                Marca
+                                </th>
+                                 <th>
+                                V Unidad
+                                </th>
+                                 <th>
+                                Cantidad
+                                </th>
+                                 <th>
+                                Descuento
+                                </th>
+                                <th>
+                                Subtotal
+                                </th>
+                                <tr ng_repeat="c in vm.detalleFactura">
+                                    <td>
+                                        {{c.item}}
+                                        </td>
+                                        <td>
+                                        {{c.nombre_producto}}
+                                        </td>
+                                        <td>
+                                        {{c.presentacion}}
+                                        </td>
+                                        <td>
+                                        {{c.medicion}}
+                                        </td>
+                                        <td>
+                                        {{c.marca}}
+                                        </td>
+                                        <td>
+                                        {{c.valor_unidad_producto}}
+                                        </td>
+                                        <td>
+                                        {{c.cantidad_factura_detallado}}
+                                        </td>
+                                        <td>
+                                        {{c.descuento_factura_detalle}}
+                                        </td>
+                                        <td>
+                                        {{c.subtotal_factura_detalle}}
+                                        </td>
+                                    </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+        <!-- Modal Modificar -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Modificar Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                         <form>
+                             <label class="text">Numero Factura</label>
+                             <input type ="text" class="input-lg form-control" ng_model="vm.facturaAnular.numero_factura" />
+                             <label class="text">Motivo</label>
+                              <select class="form-control form-horizontal" ng_model="vm.facturaAnular.idMotivo">
+                                <option ng_repeat="c in vm.comboMotivoEliminacion" value="{{c.id_mot_elimi_inv}}">{{c.motivo_eliminacion}}</option>
+                            </select>
+                             <br>
+                             <div class="btn-group">
+                                 <button class="btn btn-warning" ng_click="vm.anularFacturaSeleccion();"> Anular
+                                     <span class="glyphicon glyphicon-floppy-disk"></span>
+                                 </button>
+                             
+                             </div>
+                         </form>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <!-- Modal para visualizar las categorias del proveedor -->
+        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Categoria Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                     </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

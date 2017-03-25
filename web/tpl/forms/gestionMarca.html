@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                <div class="panel panel-primary">
+                      <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
+                        </button>
+                    <div class="panel-title">{{vm.aux1}}</div>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content table">
+                            <th>
+                                Codigo
+                            </th>
+                            <th>
+                                Categoria
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                            <tr ng_repeat="c in vm.marcaMostrar | filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize">
+                                <td> {{c.id_marca}}</td>
+                                <td> {{c.marca}}</td>
+                                    <td><input type="checkbox" ng_click="vm.clicModificar(c.id_marca)" ng_checked="{{c.Seleccion}}"></td>
+                            </tr>
+                        </table>
+                      </div>
+                        <div class="center-block">
+                           <div class='btn-group'>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage === 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage == page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{page.no}}</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage >= vm.marcaMostrar.length/vm.pageSize - 1' , ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+          <button ng_click="vm.registrarMarcasSelected()" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>                 </div>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">AGREGAR MARCA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form ng_submit="vm.insertarMarca(vm.marcaIngresar);" role="login">
+
+                            <h2 class="h2 text-center label-info">{{aux1}}</h2>
+
+                            <label for="nombre">Categoria:</label>
+                            <input id="marcaNombre" type="text" name="nombreMarca" placeholder="Nombre" class="form-control input-lg" ng_model="vm.marcaIngresar.nombreMarca" required="true" />
+                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form>      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="producto">Nombre</label>
+                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="clienteModificar.nombre_cliente" />
+                        <label for="producto">Apellido</label>
+                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="clienteModificar.apellido_cliente" />
+                        <label for="producto">Telefono</label>
+                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="clienteModificar.telefono_cliente" />
+                        <label for="producto">Direccion</label>
+                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="clienteModificar.direccion_cliente" />
+                        <label for="producto">Identificacion</label>
+                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="clienteModificar.cedula_cliente" />
+                        <label for="producto">Email</label>
+                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="clienteModificar.mail_cliente" />
+                        <label for="categorias">Ciudad</label>
+                            <select id="marca" class="form-control input-lg" ng_model="clienteModificar.ciudad">
+                                <option  ng_repeat="ciu in ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                            </select>
+                        <input type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}">
+                        <button ng_click="modificarCliente(clienteModificar.id_cliente)">Modificar Registro </button>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+       <!-- <div ng_include="'tpl/footer.tpl.html'"></div>-->
+    </body>
+    
+</html>
+

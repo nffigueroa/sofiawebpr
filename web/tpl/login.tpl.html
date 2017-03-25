@@ -1,0 +1,48 @@
+<html>
+    <head>
+    </head>
+    <body>
+<div class="container-fluid">
+  
+  <div class="row" id="pwd-container">
+    <div class="col-md-4"></div>
+    
+    <div class="col-md-4">
+      <section class="login-form">
+           
+          <form  ng-submit="vm.login()" role="login">
+           <img src="img/img.png" class="img-circle img-responsive center-block" alt="" />  
+        
+          <!-- <span class="input-group-addon glyphicon glyphicon-user input-sm"></span>   -->
+          <input type="text" name="email" placeholder="User" class="form-control" ng_model="vm.usuario.nombre" />
+          
+          
+          <input type="password" class="form-control input-lg" id="password" placeholder="Password" required="true" ng_model="vm.usuario.password" />
+          <div class="btn-group center-block">
+              
+          <button type="submit" name="go" class="btn-xs-lg btn-primary">Ingresar
+              <i class="fa fa-play" aria-hidden="true"></i>
+          </button>
+          </div>
+          <div>
+           
+          </div>
+          
+        </form>
+        
+       
+      </section>  
+      </div>
+      
+      <div class="col-md-4"></div>
+      
+
+  </div>
+       
+<div ng_include="'tpl/footer.tpl.html'"></div>
+
+  
+</div>
+        
+        </body>
+        </html>

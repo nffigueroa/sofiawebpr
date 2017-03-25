@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+        <style>
+    #mdialTamanio{
+      width: 70% !important;
+    }
+  </style>
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                <div class="panel panel-primary">
+                    <button class="btn warning" value="Actualizar" ng_click="" data-toggle="modal" data-target="#myModal3"> Ver Importe
+                        </button>
+                    <button class="btn warning" value="Actualizar" data-toggle="modal" data-target="#myModal"> Ver Facutra
+                        </button>
+                    <button class="btn" ng_click="" data-toggle="modal" data-target="#myModal4">Generar Corte Caja </button>
+                    <div class="panel-title">{{vm.aux1}}</div>
+                    <div class="panel-body">
+                    <label for="producto">Otros Ingresos</label>
+                    <input disabled="true" id="producto" type="text" name="nombreProducto" placeholder="Otros Ingresos" class="form-control input-lg" ng_model="vm.datosCorteCaja[4]" />
+                        <label for="producto">Total Ventas</label>
+                        <input disabled="true" id="totalVenta" type="text" name="totalVentas" placeholder="Total Ventas" class="form-control input-lg" ng_model="vm.datosCorteCaja[0]" />
+                        <label for="producto">Transaccion</label>
+                        <input disabled="true" id="producto" type="text" name="Telefono" placeholder="Transaccion" class="form-control input-lg" ng_model="vm.datosCorteCaja[8]" />
+                        <label for="producto">Efectivo Inicial</label>
+                        <input disabled="true" id="producto" type="text" name="Identificacion" placeholder="Efectivo Inicial" class="form-control input-lg" ng_model="vm.datosCorteCaja[9]" />
+                        <label for="producto">Credito</label>
+                        <input disabled="true" id="producto" type="text" name="text" placeholder="Credito" class="form-control input-lg" ng_model="vm.datosCorteCaja[5]" />
+                        <label for="producto">Otros Egresos</label>
+                        <input disabled="true" id="producto" type="text" name="text" placeholder="Otros Egresos" class="form-control input-lg" ng_model="vm.datosCorteCaja[3]" />
+                        <label for="producto">Tarjeta Credito</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Tarjeta Credito" class="form-control input-lg" ng_model="vm.datosCorteCaja[6]" />
+                        <label for="producto">Cheques</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Cheques" class="form-control input-lg" ng_model="vm.datosCorteCaja[1]" />
+                        <label for="producto">Efectivo Total</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Efectivo Total" class="form-control input-lg" ng_model="vm.datosCorteCaja[2]" />
+                        <label for="producto">Tarjeta Debito</label>
+                        <input disabled="true" id="producto" type="text" name="Email" placeholder="Tarjeta Debito" class="form-control input-lg" ng_model="vm.datosCorteCaja[7]" />
+                        <!--<input disabled="true" type="text" hidden="false" ng_model="clienteModificar.id_cliente" value ="{{clienteModificar.id_cliente}}"> -->
+                        
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="mdialTamanio">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">FACTURA DETALLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                         <table class="table table-hover table-condensed">
+                             <th>
+                                 Folio
+                                 </th>
+                                 <th>
+                                 Total
+                                 </th>
+                                 <th>
+                                 SubTotal
+                                 </th>
+                                 <th>
+                                 Descuento
+                                 </th>
+                                 <th>
+                                 Iva
+                                 </th>
+                                 <th>
+                                 Recibe
+                                 </th>
+                                 <th>
+                                 Cambio
+                                 </th>
+                                 <th>
+                                 Forma Pago
+                                 </th>
+                                 <th>
+                                 Tarjeta
+                                 </th>
+                                 <th>
+                                 Descripcion
+                                 </th>
+                                 <th>
+                                 Cliente
+                                 </th>
+                                 <th>
+                                 Fecha
+                                 </th>
+                                 <tr ng_repeat="c in vm.tablaFacturaDetalle">
+                                     <td>
+                                         {{c.folio}}
+                                         </td>
+                                         <td>
+                                         {{c.total}}
+                                         </td>
+                                         <td>
+                                         {{c.subtotal}}
+                                         </td>
+                                         <td>
+                                         {{c.descuento}}
+                                         </td>
+                                         <td>
+                                         {{c.iva}}
+                                         </td>
+                                         <td>
+                                         {{c.recibe}}
+                                         </td>
+                                         <td>
+                                         {{c.cambio}}
+                                         </td>
+                                         <td>
+                                         {{c.forma_pago}}
+                                         </td>
+                                         <td>
+                                         {{c.digitos_tarjeta}}
+                                         </td>
+                                         <td>
+                                         {{c.descripcion}}
+                                         </td>
+                                         <td>
+                                         {{c.nombre_cliente}}
+                                         </td>
+                                         <td>
+                                         {{c.fecha_creacion}}
+                                         </td>
+                                     </tr>
+                          </table>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">REGISTRAR CORTE CAJA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="producto">Cantidad en Caja</label>
+                        <input ng_keypress="vm.eventoPress($event)" id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.datosCorteCaja.CantidadRelCaja" />
+                        <label for="producto">Efectivo Faltante</label>
+                        <input disabled="true" id="efectivoFaltante" type="text" name="efectivoFaltante" class="form-control input-lg" ng_model="vm.datosCorteCaja.efectivoFaltante"  />
+                        <button class="btn" ng_click="vm.ingresarCorteCaja();">Confirmar Cierre Caja</button>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+         <!-- Modal -->
+        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="mdialTamanio">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">IMPORTES DETALLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                         <table class="table table-hover table-condensed">
+                             <th>
+                                 Importe
+                                 </th>
+                                 <th>
+                                 Descripcion
+                                 </th>
+                                 <th>
+                                 Tipo
+                                 </th>
+                                 <th>
+                                 Motivo
+                                 </th>
+                                 <th>
+                                 Fecha
+                                 </th>
+                                 
+                                 <tr ng_repeat="c in vm.tablaImportes">
+                                     <td>
+                                         {{c.importe}}
+                                         </td>
+                                         <td>
+                                         {{c.descripcion_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.tipo_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.motivo_importe}}
+                                         </td>
+                                         <td>
+                                         {{c.fecha}}
+                                         </td>
+                                        
+                                     </tr>
+                          </table>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+        <div class="col-md-4"></div>
+    </body>
+</html>
+

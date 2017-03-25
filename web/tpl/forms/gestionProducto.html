@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+
+            <div class="row" id="pwd-container">
+
+                <div class="col-md-4"></div>
+                <div class="panel panel-primary">
+                    <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                    <div class="panel-title"></div>
+                    <div class="panel-body">
+                        <div class="form-inline">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                        <button title="Agregar Registro" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        <button title="Actualizar Datos" class="btn btn-primary btn-lg" value="Actualizar" ng_click="vm.actualizar()"> <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                         </div>
+                                  <table class="table-hover table-bordered table-responsive table-condensed table">
+                                                    <th>Producto</th>
+                                                    <th>Presentacion</th>
+                                                    <th>Marca</th>
+                                                    <th>Medicion</th>
+                                                    <th>Categoria</th>
+                                                    <th>Eliminar</th>
+                                                    <th>Modificar</th>
+                                                    <tr ng_repeat="product in vm.productos| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize">
+
+                                                        <td>
+                                                            {{product.nombre_producto}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.presentacion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.marca}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.medicion}}
+                                                        </td>
+                                                        <td>
+                                                            {{product.categoria}}
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn warning" ng_click="vm.deleteProduct(product.id_produccto)"><span class="glyphicon glyphicon-trash"></span></button>
+                                                        </td>
+                                                        <td>
+                                                            <button ng_click="vm.mostrarProducto(product.id_produccto)" type="button" class="btn warning" data-toggle="modal" data-target="#myModal2">
+                                                <span class="glyphicon glyphicon-wrench"></span>
+                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                                <div class="center-block">
+                            <button class="btn" type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+                            <button class="btn" type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
+                            <!-- Navegar hacia adelante -->
+                            <button class="btn" type='button' ng-disabled='vm.currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+                            <!-- Button trigger modal -->
+                            
+                        </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-lg center-block" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                 <form ng_submit="vm.enviarProducto();" role="login">
+
+                                <h2 class="h2 text-center label-info">{{vm.aux1}}</h2>
+
+                                <label for="producto">Producto</label>
+                                <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="vm.producto.nombre1" />
+                                <label for="categorias">Categoria:</label>
+                                <select id="caterogias" class="form-control input-lg" ng_model="vm.producto.categoria1">
+                                    <option  ng_repeat="cate in vm.categorias" value="{{cate.categoria}}">{{cate.categoria}}</option>
+                                </select>
+                                <label for="categorias">Marca:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.marca1">
+                                    <option  ng_repeat="mar in vm.marca" value="{{mar.marca}}">{{mar.marca}}</option>
+                                </select>
+                                <label for="categorias">Medicion:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.medicion1">
+                                    <option  ng_repeat="med in vm.medicion" value="{{med}}">{{med}}</option>
+                                </select>
+                                <label for="categorias">Presentacion:</label>
+                                <select id="marca" class="form-control input-lg" ng_model="vm.producto.presentacion1">
+                                    <option  ng_repeat="pre in vm.presentacion" value="{{pre}}">{{pre}}</option>
+                                </select>
+                                <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                              </form>
+                            </div>
+       <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                            <!--______________________________________________________________ -->
+                                            <!-- Button trigger modal -->
+                                           
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label for="producto">Producto</label>
+                                                            <input id="producto" type="text" name="nombreProducto" placeholder="Nombre Producto" class="form-control input-lg" ng_model="vm.productoModificar.nombre_producto" />
+                                                            <label for="categorias">Categoria:</label>
+                                                            <select id="caterogias" class="form-control input-lg" ng_model="vm.productoModificar.categoria">
+                                                                <option  ng_repeat="cate in vm.categorias" value="{{cate.categoria}}">{{cate.categoria}}</option>
+                                                            </select>
+                                                            <label for="categorias">Marca:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.marca">
+                                                                <option  ng_repeat="mar in vm.marca" value="{{mar.marca}}">{{mar.marca}}</option>
+                                                            </select>
+                                                            <label for="categorias">Medicion:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.medicion">
+                                                                <option  ng_repeat="med in vm.medicion" value="{{med}}">{{med}}</option>
+                                                            </select>
+                                                            <label for="categorias">Presentacion:</label>
+                                                            <select id="marca" class="form-control input-lg" ng_model="vm.productoModificar.presentacion">
+                                                                <option  ng_repeat="pre in vm.presentacion" value="{{pre}}">{{pre}}</option>
+                                                            </select>
+                                                            <input type="text" hidden="false" ng_model="vm.productoModificar.idPr" value ="{{vm.productoModificar.id_produccto}}">
+                                                            <br>
+                                                            <input type="button" class="btn btn-lg btn-primary btn-block" ng_click="vm.updatePro(vm.productoModificar.id_produccto)" value="Ingresar"/>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+    </body>
+</html>

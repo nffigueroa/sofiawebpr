@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+
+            <div class="row" id="pwd-container">
+
+                <div class="col-md-4"></div>
+                <div class="panel panel-primary">
+                   
+                    <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+            <button class="btn warning" value="Actualizar" ng_click="actualizar();"> Update
+                    </button>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                        <table class="table-hover table-bordered table-responsive">
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Apellido
+                            </th>
+                            <th>
+                                CC
+                            </th>
+                            <th>
+                                Telefono
+                            </th>
+                            <th>
+                                Direccion
+                            </th>
+                            <th>
+                                UserName
+                            </th>
+                            <th>
+                                Cargo
+                            </th>
+                            <th>
+                                Descripcion
+                            </th>
+                            <th>
+                                Permisos
+                            </th>
+                            <th>
+                                Accion
+                            </th>
+                            <tr ng_repeat="usuario in vm.tablaUsuario| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize ">
+
+                                <td>
+                                    {{usuario.nombre_usuario}}
+                                </td>
+                                <td>
+                                    {{usuario.apellido_usuario}}
+                                </td>
+                                <td>
+                                    {{usuario.cc_usuario}}
+                                </td>
+                                <td>
+                                    {{usuario.telefono_usuario}}
+                                </td>
+                                <td>
+                                    {{usuario.direccion_usuario}}
+                                </td>
+                                <td>
+                                   <div class="text-warning"> {{usuario.usuario}}</div>
+                                </td>
+                                <td>
+                                    {{usuario.cargo}}
+                                </td>
+                                <td>
+                                    {{usuario.descripcion}}
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                    <button ng_click="vm.permisosUsuario(usuario.id_usuario,usuario.cc_usuario)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal3"> 
+                                        <span class="glyphicon glyphicon-eye-close"></span></button>     
+                                    </div>
+                                    
+                                </td>
+                                <td>
+                                    <button class="btn warning" ng_click="vm.deleteUsuario(usuario.id_usuario)">X</button>
+                                    <button ng_click="vm.mostrarUsuario(usuario.id_usuario)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+                                        Modificar
+                                    </button> 
+                                    <input type="text" ng_model="idProveedorSeleccionado" hidden="true" value="{{proveedor.id_proveedor}}">
+                                </td>
+                            </tr>
+
+                        </table>
+                        <div class="center-block">
+                           <div class='btn-group'>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage === 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage == page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{page.no}}</button>
+          <button type='button' class='btn btn-default' ng-disabled='vm.currentPage >= vm.marcaMostrar.length/vm.pageSize - 1' , ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+                            </div><!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-lg center-block" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h2 class="h2 text-center label-info">AGREGAR USUARIO</h2>
+                    <div class="modal-body">
+                        <form ng_submit="vm.saveUsuario();">
+                        <label for="empresa">Nombre</label>
+                        <input id="nombre" type="text" name="nombreUsuario" placeholder="Nombre" 
+                               class="form-control input-lg" ng_model="vm.usuario.nombre" required="true" />    
+                        <label for="direccion">Apellido</label>
+                        <input id="apellido" type="text" name="apellido" placeholder="Apellido" 
+                               class="form-control input-lg" ng_model="vm.usuario.apellido" />       
+                        <label for="identificacion">Identificacion</label>
+                        <input id="identificacion" type="text" name="identificacionUsuario" placeholder="Identificacion" 
+                               class="form-control input-lg" ng_model="vm.usuario.identificacion" />    
+                        <label for="telefono">Telefono</label>
+                        <input id="telefono" type="tel" name="telefono" placeholder="Telefono" 
+                               class="form-control input-lg" ng_model="vm.usuario.telefono" required="true"/>    
+                        <label for="direccion">Direccion</label>
+                        <input id="direccion" type="text" name="direccionUsuario" placeholder="Direccion" 
+                               class="form-control input-lg" ng_model="vm.usuario.direccion" />    
+                        <!--<label for="ciudad">Ciudad</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuario.ciudad">
+                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        </select> -->
+                        <label for="ciudad">Cargo</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuario.cargo">
+                            <option  ng_repeat="ciu in vm.cargo" value="{{ciu.cargo}}">{{ciu.cargo}}</option>
+                        </select>
+                        <label for="usuario">Usuario</label>
+                        <input id="usuario" type="text" name="usuarioNombre" placeholder="UserName" 
+                               class="form-control input-lg" ng_model="vm.usuario.usuarioName" />    
+                        <label for="psw">PassWord</label>
+                        <input id="usuario" type="password" name="usuarioNombre" placeholder="UserName" 
+                               class="form-control input-lg" ng_model="vm.usuario.psw" required="true" />    
+                        <label for="descripcion">Descripcion</label>
+                        <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion" 
+                               class="form-control input-lg" ng_model="vm.usuario.descripcion" />    
+                        <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+        <!-- Modal Modificar -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Modificar Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                         
+                        <label for="empresa">Nombre</label>
+                        <input id="nombre" type="text" name="nombreUsuario" placeholder="Nombre" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.nombre_usuario" required="true" />    
+                        <label for="direccion">Apellido</label>
+                        <input id="apellido" type="text" name="apellido" placeholder="Apellido" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.apellido_usuario" />       
+                        <label for="identificacion">Identificacion</label>
+                        <input id="identificacion" type="text" name="identificacionUsuario" placeholder="Identificacion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.cc_usuario" />    
+                        <label for="telefono">Telefono</label>
+                        <input id="telefono" type="tel" name="telefono" placeholder="Telefono" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.telefono_usuario" required="true"/>    
+                        <label for="direccion">Direccion</label>
+                        <input id="direccion" type="text" name="direccionUsuario" placeholder="Direccion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.direccion_usuario" />    
+                        <!--<label for="ciudad">Ciudad</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuarioModificar.ciudad">
+                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
+                        </select> -->
+                        <label for="ciudad">Cargo</label>
+                        <select id="ciudad" class="form-control input-lg" ng_model="vm.usuarioModificar.cargo">
+                            <option  ng_repeat="ciu in vm.cargo" value="{{ciu.cargo}}">{{ciu.cargo}}</option>
+                        </select>
+                        <label for="usuario">Usuario</label>
+                        <input id="usuario" type="text" name="usuarioNombre" placeholder="UserName" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.usuario" />    
+                        <label for="psw">PassWord</label>
+                        <label for="descripcion">Descripcion</label>
+                        <input id="descripcion" type="text" name="descripcion" placeholder="Descripcion" 
+                               class="form-control input-lg" ng_model="vm.usuarioModificar.descripcion" />    
+                        <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        <input type="text" hidden="false" ng_model="vm.usuarioModificar.id_usuario" value ="{{vm.usuarioModificar.id_usuario}}">
+                        <input type="button" ng_click="vm.modificarUsuario(vm.usuarioModificar.id_usuario)"/>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <!-- Modal para visualizar las categorias del proveedor -->
+        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Categoria Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <label class="text-uppercase">Buscar:</label>
+                        <input class="input-sm" ng_model="buscarPermiso">
+                        <input class="input-sm" ng_value="{{vm.ccUsuario}}"> 
+                        <table class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
+                            <th>
+                                Codigo
+                            </th>
+                            <th>
+                                Permiso
+                            </th>
+                            <th>
+                                Seleccionado
+                            </th>
+                            <tr ng_repeat="c in vm.permisos | filter : buscarPermiso ">
+                                <td> {{c.id_permiso}}</td>
+                                <td> {{c.permiso}}</td>
+                                <td>
+                                    <input type="checkbox" ng_click="vm.clicModificar(c.id_permiso)" ng_checked="{{c.Seleccion}}">
+                                </td>
+                            </tr>
+                        </table>{{vm.modificados}}
+                        
+                        <button ng_click="vm.registrarPermisosSeleccionados(vm.ccUsuario)" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+</html>

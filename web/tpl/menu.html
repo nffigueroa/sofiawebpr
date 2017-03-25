@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><span onclick="showItem(item);">Indices</span>
+                    <ul id="item" class="item">
+                        <li><a  href="#/GestionProducto"> Producto</a></li>
+                        <li><a href="#/GestionCliente"> Cliente</a></li>
+                        <li><a href="#/GestionProveedor">Proveedor</a></li>
+                        <li><a href="#/GestionCategoria"> Categorias</a></li>
+                        <li><a href="#/GestionMarca">Marcas</a></li>
+                        <li>Medicion</li>
+                        <li><a href="#/GestionUsuario">Usuario</a></li>
+                    </ul>
+
+                </li>
+                <li><span onclick="showItem(item2);">Procesos</span>
+                    <ul id="item2" class="item">
+                        <li>Facturar</li>
+                        <li><a href="#/GestionIngresoInventario">Entrada Inventario</a></li>
+                        <li><a href="#/GestionFactura">Reimprimir Facturas</a></li>
+                        <li><a href="#/GestionCajonDinero">Cajon Dinero</a></li>
+                        <li><a href="#/GestionCorteCaja">Corte Caja</a></li>
+                    </ul>
+
+                </li>
+                <li><span onclick="showItem(item3);">Cartera</span>
+                    <ul id="item3" class="item">
+                        <li><a href="#/GestionCuentasCobrar">Cuentas por Cobrar</a></li>
+                        <li>Cuentas por Pagar</li>
+                    </ul>
+
+                </li>
+                <li><span onclick="showItem(item4);">Reportes</span>
+                    <ul id="item4" class="item">
+                        <li><a href="#/GestionReportes">Inventarios</a></li>
+                        <li><a href="#/GestionReporteContables">Contables</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a href="#" class="btn btn-success" id="menu-toggle">SOFIA</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Menu toggle script -->
+    <script>
+        $("#menu-toggle").click( function (e){
+            e.preventDefault();
+            $("#wrapper").toggleClass("menuDisplayed");
+        });
+        // Funcion para recoger menu o mostrar
+    </script>
+
+</body>
+</html>

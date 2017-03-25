@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'"></div>
+        <div class="container">
+            <div class="row" id="pwd-container">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+                    <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                <div class="panel panel-primary">
+                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
+                        </button>
+                    <div class="panel-title">{{vm.aux1}}</div>
+                    <div class="panel-body">
+                        Search:
+                        <input type ="text" class="form-control" ng_model="search" >
+                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
+                            <th>Cuota</th>
+                            <th>Cantidad</th>
+                            <th>SubTotal</th>
+                            <th>iva</th>
+                            <th>Descuento</th>
+                            <th>% Interes</th>
+                            <th>Cuotas</th>
+                            <th>Cuotas Pagas</th>
+                            <th>Cuotas Pdtes</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            
+                            <tr ng_repeat="c in vm.tablaCuentasCobrar | filter : search">
+                                <td> {{c.valor_pagar_mensual}}</td>
+                                <td> {{c.cantidad_credito}}</td>
+                                <td> {{c.subtotal}}</td>
+                                <td> {{c.iva}}</td>
+                                <td> {{c.descuento}}</td>
+                                <td> {{c.porcentaje_interes}}</td>
+                                <td> {{c.cuotas}}</td>
+                                <td> {{c.cuotas_pagas}}</td>
+                                <td> {{c.cuotas_pendientes}}</td>
+                                <td> {{c.estado}}</td>
+                                <td> {{c.usuario}}</td>
+                                <td> {{c.fecha}}</td>
+                                <td> {{c.hora}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn" data-toggle="modal" data-target ="#myModal" ng_click="vm.mostrarHistorialCredito(c.id_credito);">
+                                            <span class="glyphicon glyphicon-stats"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn" data-toggle="modal" data-target ="#myModal2" ng_click="vm.mostrarDatosCredito(c.id_cliente,c.id_credito);">
+                                            <span class="glyphicon glyphicon-piggy-bank"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                      </div>
+                        <div class="center-block">
+                            <button type='button' ng-disabled='currentPage == 0' ng-click='currentPage = currentPage - 1'>&laquo;</button>
+                            <button type='button' ng-disabled='currentPage == page.no - 1' ng-click='setPage(page.no)' ng-repeat='page in pages'>{{page.no}}</button>
+                            <!-- Navegar hacia adelante -->
+                            <button type='button' ng-disabled='currentPage >= data.length / pageSize - 1' ng-click='currentPage = currentPage + 1'>&raquo;</button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">ABONAR CREDITO</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
+                            <th># Cuota</th>
+                            <th>Recibe</th>
+                            <th>Cambio</th>
+                            <th>Fecha Pagar</th>
+                            <th>Fecha Pago</th>
+                            <th>Hora Pago</th>
+                            <th>Usuario</th>
+                            <tr ng_repeat="c in vm.detalleCuentaCobrar | filter : search">
+                                <td> {{c.numero_cuota}}</td>
+                                <td> {{c.recibe}}</td>
+                                <td> {{c.cambio}}</td>
+                                <td> {{c.fecha_pagar}}</td>
+                                <td> {{c.fecha}}</td>
+                                <td> {{c.hora}}</td>
+                                <td> {{c.id_usuario}}</td>
+                       </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--______________________________________________________________ -->
+        <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
+                    </div>
+                    <div class="modal-body">
+                       <form class="form-control">
+                         <label>Cliente</label>  
+                         <input disabled type="text" class="input" ng_value="vm.nomreApellidoCliente" >
+                         <label>Cedula</label>  
+                         <input disabled type="text" class="input" ng_value="vm.cedulaCliente" ><br>
+                         <label>Recibe</label>  
+                         <input required="true" type="text" class="input" ng_model="vm.recibe" ng_keypress="vm.calcularCambio($event);">
+                         <label>Cambio</label>  
+                         <input type="text" class="input" ng_model="vm.diferenciaCambio">
+                         <div class="btn-group">
+                             <button class="btn btn-success" ng_click="vm.addAbono();">
+                                 <span class="glyphicon glyphicon-floppy-open"></span> </button>
+                             </div>
+                       </form>
+                        <form class="form-control">
+                            <label for ="cuotaNumero">Cuota</label>
+                            <input id="cuotaNumero" disabled type="text" class="input-sm" ng_value="vm.siguienteCuota" />
+                            <label>Estado</label>
+                            <input disabled="true" type="text" class="input-sm" ng_value="vm.estadoCredito"><br>
+                            <label>Pendientes</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.cuotasPendientes" >
+                            <label>Credito #</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.idCredito" >
+                            <label>Cuota Mensual</label>
+                            <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.cuotaMensual" >
+                            <label>Total Credito</label>
+                           <input disabled type="text" class="form-control  form-horizontal" ng_value="vm.totalCredito" >
+                            </form>
+                        
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </body>
+</html>
+
