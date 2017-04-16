@@ -83,6 +83,7 @@ public class session_BF extends HttpServlet {
         user.setTelefono(gen.usuario(usuario).getTelefono());
         user.setUsuario(gen.usuario(usuario).getUsuario());
         user.setUsuario_nombre(gen.usuario(usuario).getUsuario_nombre());
+        user.setIdRegimen(gen.usuario(usuario).getIdRegimen());
         JSONObject respuesta = new JSONObject();
         respuesta.put("nombre", user.getNombre());
         respuesta.put("apellido", user.getApellido());
@@ -95,6 +96,7 @@ public class session_BF extends HttpServlet {
         respuesta.put("hora", user.getHora());
         respuesta.put("fecha", user.getFecha());
         respuesta.put("cc", user.getCc());
+        respuesta.put("idRegimen", user.getIdRegimen());
         response.getWriter().print(respuesta);
     }
 

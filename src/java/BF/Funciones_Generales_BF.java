@@ -100,6 +100,16 @@ public class Funciones_Generales_BF extends HttpServlet {
                 response.getWriter().print(resultJson);
                 break;
             }
+            case 2: {
+                BL.Funciones_Generales fun = new Funciones_Generales();
+                ArrayList lista = fun.consultarImpuestosxTipo(obJ.getInt("idSucursal"), 
+                                            0, 
+                                            obJ.getInt("tipoImpuesto"));
+                JSONArray resultJson = new JSONArray();
+                resultJson.put(0,lista);
+                response.getWriter().print(resultJson);
+                break;
+            }
         }
     }
 

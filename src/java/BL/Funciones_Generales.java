@@ -515,6 +515,7 @@ public class Funciones_Generales extends DA.Consultas_Generales {
                 cliente_sesion.setNombre(rs.getString("nombre_usuario"));
                 cliente_sesion.setApellido(rs.getString("apellido_usuario"));
                 cliente_sesion.setUsuario_nombre(rs.getString("usuario"));
+                cliente_sesion.setIdRegimen(rs.getInt("id_regimen"));
                 cliente_sesion.setPassword(rs.getString("password"));
             }rs.close();
         } catch (SQLException ex) {
@@ -722,78 +723,14 @@ public class Funciones_Generales extends DA.Consultas_Generales {
         }
     }
    
-
-//    public boolean imprimirTirilla(int id_sucursal, int id_factura, int usuario) {
-//
-//        usuarioPorId(usuario);
-//        datosMiEmpresa(id_sucursal);
-//        consultas_factura factu = new Funciones_frm_factura();
-//        if (id_factura == 0) {
-//            id_factura = factu.cosultaIdFacturaUltima(id_sucursal);
-//        }
-//
-//        String archivo = "src\\Reportes\\imrpimirTirillas.jasper";
-//        JasperReport masterReport = null;
-//        try {
-//            masterReport = (JasperReport) JRLoader.loadObjectFromFile(archivo);
-//            Map parametro = new HashMap();
-//            parametro.put("id_factura_FACTURA", id_factura);
-//            parametro.put("Nomre_Empresa", mi_empresa.getEmpresa());
-//            parametro.put("Gerente_Empresa", mi_empresa.getGerente());
-//            parametro.put("Nit_Empresa", mi_empresa.getNit());
-//            parametro.put("Direccion_Empresa", mi_empresa.getDireccion());
-//            parametro.put("Telefono_Empresa", mi_empresa.getTelefono());
-//            parametro.put("Ciudad_Empresa", mi_empresa.getCiudad());
-//            parametro.put("Vendedor", cliente_sesion.getNombre() + " " + cliente_sesion.getApellido());
-//            parametro.put("Resolucion", mi_empresa.getResolucion());
-//            parametro.put("Fecha_Resolucion", mi_empresa.getResolucion_facturacion_fecha());
-//            parametro.put("Desde", mi_empresa.getResolucion_facturacion_desde());
-//            parametro.put("Hasta", mi_empresa.getResolucion_facturacion_hasta());
-//            parametro.put("NumeroFactura", id_factura);
-//            parametro.put("Regimen", mi_empresa.getTipo_regimen_empresa());
-//            Consultas_Generales con = new Consultas_Generales();
-//            conn=con.crearConexionNueva();
-//            JasperPrint jp = JasperFillManager.fillReport(masterReport, parametro, conn);
-//            JasperViewer jv = new JasperViewer(jp, false);
-//            jv.setTitle("Tirilla");
-//            jv.setVisible(true);
-//        } catch (JRException ex) {
-//            Logger.getLogger(Funciones_frm_factura.class.getName()).log(Level.SEVERE, null, ex);
-//            return false;
-//        }
-//        return true;
-//    }
-
-//    public boolean imprimirCotizacion(int id_sucursal, Object fecha_validez, int usuario) {
-//        usuarioPorId(usuario);
-//        datosMiEmpresa(id_sucursal);
-//        consultas_factura factu = new Funciones_frm_factura();
-//        int id_cotizacion = factu.cosultaIdCotizacionUltima(id_sucursal);
-//        String archivo = "src\\Reportes\\imprimirFactura.jasper";
-//        JasperReport masterReport = null;
-//        try {
-//            masterReport = (JasperReport) JRLoader.loadObjectFromFile(archivo);
-//            Map parametro = new HashMap();
-//            parametro.put("id_cotizaciones", id_cotizacion);
-//            parametro.put("id_sucursal", id_sucursal);
-//            parametro.put("fecha_validez", fecha_validez);
-//            parametro.put("Nomre_Empresa", mi_empresa.getEmpresa());
-//            parametro.put("nit_empresa", mi_empresa.getNit());
-//            parametro.put("correo_empresa", mi_empresa.getCorreo());
-//            parametro.put("Direccion_Empresa", mi_empresa.getDireccion());
-//            parametro.put("telefono_contacto", mi_empresa.getTelefono());
-//            parametro.put("ciudad_empresa", mi_empresa.getCiudad());
-//            Consultas_Generales con = new Consultas_Generales();
-//            conn=con.crearConexionNueva();
-//            JasperPrint jp = JasperFillManager.fillReport(masterReport, parametro, conn);
-//            JasperViewer jv = new JasperViewer(jp, false);
-//            jv.setTitle("Cotizacion");
-//            jv.setVisible(true);
-//        } catch (JRException ex) {
-//            Logger.getLogger(Funciones_frm_factura.class.getName()).log(Level.SEVERE, null, ex);
-//            return false;
-//        }
-//        return true;
-//    }
+    public ArrayList consultarImpuestosxTipo(int idSucursal, int idCliente , int tipoImpuesto)
+    {
+        try {
+           rs = consultaImpuestosEmpresaCliente(idCliente, idSucursal, tipoImpuesto);
+           return resultSetToArrayList(rs);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }

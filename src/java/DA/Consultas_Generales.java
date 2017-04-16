@@ -382,4 +382,22 @@ public class Consultas_Generales extends Conexion {
             return null;
         }
     }
+    
+    public ResultSet consultaImpuestosEmpresaCliente(int idCliente,int idSucursal, int tipoImpuesto) {
+        try
+        { 
+            CallableStatement cst =  conex.prepareCall("CALL GEN_consultaImpuestos (?,?,?,?)");
+            cst.setInt("idSucursal",idSucursal);
+            cst.setInt("idEmpresa",0);
+            cst.setInt("idCliente", idCliente);
+            cst.setInt("tipoImpuesto", tipoImpuesto);
+            cst.execute();
+            return cst.getResultSet();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

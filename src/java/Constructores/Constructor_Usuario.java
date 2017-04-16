@@ -23,6 +23,15 @@ public class Constructor_Usuario {
     private String telefono;
     private String usuario_nombre;
     private String password;
+    private int idRegimen;
+
+    public int getIdRegimen() {
+        return idRegimen;
+    }
+
+    public void setIdRegimen(int idRegimen) {
+        this.idRegimen = idRegimen;
+    }
 
     public String getNombre() {
         return nombre;
