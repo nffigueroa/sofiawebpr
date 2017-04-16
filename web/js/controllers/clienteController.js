@@ -6,6 +6,10 @@
 app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
     var vm = this;
     vm.aux1 = "GESTION CLIENTE";
+    vm.textoNombre = 'Nombre';
+    vm.textoIdentificacion = 'Ide';
+    vm.placeholder='Identificacion';
+    vm.declaraIva ;
     vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.currentPage = 0;
     vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
@@ -14,6 +18,23 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngT
     vm.elim = [];
     vm.clienteModificar = [];
     vm.tablaClientes = [];
+    vm.tipoCLiente;
+    vm.dinamicoTextos = function (parametro) {
+      if(parametro === 1)
+      {
+          vm.textoNombre = 'Nombre';
+          vm.textoIdentificacion = 'Ide';
+          vm.placeholder = 'Identificacion';
+          vm.parametro= 1;
+      }
+      else
+      {
+          vm.textoNombre = 'Ra.Soci ';
+          vm.placeholder = 'Razon Social';
+          vm.textoIdentificacion = 'Nit ';
+          vm.parametro= 2;
+      }
+    };
      vm.usuario = function () {
         vm.user = sessionStorage.getItem("nombreReal");
     };

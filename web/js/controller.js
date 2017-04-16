@@ -358,6 +358,7 @@ app.factory ("auth", function ($http,$location,ControlSesion,mensajeFlash) {
         ControlSesion.set("idCargo",datosUsuario.idCargo); // Cargo del usuario registrado
         ControlSesion.set("apellido",datosUsuario.apellido); // Apellido del usuario
         ControlSesion.set("username",username); // Nombrel del usuario
+        ControlSesion.set("idRegimen",datosUsuario.idRegimen); // Nombrel del usuario
         ControlSesion.set("isLogged",true); // Nombrel del usuario
     }
     var unCacheSesion = function (user) {

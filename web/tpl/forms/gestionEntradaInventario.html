@@ -201,10 +201,15 @@ and open the template in the editor.
                             <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.medicion" />
                             <label class="text">Marca</label>
                             <input type="text" ng_disabled="true" class="form-control input-lg form-horizontal" ng_model="vm.producto.marca" />
-                            <label class="text">Stock</label>
+                            <label class="text">Stock</label> {{vm.idRegimen}}
                             <input type="number" class="form-control" name="myDecimal" placeholder="Decimal" ng-model="vm.producto.stock" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
-                            <label class="text">Iva</label>
-                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.iva" />
+                            <div ng_if="vm.idRegimen == 1"><label class="text">Iva</label>
+                            <input type="text" class="form-control input-lg form-horizontal" ng_model="vm.producto.iva" /></div>
+                            <div ng_if="vm.idRegimen != 1"><label class="text">Iva</label> 
+                            <select class="form-control input-lg form-horizontal" ng_model="vm.producto.iva">
+                                <option ng_repeat="c in vm.impuestoIva" value="{{c.valor_impuesto}}">{{c.valor_impuesto}}</option>
+                            </select>
+                            </div>
                             <label class="text">Expiracion</label>
                             <input type="text" id="fecha" name="fecha" class="form-control date" ng_model="vm.producto.expiracion" />
                             <label class="text">Barras</label>

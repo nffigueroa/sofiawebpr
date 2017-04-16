@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-app.controller('contrInventario', function (insertarProductoInventario,
+app.controller('contrInventario', function (consultarImpuesto,
         $http,
         traerInventario,
         traerProducto,
@@ -14,21 +14,24 @@ app.controller('contrInventario', function (insertarProductoInventario,
         agregarCantidadProductoInventario,
         traerMotivoCombo,
         descontarProductoInventario,
-        eliminarProductoInventario,
+        insertarProductoInventario,
         cerrarSesionS) {
     var vm = this;
     vm.aux1 = 'Entrada y Salida Inventario';
     vm.productos = [];
     vm.tablaInventario = [];
     vm.consecutivo;
+    vm.impuestoIva;  // Variable que lleva los datos del iva
     vm.producto = [];
-     vm.usuario = function () {
+    vm.usuario = function () {
         vm.user = sessionStorage.getItem("nombreReal");
+        vm.idRegimen = sessionStorage.getItem('idRegimen');
     };
     vm.cerrarSesion = function (){
         cerrarSesionS.BorrarSesion();
     }
     vm.usuario();
+    vm.idCliente;
     vm.productoEliminarInventario;
     vm.productoModificar = [];
     vm.productoACargarMostrar = [];
@@ -104,6 +107,10 @@ app.controller('contrInventario', function (insertarProductoInventario,
             vm.productosEnviarPedido.categoria.push(vm.producto.categoria);
             vm.productosEnviarPedido.stock.push(vm.producto.stock);
             vm.productosEnviarPedido.cantidad.push(vm.producto.cantidad);
+            if(vm.producto.iva === 'EXCLUIDO')
+            {
+                vm.producto.iva = 0;
+            }
             vm.productosEnviarPedido.iva.push(vm.producto.iva);
             vm.productosEnviarPedido.expiracion.push(vm.producto.expiracion);
             vm.productosEnviarPedido.barras.push(vm.producto.codigoBarras);
@@ -210,7 +217,8 @@ app.controller('contrInventario', function (insertarProductoInventario,
       eliminarProductoInventario.deleteProductoInventario(vm);  
     };
     traerMotivoCombo.selectMotivoEliminacion(vm);
-
+    consultarImpuesto.traerImpuestos(4,vm); // Consulta las tarifas de iva de la sucursal logueada
+    
 });
 
 app.factory('traerMotivoCombo', function ($http) {
@@ -465,5 +473,22 @@ app.factory('eliminarProductoInventario', function ($http){
     };
     return log;
 });
+app.factory('consultarImpuesto',function($http) {
+    var log = {};
+    log.traerImpuestos = function (tipoImpuesto,vm) {
+        $http({
+            url:'Funciones_Generales_BF',
+            method : 'POST',
+            data : {
+                'accion': 2,
+                'idSucursal': sessionStorage.getItem('idSucursal'),
+                'tipoImpuesto': tipoImpuesto // Indica el tipo de impuesto a consultar, iva, retefuente etc..
+            }
+        }).success(function (result){
+            vm.impuestoIva =  result[0];
+        });
+    };
+    return log;
+} );
 
 
