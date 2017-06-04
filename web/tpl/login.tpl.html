@@ -1,48 +1,87 @@
-<html>
-    <head>
-    </head>
-    <body>
-<div class="container-fluid">
-  
-  <div class="row" id="pwd-container">
-    <div class="col-md-4"></div>
+<body class="main">
+
+<div class="login-screen"></div>
+    <div class="login-center">
+        <div class="container min-height" style="margin-top: 20px;">
+        	<div class="row">
+                <div class="col-xs-4 col-md-offset-8">
+                    <div class="login" id="card">
+                    	<div class="front signin_form"> 
+                        <p>Login Your Account</p>
+                        <form class="login-form" ng_submit="vm.login()">
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <input ng_model="vm.usuario.nombre"" type="text" class="form-control" placeholder="Type your email">
+                                      <span class="input-group-addon">
+                                          <i class="glyphicon glyphicon-user"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <input ng_model="vm.usuario.password" type="password" class="form-control" placeholder="Type your password">
+                                      <span class="input-group-addon">
+                                          <i class="glyphicon glyphicon-lock"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="checkbox">
+                              <label><input type="checkbox">Remember me next time.</label>
+                              </div>
+                              
+                              <div class="form-group sign-btn">
+                                  <input type="submit" class="btn" value="Log in">
+                                  <p><a href="#" class="forgot">Can't access your account?</a></p>
+                                  <p><strong>New to TimeInfo?</strong><br><a href="#" id="flip-btn" class="signup signup_link">Sign up for a new account</a></p>
+                              </div>
+                          </form>
+                        </div>
+                        <div class="back signup_form" style="opacity: 0;"> 
+                          <p>Sign Up for Your New Account</p>
+                          <form class="login-form">
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <input ng_model="vm.usuario.nombre" type="text" class="form-control" placeholder="Username">
+                                      <span class="input-group-addon">
+                                          <i class="glyphicon glyphicon-user"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <input  type="text" class="form-control">
+                                  <span class="input-group-btn"><button type="button" class="btn btn-cyan"><span class="fa fa-refresh"></span></button></span>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <input ng_model="vm.usuario.password"  type="password" class="form-control" placeholder="Confirm Password">
+                                      <span class="input-group-addon">
+                                          <i class="glyphicon glyphicon-lock"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <input type="email" class="form-control" placeholder="Email">
+                                      <span class="input-group-addon">
+                                          <i class="glyphicon glyphicon-envelope"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              
+                              <div class="form-group sign-btn">
+                                  <input type="submit" class="btn" value="Sign up">
+                                  <br><br>
+                                  <p>You have already Account So <a href="#" id="unflip-btn" class="signup">Log in</a></p>
+                              </div>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Flip/1.0.18/jquery.flip.js"></script>
     
-    <div class="col-md-4">
-      <section class="login-form">
-           
-          <form  ng-submit="vm.login()" role="login">
-           <img src="img/img.png" class="img-circle img-responsive center-block" alt="" />  
-        
-          <!-- <span class="input-group-addon glyphicon glyphicon-user input-sm"></span>   -->
-          <input type="text" name="email" placeholder="User" class="form-control" ng_model="vm.usuario.nombre" />
-          
-          
-          <input type="password" class="form-control input-lg" id="password" placeholder="Password" required="true" ng_model="vm.usuario.password" />
-          <div class="btn-group center-block">
-              
-          <button type="submit" name="go" class="btn-xs-lg btn-primary">Ingresar
-              <i class="fa fa-play" aria-hidden="true"></i>
-          </button>
-          </div>
-          <div>
-           
-          </div>
-          
-        </form>
-        
-       
-      </section>  
-      </div>
-      
-      <div class="col-md-4"></div>
-      
-
-  </div>
-       
-<div ng_include="'tpl/footer.tpl.html'"></div>
-
-  
-</div>
-        
-        </body>
-        </html>
+    </body>

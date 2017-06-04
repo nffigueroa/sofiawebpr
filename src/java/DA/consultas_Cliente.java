@@ -106,11 +106,13 @@ public class consultas_Cliente extends Conexion{
         return id_categoria;
     }
     
-    public boolean registrarCliente(int idSucursal,String nombre,String apellido,String telefono, String direccion , String mail, int id_ciudad , Object id_usuario,String iden)
+    public boolean registrarCliente(int idSucursal,String nombre,String apellido,String telefono, 
+            String direccion , String mail, int id_ciudad , Object id_usuario,String iden,
+            String tipoCliente, String declaraIva, String declaraIca,String reteFuente,String milesIca,String auxDv)
     {
         try {
             
-           CallableStatement cst = conex.prepareCall("CALL CLI_registrarCliente(?,?,?,?,?,?,?,?,?)");
+           CallableStatement cst = conex.prepareCall("CALL CLI_registrarCliente(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
            cst.setInt("idSucursal", idSucursal);
            cst.setString("nombre", nombre);
            cst.setString("apellido", apellido);
@@ -120,6 +122,12 @@ public class consultas_Cliente extends Conexion{
            cst.setInt("id_ciudad", id_ciudad);
            cst.setInt("id_usuario", Integer.parseInt(id_usuario.toString()));
            cst.setString("iden", iden);
+           cst.setString("tipoCliente", tipoCliente);
+           cst.setString("declaraIva", declaraIva);
+           cst.setString("declaraIca", declaraIca);
+           cst.setString("reteFuente", reteFuente);
+           cst.setString("milesIca", milesIca);
+           cst.setString("dv", auxDv);
            cst.execute();
            return true;
             
@@ -135,7 +143,8 @@ public class consultas_Cliente extends Conexion{
         {
             CallableStatement cst = conex.prepareCall("CALL CLI_eliminar_Cliente(?)");
             cst.setInt("ide", ide);
-            return cst.execute();
+            cst.execute();
+            return true;
         }
         catch(SQLException e)
         {

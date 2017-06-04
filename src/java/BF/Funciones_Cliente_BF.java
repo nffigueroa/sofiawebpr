@@ -61,11 +61,7 @@ public class Funciones_Cliente_BF extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Funciones_frm_clientes pro = new Funciones_frm_clientes();
-        JSONArray resultJson = new JSONArray();
-        ArrayList lista = pro.llenarCliente(1);
-        resultJson.put(0,lista);
-        response.getWriter().print(resultJson);
+       
     }
 
     /**
@@ -92,15 +88,32 @@ public class Funciones_Cliente_BF extends HttpServlet {
             case 1: {
                 Funciones_frm_clientes pro = new Funciones_frm_clientes();
                 try {
-                    boolean ban = pro.insertarCliente(obJ.getInt("idUsuario"),
+                     boolean ban;
+                     String auxIca,auxDv;
+                    if(obJ.getString("declaraIca").equals('1'))
+                        auxIca = null;
+                    else
+                        auxIca = obJ.getString("milesIca");
+                    if(obJ.getString("tipoCliente").equals('1'))
+                        auxDv = null;
+                    else
+                        auxDv = obJ.getString("dv");
+                    ban = pro.insertarCliente(obJ.getInt("idUsuario"),
                             obJ.getInt("idSucursal"),
                             obJ.getString("nombreCliente"),
-                            obJ.getString("apellidoCliente"),
+                            null,
                             obJ.getString("telefonoCliente"),
                             obJ.getString("direccionCliente"),
                             obJ.getString("emailCliente"),
                             obJ.getInt("idCiudad"),
-                            obJ.getString("iden"));
+                            obJ.getString("iden"),
+                            obJ.getString("tipoCliente"),
+                            obJ.getString("declaraIva"),
+                            obJ.getString("declaraIca"),
+                            obJ.getString("reteFuente"),
+                            auxIca,
+                            auxDv);
+               
                     if (ban) {
 
                         result.put("resultado", "si");
@@ -145,6 +158,15 @@ public class Funciones_Cliente_BF extends HttpServlet {
             }
                 catch(Exception e)
                 {e.printStackTrace(); break;}
+            }
+            case 4 :
+            {
+                    Funciones_frm_clientes pro = new Funciones_frm_clientes();
+                    JSONArray resultJson = new JSONArray();
+                    ArrayList lista = pro.llenarCliente(obJ.getInt("idSucursal"));
+                    resultJson.put(0,lista);
+                    response.getWriter().print(resultJson);
+                break;
             }
         }
     }

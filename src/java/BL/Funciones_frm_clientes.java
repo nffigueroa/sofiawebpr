@@ -88,12 +88,12 @@ public class Funciones_frm_clientes extends DA.consultas_Cliente{
         return aux;
     }
    
-   public boolean insertarCliente(int id_usuario,int id_sucursal,String nombre, String apellido, String telefono, String direccion, String email, int ciudad,String iden)
+   public boolean insertarCliente(int id_usuario,int id_sucursal,String nombre, String apellido, String telefono, String direccion, String email, int ciudad,
+           String iden,String tipoCliente, String declaraIva, String declaraIca,String reteFuente,String milesIca, String auxDv)
     {
         //Object id_ciudad=null;
         //id_ciudad=consultaIDComboCiudad(ciudad);
-        registrarCliente(id_sucursal,nombre, apellido, telefono, direccion, email, ciudad, id_usuario,iden);
-        return false;
+        return registrarCliente(id_sucursal,nombre, apellido, telefono, direccion, email, ciudad, id_usuario,iden, tipoCliente,  declaraIva,  declaraIca, reteFuente, milesIca, auxDv);
     }
    
    public void eliminarCliente(int id_cliente)

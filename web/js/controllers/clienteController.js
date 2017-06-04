@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
+app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eliminarCli, llenarComboCiudad, updateClie) {
     var vm = this;
-    vm.aux1 = "GESTION CLIENTE";
+    vm.aux1 = "AGREGAR CLIENTE";
     vm.textoNombre = 'Nombre';
     vm.textoIdentificacion = 'Ide';
     vm.placeholder='Identificacion';
@@ -20,7 +20,7 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngT
     vm.tablaClientes = [];
     vm.tipoCLiente;
     vm.dinamicoTextos = function (parametro) {
-      if(parametro === 1)
+      if(parametro === 0)
       {
           vm.textoNombre = 'Nombre';
           vm.textoIdentificacion = 'Ide';
@@ -61,7 +61,7 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngT
         traerClientes.llenarTablacliente(vm);
     };
     vm.saveCliente = function () {
-        envioClie.envioCliente(vm.cliente);
+        envioClie.envioCliente(vm.cliente,vm.tipoCLiente);
     };
     vm.deleteClie = function (idPr) {
         if (confirm("Desea eliminar Cliente?"))
@@ -130,9 +130,15 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, ngT
 app.factory('traerClientes', function ($http) {
     var log2 = {};
     log2.llenarTablacliente = function (vm) {
-        $http.get("Funciones_Cliente").success(function (result)
-        {
-            vm.tablaClientes=  (result[0]);
+        $http({
+            url: 'Funciones_Cliente',
+            method : 'POST',
+            data : {
+                'idSucursal' : sessionStorage.getItem("idSucursal"),
+                'accion':      4 // Consulta de resultados
+            }
+        }).success(function (result){
+             vm.tablaClientes=  (result[0]);
         });
     };
     return log2;
@@ -140,7 +146,7 @@ app.factory('traerClientes', function ($http) {
 app.factory('envioClie', function ($http) {
     var envio = {};
 
-    envio.envioCliente = function (Cliente, $cookieStore) {
+    envio.envioCliente = function (Cliente,tipoCliente) {
         $http({
             url: "Funciones_Cliente",
             method: "POST",
@@ -154,6 +160,12 @@ app.factory('envioClie', function ($http) {
                 'emailCliente': Cliente.emailCliente,
                 'idCiudad': Cliente.idCiudad,
                 'iden': Cliente.identificacionCliente,
+                'tipoCliente':  tipoCliente,
+                'declaraIva':   Cliente.declaraIva,
+                'declaraIca':   Cliente.reteIca,
+                'reteFuente':   Cliente.reteFuente,
+                'milesIca'  :   Cliente.tarifaIca,
+                'dv':           Cliente.dv,
                 'accion': 1 // Insertar 
             }
         }).then(function (response) {

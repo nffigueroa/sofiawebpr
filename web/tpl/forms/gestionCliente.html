@@ -11,73 +11,69 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">   
     </head>
     <body>
-        <div ng_include src="'tpl/menu.html'"></div>
-        <div ng_include="'tpl/header.html'"></div>
+        <div class="row">
+            <div ng_include src="'tpl/menu.html'"></div>
+            <div ng_include="'tpl/header.html'"></div>
+        
+            </div>
+  
         <div class="container">
             <div class="row" id="pwd-container">
                 <div class="col-md-4"></div>
-         <div class="btn-group-justified"> 
-                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
-                    </div>
                 <div class="panel panel-primary">
-                    <button class="btn warning" value="Actualizar" ng_click="vm.actualizar();"> Update
-                        </button>
+                    <div class="text-right bg-success"><div class="text-capitalize text-uppercase">Bienvenido! ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                  
                     <div class="panel-title">Gestion de Clientes</div>
                     <div class="panel-body">
+                        <div class="form-inline">
                         Search:
                         <input type ="text" class="form-control" ng_model="search" >
-
-                        <table class="table table-hover table-condensed">
+                        <button title="Agregar Registro" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                    
+                         <button title="Actualizar Datos" class="btn btn-primary btn-lg" value="Actualizar" ng_click="vm.actualizar()"> <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                         </div>
+                        <table class="table-hover table-bordered table-responsive table-condensed table">
                             <th>Nombre</th>
-                            <th>Apellido</th>
                             <th>Identificacion</th>
                             <th>Telefono</th>
                             <th>Direccion</th>
                             <th>Mail</th>
+                            <th>Tipo Cliente</th>
                             <th>Ciudad</th>
-                            <th>Accion</th>
+                            <th>Eliminar</th>
+                            <th>Modificar</th>
                             <tr ng_repeat="Cli in vm.tablaClientes| filter: search  | startFromGrid: vm.currentPage * vm.pageSize | limitTo: vm.pageSize">
 
+                                <td>{{Cli.nombre_cliente}}</td>
+                                <td>{{Cli.cedula_cliente}}</td>
+                                <td>{{Cli.telefono_cliente}}</td>
+                                <td>{{Cli.direccion_cliente}}</td>
+                                <td>{{Cli.mail_cliente}}</td>
+                                <td>{{Cli.EsJuridico}}</td>
+                                <td>{{Cli.ciudad}}</td>
                                 <td>
-                                    {{Cli.nombre_cliente}}
+                                    <button title="Eliminar Registro" class="btn warning" ng_click="vm.deleteClie(Cli.id_cliente)"><span class="glyphicon glyphicon-trash"></span></button>
                                 </td>
-                                <td>
-                                    {{Cli.apellido_cliente}}
-                                </td>
-                                <td>
-                                    {{Cli.cedula_cliente}}
-                                </td>
-                                <td>
-                                    {{Cli.telefono_cliente}}
-                                </td>
-                                <td>
-                                    {{Cli.direccion_cliente}}
-                                </td>
-                                <td>
-                                    {{Cli.mail_cliente}}
-                                </td>
-                                <td>
-                                    {{Cli.ciudad}}
-                                </td>
-                                <td>
-                                    <button class="btn warning" ng_click="vm.deleteClie(Cli.id_cliente)">X</button>
-                                    <button ng_click="vm.mostrarCliente(Cli.id_cliente)" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
-                                        Modificar
-                                    </button>
+                                <td><button title="Modificar Registro" ng_click="vm.mostrarCliente(Cli.id_cliente)" type="button" class="btn warning" data-toggle="modal" data-target="#myModal2">
+                                                <span class="glyphicon glyphicon-wrench"></span>
+                                            </button>
                                 </td>
                             </tr>
                         </table>
                         <div class="center-block">
-                            <button type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage =vm.currentPage - 1'>&laquo;</button>
-                            <button type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
+                            <button class="btn" type='button' ng-disabled='vm.currentPage == 0' ng-click='vm.currentPage = vm.currentPage - 1'>&laquo;</button>
+                            <button class="btn" type='button' ng-disabled='vm.currentPage == vm.page.no - 1' ng-click='vm.setPage(page.no)' ng-repeat='page in vm.pages'>{{vm.page.no}}</button>
                             <!-- Navegar hacia adelante -->
-                            <button type='button' ng-disabled='currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
+                            <button class="btn" type='button' ng-disabled='vm.currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                +
-                            </button>
+                            
+                      
                         </div>
                     </div>
+                    <div class="text-left bg-success"><div class="text-capitalize text-uppercase">Swin SAS. </div></div>
                 </div>
             </div>
         </div>     
@@ -95,106 +91,282 @@ and open the template in the editor.
                     <div class="modal-body">
                         <form ng_submit="vm.saveCliente();" >
 
-                            <h2 class="h2 text-center label-info">{{vm.aux1}}</h2>
+                            <h2 class="h2 text-center bg-success">{{vm.aux1}}</h2>
+                             <div class="row">
+                                 <div class="col-md-2"><label for="producto">Tipo Cliente</label></div>
+                                 <div class="col-md-4">
                             <div class="radio-inline">
                                 <label>
-                                    <input type="radio" ng_click="vm.dinamicoTextos(2);" class="radio-inline" ng_model="vm.tipoCLiente" value="2" namadio-inlinee="optradio">Persona Juridica
+                                    <input type="radio" ng_click="vm.dinamicoTextos(1);" class="radio-inline" ng_model="vm.tipoCLiente" value="1" namadio-inlinee="optradio">Persona Juridica
                                 </label>    
                                 </div>
+                                     </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" ng_click="vm.dinamicoTextos(1);" class="radio-inline" ng_model="vm.tipoCLiente" value="1" name="optradio">Persona Natural
+                                        <input type="radio" ng_click="vm.dinamicoTextos(0);" class="radio-inline" ng_model="vm.tipoCLiente" value="0" name="optradio">Persona Natural
                                     </label>
-                                </div><br>
-                                <div class="form-group-sm">
-                            <label for="producto">{{vm.textoNombre}}</label>
-                            &nbsp;&nbsp;&nbsp;<input id="producto" type="text" name="nombreProducto" placeholder="{{vm.textoNombre}}" class="input input-sm" ng_model="vm.cliente.nombreCliente" required="true" />
-                            <!-- <label for="producto">Apellido</label>
-                            <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.cliente.apellidoCliente" /> -->
-                             &nbsp;&nbsp;<label for="producto">Telefono</label>
-                            <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="input input-sm" ng_model="vm.cliente.telefonoCliente" />
-                            <br><label for="producto">Direccion</label>
-                            <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="input input-sm" ng_model="vm.cliente.direccionCliente" />
-                            
-                           
-                             &nbsp;&nbsp;<label for="producto">Email</label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="producto" type="email" name="Email" placeholder="@" class="input input-sm" ng_model="vm.cliente.emailCliente" />
-                             &nbsp;&nbsp;<br><label for="producto">{{vm.textoIdentificacion}}</label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="producto" type="text" name="Identificacion" placeholder="{{vm.placeholder}}" class="input input-sm" ng_model="vm.cliente.identificacionCliente" />
-                            
-                                 
-                             &nbsp;&nbsp;<label for="producto" ng_show="vm.parametro===2">DV</label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="input input-sm" ng_show="vm.parametro===2" />
-                            &nbsp;<br><label for="categorias">Ciudad</label>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<select id="marca" class="input input-sm" ng_model="vm.cliente.idCiudad">
-                            <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
-                            </select>
-                     <fieldset>
-                            <label for="categorias">Declara Iva</label>
+                                </div>  
+                                     
+                             </div>
+                            <div class="form-group-sm">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    <label for="producto">{{vm.textoNombre}}</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="nombreProducto" placeholder="{{vm.textoNombre}}" class="input input-sm" ng_model="vm.cliente.nombreCliente" required="true" />
+                                    </div>
+                                    <!-- <label for="producto">Apellido</label>
+                                    <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.cliente.apellidoCliente" /> -->
+                                    <div class="col-md-2">
+                                     <label for="producto">Telefono</label>
+                                     </div>
+                                    <div class="col-md-3">
+                                    <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="input input-sm" ng_model="vm.cliente.telefonoCliente" />
+                                    </div>
+                                </div>
+                                   <div class="row"> 
+                                    </div>
+                                <div class="row"> 
+                                    <div class="col-md-2">
+                                    <label for="producto">Direccion</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="input input-sm" ng_model="vm.cliente.direccionCliente" />
+                                    </div>
+                                    <div class="col-md-2">
+                                    <label for="producto">Email</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                   <input id="producto" type="email" name="Email" placeholder="@" class="input input-sm" ng_model="vm.cliente.emailCliente" />
+                                     </div>
+                                   
+                                </div>
+                             
+                                <div class="row">  
+                                    <div class="col-md-2">
+                                    <label for="producto">{{vm.textoIdentificacion}}</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="Identificacion" placeholder="{{vm.placeholder}}" class="input input-sm" ng_model="vm.cliente.identificacionCliente" />
+                                    </div>
+                                    <div class="col-md-2">
+                                    <label for="producto" ng_show="vm.parametro===2">DV</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="input input-sm" ng_show="vm.parametro===2" ng_model="vm.cliente.dv" />
+                                    </div>
+                                   
+                                </div>
+                                <div class="row">  
+                                <div class="col-md-2">
+                                <label for="categorias">Ciudad</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="ciudad" class="input input-sm" ng_model="vm.cliente.idCiudad">
+                                    <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                                    </select>
+                                </div>
+                                    </div>
+                             <div class="row"> 
+                                    <div class="col-md-4">
+                                    <label for="iva">Aplica Retencion Iva</label>
+                             </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="0" name="optradio">No
+                                        </label>    
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="1" name="optradio">SI
+                                        </label>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="retefuente">Aplica Retencion Fuente</label>
+                                </div>
+                                
                                 <div class="radio-inline">
                                 <label>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="radio-inline" ng_model="vm.declaraIva" value="0" namadio-inlinee="optradio">No
+                                    <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="0" name="retencionOpt">No
                                 </label>    
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" class="radio-inline" ng_model="vm.declaraIva" value="1" name="optradio">SI
+                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="1" name="retencionOpt">SI
                                     </label>
                                 </div>
-                            </fieldset>
-                            <fieldset ng_show="vm.parametro===2">
-                            <label for="categorias">Retencion Fuente</label>
-                                <div class="radio-inline">
-                                <label>
-                                    <input type="radio" class="radio-inline" ng_model="vm.declaraIva" value="0" namadio-inlinee="optradio">No
-                                </label>    
-                                </div>
+                           </div>
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <label for="reteIca">Aplica Retencion ICA</label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="0" name="retencionIcaOpt">No
+                                        </label>    
+                                    </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" class="radio-inline" ng_model="vm.declaraIva" value="1" name="optradio">SI
+                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="1" name="retencionIcaOpt">SI
                                     </label>
                                 </div>
-                            </fieldset>
-                           
-                            
+                                    <input ng_show="vm.cliente.reteIca==1" id="milesIca" type="text" name="milesIca" placeholder="Tarifa ICA (MILES)" class="input input-sm" ng_model="vm.cliente.tarifaIca" />
+                       </div>
                            
                             <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
                         </form>      
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+       </div>
         <!--______________________________________________________________ -->
         <!-- Button trigger modal -->
 
 
         <!-- Modal -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTE</h4>
-                    </div>
-                    <div class="modal-body">
-                        <label for="producto">Nombre</label>
-                        <input id="producto" type="text" name="nombreProducto" placeholder="Nombre" class="form-control input-lg" ng_model="vm.clienteModificar.nombre_cliente" />
-                        <label for="producto">Apellido</label>
-                        <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.clienteModificar.apellido_cliente" />
-                        <label for="producto">Telefono</label>
-                        <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="form-control input-lg" ng_model="vm.clienteModificar.telefono_cliente" />
-                        <label for="producto">Direccion</label>
-                        <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="form-control input-lg" ng_model="vm.clienteModificar.direccion_cliente" />
-                        <label for="producto">Identificacion</label>
-                        <input id="producto" type="text" name="Identificacion" placeholder="Identificacion" class="form-control input-lg" ng_model="vm.clienteModificar.cedula_cliente" />
-                        <label for="producto">Email</label>
-                        <input id="producto" type="email" name="Email" placeholder="@" class="form-control input-lg" ng_model="vm.clienteModificar.mail_cliente" />
-                        <label for="categorias">Ciudad</label>
-                            <select id="marca" class="form-control input-lg" ng_model="vm.clienteModificar.ciudad">
-                                <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
-                            </select>
+                                    <div class="modal-lg center-block" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                            <h2 class="h2 text-center bg-success">{{vm.aux1}}</h2>
+                             <div class="row">
+                                 <div class="col-md-2"><label for="producto">Tipo Cliente</label></div>
+                                 <div class="col-md-4">
+                            <div class="radio-inline">
+                                <label>
+                                    <input type="radio" ng_click="vm.dinamicoTextos(1);" class="radio-inline" ng_model="vm.tipoCLiente" value="1" namadio-inlinee="optradio">Persona Juridica
+                                </label>    
+                                </div>
+                                     </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" ng_click="vm.dinamicoTextos(0);" class="radio-inline" ng_model="vm.tipoCLiente" value="0" name="optradio">Persona Natural
+                                    </label>
+                                </div>  
+                                     
+                             </div>
+                            <div class="form-group-sm">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                    <label for="producto">{{vm.textoNombre}}</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="nombreProducto" placeholder="{{vm.textoNombre}}" class="input input-sm" ng_model="vm.clienteModificar.nombre_cliente" required="true" />
+                                    </div>
+                                    <!-- <label for="producto">Apellido</label>
+                                    <input id="producto" type="text" name="Apellido" placeholder="Apellido" class="form-control input-lg" ng_model="vm.cliente.apellidoCliente" /> -->
+                                    <div class="col-md-2">
+                                     <label for="producto">Telefono</label>
+                                     </div>
+                                    <div class="col-md-3">
+                                    <input id="producto" type="text" name="Telefono" placeholder="Telefono" class="input input-sm" ng_model="vm.clienteModificar.telefono_cliente" />
+                                    </div>
+                                </div>
+                                   <div class="row"> 
+                                    </div>
+                                <div class="row"> 
+                                    <div class="col-md-2">
+                                    <label for="producto">Direccion</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="Direccion" placeholder="Direccion" class="input input-sm" ng_model="vm.clienteModificar.direccion_cliente" />
+                                    </div>
+                                    <div class="col-md-2">
+                                    <label for="producto">Email</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                   <input id="producto" type="email" name="Email" placeholder="@" class="input input-sm" ng_model="vm.clienteModificar.mail_cliente" />
+                                     </div>
+                                   
+                                </div>
+                             
+                                <div class="row">  
+                                    <div class="col-md-2">
+                                    <label for="producto">{{vm.textoIdentificacion}}</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input id="producto" type="text" name="Identificacion" placeholder="{{vm.placeholder}}" class="input input-sm" ng_model="vm.clienteModificar.cedula_cliente" />
+                                    </div>
+                                    <div class="col-md-2">
+                                    <label for="producto" ng_show="vm.parametro===2">DV</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                    <input type="text" class="input input-sm" ng_show="vm.parametro===2" />
+                                    </div>
+                                   
+                                </div>
+                                <div class="row">  
+                                <div class="col-md-2">
+                                <label for="categorias">Ciudad</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="ciudad" class="input input-sm" ng_model="vm.clienteModificar.ciudad">
+                                    <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                                    </select>
+                                </div>
+                                    </div>
+                             <div class="row"> 
+                                    <div class="col-md-4">
+                                    <label for="iva">Retencion Iva</label>
+                             </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="0" name="optradio">No
+                                        </label>    
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="1" name="optradio">SI
+                                        </label>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="retefuente">Retencion Fuente</label>
+                                </div>
+                                
+                                <div class="radio-inline">
+                                <label>
+                                    <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="0" name="retencionOpt">No
+                                </label>    
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="1" name="retencionOpt">SI
+                                    </label>
+                                </div>
+                           </div>
+                                <div class="row">
+                                <div class="col-md-4">
+                                    <label for="reteIca">Retencion ICA</label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="0" name="retencionIcaOpt">No
+                                        </label>    
+                                    </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="1" name="retencionIcaOpt">SI
+                                    </label>
+                                </div>
+                                    <input ng_show="vm.cliente.reteIca==1" id="milesIca" type="text" name="milesIca" placeholder="Tarifa ICA (MILES)" class="input input-sm" ng_model="vm.cliente.tarifaIca" />
+                       </div>
+                           
+                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                        </form>      
+             
                         <input type="text" hidden="false" ng_model="vm.clienteModificar.id_cliente" value ="{{vm.clienteModificar.id_cliente}}">
                         <button ng_click="vm.modificarCliente(vm.clienteModificar.id_cliente)">Modificar Registro </button>
                     </div>
@@ -206,6 +378,7 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+       </div>
         <div class="col-md-4"></div>
     </body>
 </html>
