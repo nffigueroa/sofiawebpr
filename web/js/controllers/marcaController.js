@@ -9,9 +9,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrMarca', function (traerMarca, envioMarca,cerrarSesionS,traerMarcaSucursal,registrarMarcaSucursal) {
+app.controller('contrMarca', function (titulos,traerMarca, envioMarca,cerrarSesionS,traerMarcaSucursal,registrarMarcaSucursal) {
     
     var vm = this;
+    titulos.ti(vm);
     vm.aux1 = "GESTION MARCA";
     vm.marcaIngresar={};
     vm.marcaMostrar = [];

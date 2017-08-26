@@ -6,7 +6,8 @@ var app = angular.module('sofiaApp',['ngRoute',
                                     'ui.grid',
                                     'ui.grid.edit',
                                     'checklist-model',
-                                    'ngSanitize'
+                                    'ngSanitize',
+                                    'chart.js'
                                     ])
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider
@@ -24,6 +25,7 @@ var app = angular.module('sofiaApp',['ngRoute',
         .when("/GestionFactura", {templateUrl :  "tpl/forms/gestionFactura.html", controller :"contrFactura as vm" })
         .when("/GestionCuentasCobrar", {templateUrl :  "tpl/forms/gestionCuentasCobrar.html", controller :"contrCuentasCobrar as vm" })
         .when("/GestionReportes", {templateUrl :  "tpl/forms/gestionReportes.html", controller :"contrInformesInventario as vm" })
+        .when("/GestionReportesContable", {templateUrl :  "tpl/forms/gestionReportes_contable.html", controller :"ctrContableInforme as vmt" })
         .otherwise({redirectTo : "/sofiaApp"})
 ;
 }]);

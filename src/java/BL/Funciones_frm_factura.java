@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -188,7 +186,7 @@ public class Funciones_frm_factura extends DA.consultas_factura{
    {
        try {
            ResultSet rs = null;
-           rs=consultaLlenarTablaFactura(id_sucursal, fecha, fechaHasta, ban);
+           rs=consultaLlenarTablaFacturaTabla(id_sucursal, fecha, fechaHasta, ban);
            BL.Funciones_Generales fun = new Funciones_Generales();
           return  fun.resultSetToArrayList(rs);
        } catch (Exception e) {
@@ -367,6 +365,16 @@ public class Funciones_frm_factura extends DA.consultas_factura{
    public int ultimaFactura(int id_sucursal)
    {
        return cosultaNumeroFactura(id_sucursal);
+   }
+   
+   public ArrayList listarFacturasanuladas(int idSucursal)
+   {
+       try {
+           return general.resultSetToArrayList(consultaFacturasAnuladas(idSucursal));
+       } catch (Exception e) {
+           e.printStackTrace();
+           return null;
+       }
    }
    
     

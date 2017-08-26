@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <style>
+    #mdialTamanio{
+      width: 100% !important;
+    }
+  
+  </style>
+   <script>
+        $( document ).ready(function() {
+            $('#fecha').datepicker();
+            $('#fecha2').datepicker();
+            $('#fecha3').datepicker();
+            $('#fecha4').datepicker();
+            $('#fecha5').datepicker();
+            $('#fecha6').datepicker();
+            $('#fecha7').datepicker();
+            $('#fecha8').datepicker();
+            $('#fecha9').datepicker();
+            $('#fecha10').datepicker();
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+    </script>
+    </head>
+    <body>
+        <div ng_include src="'tpl/menu.html'"></div>
+        <div ng_include="'tpl/header.html'">
+    </div>
+        <br><br><br>
+        <div id="mdialTamanio"  class="container col-lg-1">
+            <div class="row" id="pwd-container">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                         <div class="btn-group-justified"> 
+                    <div class="text-right bg-success"><div class="text-success text-uppercase text-white">Bienvenido ({{vmt.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation"><a ng_click="vmt.llenarVentasSucursal();" role="tab" data-toggle="tab" data-target="#ventaDiaria">Venta Diaria</a></li>
+                                <li role="presentation"><a ng_click="vmt.llenarVentasMensualesXComapany();" role="tab" data-toggle="tab" data-target="#ventaMensual">Venta Mensual</a></li> 
+                                <li role="presentation"><a ng_click="vmt.llenarListarFacturaAnulada();" role="tab" data-toggle="tab" data-target="#facturaAnulada">Factura Anulada</a></li> 
+                                <li role="presentation"><a ng_click="vmt.llenarHistorialCorteCaja();" role="tab" data-toggle="tab" data-target="#cortesCaja">Cortes Caja</a></li> 
+                                <li role="presentation"><a ng_click="vmt.llenarGananciasInventario();" role="tab" data-toggle="tab" data-target="#gananciaInventario">Ganancia Inventario</a></li> 
+                                <li role="presentation"><a ng_click="vmt.llenarFacturaSinAnularGanancia();" role="tab" data-toggle="tab" data-target="#ganaciaFacturacion">Ganancia Facturacion</a></li> 
+                             </ul>
+                             <div class="tab-content">
+                                        <div role="tabpanel" id="ventaDiaria" class="tab-pane fade in active">
+                                            <div class="row">
+                                                <label class="text">Fecha Inicio</label>
+                                                <input type="text" id="fecha" name="fecha" class="date" ng_model="vmt.fechaInicial"  />
+                                                <label class="text">Fecha Final</label>
+                                                <input type="text" id="fecha2" name="fecha2" class="date" ng_model="vmt.fechaHasta" /> 
+                                                <button class="btn" ng_click="vmt.actualizarGrafico();" >Filtrar</button>
+                                                <label class="text">Sucursal</label>
+                                                <select class="input input-sm" id="multipleSelect" ng_model="vmt.sucursalesSeleccionado" ng_change="vmt.sucursalChanged();">
+                                                    <option ng_repeat="c in vmt.sucursales" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                                                </select>
+                                            </div>
+                                           
+                                            <canvas id="bar" class="chart chart-line" height="50"
+                                                    chart-data="data" chart-labels="labels" chart-series="series">
+                                            </canvas>   
+                                        </div>
+                                    
+                        <!-- <span class="glyphicon glyphicon-share"></span> Export to Excel -->
+                    
+                            <!-- Reporte Mas Vendidos -->
+                            
+                           
+                                        <div role="tabpanel" id="ventaMensual" class="tab-pane fade">
+                                             <div class="row">
+                                                <label class="text">Fecha Inicio</label>
+                                                <input type="text" id="fecha3" name="fecha3" class="date" ng_model="vmt.fechaInicial"  />
+                                                <label class="text">Fecha Final</label>
+                                                <input type="text" id="fecha4" name="fecha4" class="date" ng_model="vmt.fechaHasta" /> 
+                                                <button class="btn" ng_click="vmt.actualizarGrafico();" >Filtrar</button>
+                                                <label class="text">Sucursal</label>
+                                                <select class="input input-sm" id="multipleSelect" ng_model="vmt.sucursalesSeleccionado" ng_change="vmt.sucursalChanged();">
+                                                    <option ng_repeat="c in vmt.sucursales" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                                                </select>
+                                            </div>
+                                           
+                                            <canvas id="bar" class="chart chart-line" height="50"
+                                                    chart-data="data" chart-labels="labels" chart-series="series">
+                                            </canvas>                                                 
+                                        </div>
+                                        <div role="tabpanel" id="facturaAnulada" class="tab-pane fade">
+                                           <div class="row">
+                                                <label class="text">Fecha Inicio</label>
+                                                <input type="text" id="fecha5" name="fecha5" class="date" ng_model="vmt.fechaInicial"  />
+                                                <label class="text">Fecha Final</label>
+                                                <input type="text" id="fecha6" name="fecha6" class="date" ng_model="vmt.fechaHasta" /> 
+                                                <button class="btn" ng_click="vmt.actualizarGrafico();" >Filtrar</button>
+                                                <label class="text">Sucursal</label>
+                                                <select class="input input-sm" id="multipleSelect" ng_model="vmt.sucursalesSeleccionado" ng_change="vmt.sucursalChanged();">
+                                                    <option ng_repeat="c in vmt.sucursales" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                                                </select>
+                                            </div>
+                                            <table class="table-hover table-bordered table-responsive table-condensed table">
+                                                <th># Factura</th>
+                                                <th>Nombre Sucursal</th>
+                                                <th>Anulacion</th>
+                                                <th>Fecha</th>
+                                                <th>Hora</th>
+                                                <th>Usuario</th>
+                                                <tr ng_repeat="c in vmt.facturasAnuladas| filter: search  | startFromGrid: vmt.currentPage * vmt.pageSize | limitTo: vmt.pageSize ">
+                                                <td>{{c.numero_factura}}</td>    
+                                                <td>{{c.nombre_sucursal}}</td>    
+                                                <td>{{c.motivo_anulacion}}</td>    
+                                                <td>{{c.fecha_anulacion}}</td>    
+                                                <td>{{c.hora_anulacion}}</td>    
+                                                <td>{{c.usuario}}</td>    
+                                                </tr>
+                                            </table>
+                                        </div>
+                                            <div role="tabpanel" id="entradaSalidaProducto" class="tab-pane fade">
+                                            
+                                        </div>
+                            <!-- Reporte Salida Producto -->
+                             <div role="tabpanel" id="cortesCaja" class="tab-pane fade">
+                                 <div class="row">
+                                                <label class="text">Fecha Inicio</label>
+                                                <input type="text" id="fecha7" name="fecha7" class="date" ng_model="vmt.fechaInicial"  />
+                                                <label class="text">Fecha Final</label>
+                                                <input type="text" id="fecha8" name="fecha8" class="date" ng_model="vmt.fechaHasta" /> 
+                                                <button class="btn" ng_click="vmt.actualizarGrafico();" >Filtrar</button>
+                                                <label class="text">Sucursal</label>
+                                                <select class="input input-sm" id="multipleSelect" ng_model="vmt.sucursalesSeleccionado" ng_change="vmt.sucursalChanged();">
+                                                    <option ng_repeat="c in vmt.sucursales" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                                                </select>
+                                            </div> 
+                                 <table class="table-hover table-bordered table-responsive table-condensed table">
+                                     <th>T. Venta</th>
+                                     <th>T. Tarjeta Credito</th>
+                                     <th>T. Tarjeta Debito</th>
+                                     <th>T. Transaccion</th>
+                                     <th>T. Egreso</th>
+                                     <th>T. Ingreso</th>
+                                     <th>T. Ventas Efectivo</th>
+                                     <th>Cheque</th>
+                                     <th>Credito</th>
+                                     <th>T. Efectivo Real</th>
+                                     <th>Efectivo Faltante</th>
+                                     <th>Efectivo Inicio</th>
+                                     <th>Fecha Inicio</th>
+                                     <th>Fecha Fin</th>
+                                     <th>Sucursal</th>
+                                     <tr ng_repeat="c in vmt.historialCorte">
+                                         <td>{{c.total_ventas}}</td>
+                                         <td>{{c.total_tarjta_credito}}</td>
+                                         <td>{{c.total_tarjta_debito}}</td>
+                                         <td>{{c.total_transaccion}}</td>
+                                         <td>{{c.total_importe_egreso}}</td>
+                                         <td>{{c.total_importe_ingreso}}</td>
+                                         <td>{{c.total_ventas_efectivo}}</td>
+                                         <td>{{c.cheque}}</td>
+                                         <td>{{c.credito}}</td>
+                                         <td>{{c.total_efectivo_real}}</td>
+                                         <td>{{c.efectivo_faltante}}</td>
+                                         <td>{{c.efectivo_inicio}}</td>
+                                         <td>{{c.fecha_inicio_corte}}</td>
+                                         <td>{{c.fecha_fin_corte}}</td>
+                                         <td>{{c.nombre_sucursal}}</td>
+                                         </tr>
+                                 </table>
+                                 
+                                        </div>
+                            <div role="tabpanel" id="gananciaInventario" class="tab-pane fade">
+                                <form class="form-horizontal" role="login">
+                                    <div class="row">
+                                        <label class="lead">Top Producto:</label>
+                                        <label class="label-success lead">{{vmt.funcionProductoMasGanacia}}</label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="lead">Valor Total Inventario:</label>
+                                        <label class="label-success lead">{{vmt.funcionCuantoDineroInventario}}</label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="lead">Ganancias Potenciales:</label>
+                                        <label class="label-success lead">{{vmt.funcionCuantoGanaciaInventario}}</label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="lead">Inversion Inventario:</label>
+                                        <label class="label-success lead">{{vmt.totalInversionInventario}}</label>
+                                    </div>
+                                   <table class="table-hover table-bordered table-responsive table-condensed table">
+                                       <th>Producto</th>
+                                       <th>Iva</th>
+                                       <th>Marca</th>
+                                       <th>Categoria</th>
+                                       <th>Presentacion</th>
+                                       <th>Expira</th>
+                                       <th>Medicion</th>
+                                       <th>Precio 1</th>
+                                       <th>Precio 2</th>
+                                       <th>Sucursal</th>
+                                       <th>Utilidad</th>
+                                       <tr ng_repeat="c in vmt.inventarioGanancias">
+                                           <td>{{c.nombre_producto}}</td>
+                                           <td>{{c.iva_producto_inventario}}</td>
+                                           <td>{{c.marca}}</td>
+                                           <td>{{c.categoria}}</td>
+                                           <td>{{c.presentacion}}</td>
+                                           <td>{{c.expiracion_producto_inventario}}</td>
+                                           <td>{{c.medicion}}</td>
+                                           <td>{{c.precio_producto_inventario}}</td>
+                                           <td>{{c.precio_secundario_producto_inventario}}</td>
+                                           <td>{{c.nombre_sucursal}}</td>
+                                           <td>{{c.utilidad}}</td>
+                                           </tr>
+                                       </table>
+                                </form>
+                            </div>
+                            <div role="tabpanel" id="ganaciaFacturacion" class="tab-pane fade">
+                                 <div class="row">
+                                                <label class="text">Fecha Inicio</label>
+                                                <input type="text" id="fecha9" name="fecha9" class="date" ng_model="vmt.fechaInicial"  />
+                                                <label class="text">Fecha Final</label>
+                                                <input type="text" id="fecha10" name="fecha10" class="date" ng_model="vmt.fechaHasta" /> 
+                                                <button class="btn" ng_click="vmt.actualizarGrafico();" >Filtrar</button>
+                                                <label class="text">Sucursal</label>
+                                                <select class="input input-sm" id="multipleSelect" ng_model="vmt.sucursalesSeleccionado" ng_change="vmt.sucursalChanged();">
+                                                    <option ng_repeat="c in vmt.sucursales" value="{{c.id_sucursal}}">{{c.nombre_sucursal}}</option>
+                                                </select>
+                                            </div> 
+                                <table class="table-hover table-bordered table-responsive table-condensed table">
+                                       <th># Factura</th>
+                                       <th>Total</th>
+                                       <th>Sub Total</th>
+                                       <th>Descuento</th>
+                                       <th>Iva</th>
+                                       <th>Forma Pago</th>
+                                       <th>Nombre Cliente</th>
+                                       <th>Apellido Cliente</th>
+                                       <th>Fecha</th>
+                                       <th>Hora</th>
+                                       <th>Ganancia</th>
+                                       <th>Sucursal</th>
+                                       <tr ng_repeat="c in vmt.tablaFacturaSinAnular">
+                                           <td>{{c.numero_factura}}</td>
+                                           <td>{{c.total}}</td>
+                                           <td>{{c.subtotal}}</td>
+                                           <td>{{c.descuento}}</td>
+                                           <td>{{c.iva}}</td>
+                                           <td>{{c.forma_pago}}</td>
+                                           <td>{{c.nombre_cliente}}</td>
+                                           <td>{{c.apellido_cliente}}</td>
+                                           <td>{{c.fecha_creacion}}</td>
+                                           <td>{{c.hora_creacion}}</td>
+                                           <td>{{c.ganancia_factura}}</td>
+                                           <td>{{c.nombre_sucursal}}</td>
+                                           </tr>
+                                       </table>
+                            </div>
+                                    </div>
+                            
+                        </div>  
+                        <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer }}</div></div>
+                    </div> 
+                    
+                </div>
+                    
+            </div>
+            
+        </div>  
+        
+        
+<!-- Creacion de los Modales -->
+ <div class="modal fade" id="facturaAnulada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

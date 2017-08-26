@@ -72,6 +72,24 @@ public class consultas_Cliente extends Conexion{
  
         
     }
+    public ResultSet llenarImpuestoXCliente(int id_cliente)
+    {
+        
+        try {
+            
+           CallableStatement cst = conex.prepareCall("CALL CON_consultaImpuestoXCliente(?)");
+            cst.setInt("id_clienteLog", id_cliente);
+            cst.execute();
+            rh =  cst.getResultSet();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return rh;
+ 
+        
+    }
     
     public ResultSet llenarComboCidad_Cliente()
     {
@@ -86,6 +104,25 @@ public class consultas_Cliente extends Conexion{
             return null;
         }
         return rh;
+    }
+    public Boolean actualizarImpuestos(int idCliente, String milesIca, int declaraIva, int declaraIca,
+            int retefuente, int id_proveedor)
+    {
+         try {
+            
+           CallableStatement cst = conex.prepareCall("CALL CON_ModificarImpuesto(?,?,?,?,?,?)");
+           cst.setInt("idCliente", idCliente);
+           cst.setString("milesIca", milesIca);
+           cst.setInt("Iva", declaraIva);
+           cst.setInt("declaraIca", declaraIca);
+           cst.setInt("reteFuente", retefuente);
+           cst.setInt("idProveedor", id_proveedor);
+           cst.execute();
+           return true; 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     public Object consultaIDComboCiudad(Object ciudad)
     {

@@ -6,6 +6,7 @@
 package BL;
 
 import DA.Consultas_Generales;
+import DA.consultas_Cliente;
 //import Fuentes.Grillas;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,6 +42,27 @@ public class Funciones_frm_clientes extends DA.consultas_Cliente{
            return null;
        }
    }   
+   public ArrayList llenarImpuesto(int idCliente)
+   {
+     try {
+           rs = llenarImpuestoXCliente(idCliente);
+           return general.resultSetToArrayList(rs);
+       } catch (SQLException ex) {
+           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
+       }
+   }   
+   
+   public boolean actualizarImpuestos(int idCliente, String milesIca, int declaraIva, 
+           int declaraIca, int retefuente)
+   {
+       try {
+           return actualizarImpuestos(idCliente, milesIca, declaraIva, declaraIca, retefuente, 0);
+       } catch (Exception e) {
+            return false;
+       }
+      
+   }
    
    public Object[] llenarComboCiudad()
     {

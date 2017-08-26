@@ -19,11 +19,11 @@ and open the template in the editor.
                 <div class="col-md-5">
                 <div class="panel panel-primary">
                       <div class="btn-group-justified"> 
-                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    <div class="text-right bg-success"><div class="text-capitalize text-uppercase text-white">Bienvenido! ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
                     </div>
                     <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
                         </button>
-                    <div class="panel-title">{{vm.aux1}}</div>
+                    <div class="panel-title text-title-module">{{vm.aux1}}</div>
                     <div class="panel-body">
                         Search:
                         <input type ="text" class="form-control" ng_model="search" >
@@ -55,6 +55,7 @@ and open the template in the editor.
                                 +
                             </button>
                         </div>
+                    <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer; }} </div></div>
                     </div>
                 </div>
             </div>

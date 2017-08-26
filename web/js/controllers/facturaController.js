@@ -10,12 +10,15 @@ app.controller('contrFactura', function (cerrarSesionS,
                                             $filter,
                                             traerDetalleFactura,
                                             anularFactura,
-                                            traerMotivoCombo) {
+                                            traerMotivoCombo,
+                                            titulos,
+                                            traerMotivosAnulacion,traerFacturasSinAnular) {
     var vm = this;
+    titulos.ti(vm);
     vm.tablaFacturaSinAnular = [];
-    vm.fechaInicial = [];
+    vm.fechaInicial = '';
     var date = $filter('date')(new Date(),'yyyy-MM-dd') ;
-    vm.fechaHasta = date;
+    vm.fechaHasta = '';
     vm.detalleFactura = [];
     vm.comboMotivoEliminacion = [];
     vm.usuario = function () {
@@ -27,8 +30,8 @@ app.controller('contrFactura', function (cerrarSesionS,
     vm.usuario();
     vm.idFactura;
     vm.facturaAnular = [];
-    traerFechainicialFacturacion.selectFechaInicial(vm);
-    traerMotivoCombo.selectMotivoEliminacion(vm);
+    vm.ban = true;
+   // traerFechainicialFacturacion.selectFechaInicial(vm);
     vm.facturaDetalleTraer = function (idFactura){
         vm.idFactura = idFactura;
         traerDetalleFactura.selectDetalleFactura(vm);
@@ -46,8 +49,12 @@ app.controller('contrFactura', function (cerrarSesionS,
                 vm.facturaAnular = comparar;
             }
         }
+        vm.llenarMotivosAnulacion();
     };
-    //traerFacturasSinAnular.selectFacturaSinAnular(vm); // Factoria del controlador de corteCaja
+    vm.llenarMotivosAnulacion = function () {
+        traerMotivosAnulacion.selectMotivosAnulacion(vm);
+    }
+    traerFacturasSinAnular.selectFacturaSinAnular(vm);
 });
 
 app.factory('traerFechainicialFacturacion', function ($http,traerFacturasSinAnular){
@@ -62,7 +69,6 @@ app.factory('traerFechainicialFacturacion', function ($http,traerFacturasSinAnul
           }
       }).success(function (result){
           vm.fechaInicial = result [0];
-          traerFacturasSinAnular.selectFacturaSinAnular(vm);
       });  
     };
     return log;
@@ -80,7 +86,7 @@ app.factory('traerFacturasSinAnular',function ($http){
                'idSucursal': sessionStorage.getItem('idSucursal'),
                'fechaInicio': vm.fechaInicial,
                'fechaHasta': vm.fechaHasta,
-               'ban': true
+               'ban': vm.ban
            }
        }).success(function (result) {
            vm.tablaFacturaSinAnular = result[0];
@@ -132,18 +138,19 @@ app.factory('anularFactura', function ($http) {
     };
     return log;
 });
-//app.factory('traerMotivosAnulacion', function ($http){
-//   var log = {};
-//   log.selectMotivosAnulacion = function (vm){
-//       $http({
-//          url : 'Funciones_Factura_BF',
-//          method : 'POST',
-//          data : {
-//              'accion': 5 // Traer Motivos anulacion
-//          }
-//       }).success(function (result) {
-//           vm.motivosAnulacion = result[0];
-//       });
-//   };
-//   return log;
-//});
+
+app.factory('traerMotivosAnulacion', function ($http){
+   var log = {};
+   log.selectMotivosAnulacion = function (vm){
+       $http({
+          url : 'Funciones_Factura_BF',
+          method : 'POST',
+          data : {
+              'accion': 6 // Traer Motivos anulacion
+          }
+       }).success(function (result) {
+           vm.comboMotivoEliminacion = result[0];
+       });
+   };
+   return log;
+});

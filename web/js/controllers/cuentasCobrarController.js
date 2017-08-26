@@ -9,8 +9,10 @@ app.controller('contrCuentasCobrar', function (traerCuentasCobrar,
                                                 traerDetalleCredito,
                                                 traerDatosCredito,
                                                 insertarAbono,
-                                                cerrarSesionS) {
+                                                cerrarSesionS,
+                                                titulos) {
    var vm = this;
+   titulos.ti(vm);
    vm.tablaCuentasCobrar= [];
    vm.detalleCuentacobrar = [];
    vm.aux1= 'CUENTAS POR COBRAR';

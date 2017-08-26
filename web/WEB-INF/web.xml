@@ -58,6 +58,10 @@
         <servlet-name>Funciones_InformesInventario_BF</servlet-name>
         <servlet-class>BF.Funciones_InformesInventario_BF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Funciones_InformeContable</servlet-name>
+        <servlet-class>BF.Funciones_InformeContable_BF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Funciones_Login</servlet-name>
         <url-pattern>/Funciones_Login</url-pattern>
@@ -113,6 +117,10 @@
     <servlet-mapping>
         <servlet-name>Funciones_InformesInventario_BF</servlet-name>
         <url-pattern>/Funciones_InformesInventario_BF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Funciones_InformeContable</servlet-name>
+        <url-pattern>/Funciones_InformeContable</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

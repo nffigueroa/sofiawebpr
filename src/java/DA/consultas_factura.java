@@ -7,15 +7,12 @@ package DA;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -516,26 +513,29 @@ public class consultas_factura extends Conexion{
      public ResultSet consultaLlenarTablaFactura(int id_sucursal, Object fecha,Object fecha_Hasta,boolean ban)
      {
          try{
-             CallableStatement cst = conex.prepareCall("Call CON_consultaLlenarTablaFactura(?,?,?,?)");
-             
-         if(ban)
-         {
+            CallableStatement cst = conex.prepareCall("Call CON_InformeVentasDiariasXSucursal(?,?,?)");
             cst.setInt("idSucursal", id_sucursal);
             cst.setObject("fechaLog", fecha);
             cst.setObject("fechaHasta", fecha_Hasta);
-            cst.setBoolean("ban", ban);
             cst.execute();
             return cst. getResultSet();
          }
-            else
-            {
-                cst.setInt("idSucursal", id_sucursal);
-               cst.setObject("fechaLog", fecha);
-               cst.setObject("fechaHasta", fecha_Hasta);
-               cst.setBoolean("ban", ban);
-               cst.execute();
-               return cst. getResultSet();
-            }
+         catch(SQLException e)
+         {
+             e.printStackTrace();
+             return null;
+         }
+     }
+     public ResultSet consultaLlenarTablaFacturaTabla(int id_sucursal, Object fecha,Object fecha_Hasta,boolean ban)
+     {
+         try{
+            CallableStatement cst = conex.prepareCall("Call CON_consultaLlenarTablaFactura(?,?,?,?)");
+            cst.setInt("idSucursal", id_sucursal);
+            cst.setObject("fechaLog", fecha);
+            cst.setObject("fechaHasta", fecha_Hasta);
+            cst.setBoolean("ban", ban );
+            cst.execute();
+            return cst. getResultSet();
          }
          catch(SQLException e)
          {
@@ -757,6 +757,19 @@ public class consultas_factura extends Conexion{
             ex.printStackTrace();
         }
         return id_motivo;
+    }
+    
+    public ResultSet consultaFacturasAnuladas(int idSucursal)
+    {
+        try {
+            CallableStatement cs = conex.prepareCall("Call CON_consultaFacturasAnuladasXSucursal(?)");
+            cs.setInt("idSucursal", idSucursal);
+            cs.execute();
+            return cs.getResultSet();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public ResultSet consultaBuscarPorFacaturar( Object fecha,Object fecha_Hasta, String opcion,Object objetoBuscar, int id_empresa)

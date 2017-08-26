@@ -8,8 +8,10 @@ app.controller('contrCorteCaja', function (traerFacturaDetalle,
                                             traerTablaImportes,
                                             traerTotalesCorteCaja,
                                             insertarCorteCaja,
-                                            cerrarSesionS) {
+                                            cerrarSesionS,
+                                            titulos) {
    var vm = this; 
+   titulos.ti(vm);
    vm.aux1= 'Corte Caja';
    vm.datosCorteCaja = [];
    vm.tablaFacturaDetalle = [];

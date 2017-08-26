@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eliminarCli, llenarComboCiudad, updateClie) {
+app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eliminarCli, llenarComboCiudad,
+updateClie,traerImpuestoXCliente,updateImpuestosCliente,titulos) {
     var vm = this;
+    titulos.ti(vm);
     vm.aux1 = "AGREGAR CLIENTE";
     vm.textoNombre = 'Nombre';
     vm.textoIdentificacion = 'Ide';
@@ -19,6 +21,7 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eli
     vm.clienteModificar = [];
     vm.tablaClientes = [];
     vm.tipoCLiente;
+    vm.impuestoCliente = [];
     vm.dinamicoTextos = function (parametro) {
       if(parametro === 0)
       {
@@ -53,6 +56,14 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eli
                 vm.clienteModificar = comparar;
             }
         }
+        vm.idCliente = vm.clienteModificar.id_cliente;
+        if(vm.clienteModificar.EsJuridico == null)
+            vm.tipoCLienteModificar = 0;
+        else
+            vm.tipoCLienteModificar = 1;
+        traerImpuestoXCliente.traerImpuesto(vm);
+        vm.dinamicoTextos(vm.tipoCLienteModificar);
+        
     };
     traerClientes.llenarTablacliente(vm);
     vm.actualizar = {};
@@ -81,7 +92,7 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eli
         }
     };
     vm.modificarCliente = function (clienteModificar) {
-        if (confirm("Modificar"))
+        if (confirm("Guardar Cambios?"))
         {
             for (var i = 0; i < vm.tablaClientes.length; i++)
             {
@@ -90,11 +101,14 @@ app.controller('contrCli', function (cerrarSesionS,traerClientes, envioClie, eli
                 if (comparar.id_cliente === clienteModificar)
                 {
                     var aux2 = vm.tablaClientes[i];
-                    var indexFila = i;
-                    i = this.tablaClientes.length;
+                   // var indexFila = i;
+                    i = vm.tablaClientes.length;
                 }
             }
             updateClie.updateCliente(aux2);
+            if(vm.clienteModificar.tarifaIca == null)
+                vm.clienteModificar.tarifaIca = 0
+            updateImpuestosCliente.updateImpuestos(vm);
             //vm.tablaClientes.indexOf(indexFila).push(aux2);
         }
     };
@@ -219,4 +233,71 @@ app.factory('updateClie', function ($http) {
     return modificar;
 });
 
+app.factory('traerImpuestoXCliente', function ($http) {
+    var factory = {};
+    factory.traerImpuesto = function (vm) {
+        $http({
+            url: 'Funciones_Cliente',
+            method: 'POST',
+            data: {
+                'accion': 5,  // Accion para traer los impuestos
+                'idCliente': vm.idCliente
+            }
+        }).success(function (result){
+            vm.impuestoCliente = result[0];
+            for (var k = 0 ; k < vm.impuestoCliente.length ; k++)
+        {
+            var compararImpuesto = vm.impuestoCliente[k];
+            if(compararImpuesto.impuesto === "RETEFUENTE")
+            { 
+                if(compararImpuesto.activo === 1)
+                    vm.clienteModificar.reteFuente = 1;
+                else
+                    vm.clienteModificar.reteFuente = 0;
+            }
+            if(compararImpuesto.impuesto === "RETEICA")
+            {
+                if(compararImpuesto.activo === 1)
+                    vm.clienteModificar.reteIca = 1;
+                else
+                    vm.clienteModificar.reteIca = 0;
+            }
+            if(compararImpuesto.impuesto === "IVA")
+            {
+                if(compararImpuesto.activo === 1)
+                    vm.clienteModificar.declaraIva = 1;
+                else
+                    vm.clienteModificar.declaraIva = 0;
+            }
+        }
+        });
+    };
+    return factory;
+});
 
+app.factory("updateImpuestosCliente", function ($http){
+    var factory = {};
+    factory.updateImpuestos = function (vm) {
+        $http({
+                url: 'Funciones_Cliente',
+                method:'POST',
+                data: {
+                    'idCliente' :   vm.idCliente,
+                    'milesIca':     String(vm.clienteModoficar.tarifaIca),
+                    'declaraIva':   vm.clienteModificar.declaraIva,
+                    'declaraIca':   vm.clienteModificar.reteIca,
+                    'retefuente':   vm.clienteModificar.reteFuente,
+                    'accion':       6
+                }
+            });
+    }
+    return factory;
+});
+
+app.factory("titulos", function (){
+   var factory = {};
+   factory.ti = function(vm){
+    vm.footer="Swin SAS 2017"; //Pie de pagina para la aplicacion
+   }
+   return factory;
+});

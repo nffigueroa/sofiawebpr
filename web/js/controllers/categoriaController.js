@@ -9,9 +9,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrCategoria', function (cerrarSesionS,traerCategoriaSucursal, traerCategoria, envioCategoria, registrarCategoriaSucursal, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
+app.controller('contrCategoria', function (titulos,cerrarSesionS,traerCategoriaSucursal, traerCategoria, envioCategoria, registrarCategoriaSucursal, ngTableParams, eliminarCli, llenarComboCiudad, updateClie) {
     
     var vm = this;
+    titulos.ti(vm);
     vm.aux1 = "GESTION CATEGORIA";
     vm.categoriaIngresar={};
     vm.categoriasMostrar = [];

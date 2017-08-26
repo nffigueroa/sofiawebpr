@@ -15,8 +15,10 @@ app.controller('contrInventario', function (consultarImpuesto,
         traerMotivoCombo,
         descontarProductoInventario,
         insertarProductoInventario,
-        cerrarSesionS) {
+        cerrarSesionS,
+        titulos) {
     var vm = this;
+    titulos.ti(vm);
     vm.aux1 = 'Entrada y Salida Inventario';
     vm.productos = [];
     vm.tablaInventario = [];

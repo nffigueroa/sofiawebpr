@@ -31,51 +31,18 @@ public class Funciones_frm_MasVendido extends DA.Consultas_informeMasVendido{
     BL.Funciones_Generales general = new Funciones_Generales();
     ResultSet rs = null ;
     
-    public Object[] llenarComboSucursal(int id_sucursal)
+    public ArrayList llenarComboSucursal(int id_sucursal)
     {
-        int columnas=0,i=0,filas=0,q=0,id_empresa=0;
-        Object [] aux = null;
-        ResultSet r= null;   
-        id_empresa= consultaIdEmpresa(id_sucursal);
-        r=consultaLlenarComboSucursal(id_empresa);
-       try {
-           meta= r.getMetaData();
-           columnas= meta.getColumnCount();
-       } catch (SQLException ex) {
-           Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
-       }
-        try {
-            while(r.next())
-            {
-                filas=filas+1;
-            }
-            aux= new Object[filas];
-            r.beforeFirst();
-            while(r.next())
-            { 
-                if(q==0)
-                {
-                    r.first();
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-                else
-                {
-                    for ( i = 1; i <= columnas; i++) 
-                    {
-                        aux[q]=r.getObject(i);
-                    }
-                    q=q+1;
-                }
-            }
+        try{
+            int id_empresa =0;
+            id_empresa= consultaIdEmpresa(id_sucursal);
+            rs=consultaLlenarComboSucursal(id_empresa);
+            return general.resultSetToArrayList(rs);
        } catch (SQLException ex) {
            Logger.getLogger(Funciones_frm_producto.class.getName()).log(Level.SEVERE, null, ex);
            ex.printStackTrace();
+           return null;
        }
-        return aux;
     }
     
     public ArrayList llenarTablaMasVendido(int id_sucur, String fechaIni, String fechaFin){

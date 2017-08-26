@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.*;
 import java.sql.CallableStatement;
 import java.sql.Date;
 
@@ -396,6 +395,19 @@ public class Consultas_Generales extends Conexion {
         }
         catch(Exception e)
         {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public ResultSet consultaHistorialCortesCaja(int idSucursal)
+    {
+        try {
+            CallableStatement cst = conex.prepareCall("Call GEN_historialCortesCajaXEmpresa(?)");
+            cst.setInt("idSucursal", idSucursal);
+            cst.execute();
+            return cst.getResultSet();
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

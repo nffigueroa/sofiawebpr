@@ -6,8 +6,10 @@
 app.controller('contrCajonDinero',function (traerMotivoTipoImporte,
                                             traerTipoImporte,
                                             insertarImporte,
-                                            cerrarSesionS){
+                                            cerrarSesionS,
+                                            titulos){
     var vm = this;
+    titulos.ti(vm);
     vm.tiposImporte = [];
     vm.tiposMotivoImporte = [];
     vm.importeEnviar = [];

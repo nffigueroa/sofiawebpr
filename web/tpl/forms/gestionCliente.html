@@ -21,9 +21,9 @@ and open the template in the editor.
             <div class="row" id="pwd-container">
                 <div class="col-md-4"></div>
                 <div class="panel panel-primary">
-                    <div class="text-right bg-success"><div class="text-capitalize text-uppercase">Bienvenido! ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    <div class="text-right bg-success"><div class="text-capitalize text-uppercase text-white">Bienvenido! ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
                   
-                    <div class="panel-title">Gestion de Clientes</div>
+                    <div class="panel-title text-title-module">GESTION DE CLIENTES</div>
                     <div class="panel-body">
                         <div class="form-inline">
                         Search:
@@ -73,7 +73,7 @@ and open the template in the editor.
                       
                         </div>
                     </div>
-                    <div class="text-left bg-success"><div class="text-capitalize text-uppercase">Swin SAS. </div></div>
+                    <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer; }} </div></div>
                 </div>
             </div>
         </div>     
@@ -86,7 +86,7 @@ and open the template in the editor.
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">AGREGAR CLIENTES</h4>
+                        <h4 class="modal-title" id="myModalLabel">MODIFICAR CLIENTES</h4>
                     </div>
                     <div class="modal-body">
                         <form ng_submit="vm.saveCliente();" >
@@ -229,29 +229,29 @@ and open the template in the editor.
 
         <!-- Modal -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-lg center-block" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title" id="myModalLabel">INDICE PRODUCTOS</h4>
-                                            </div>
-                                            <div class="modal-body">
-
-                            <h2 class="h2 text-center bg-success">{{vm.aux1}}</h2>
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                            <h2 class="h2 text-center bg-success">MODIFICAR CLIENTES</h2>
                              <div class="row">
                                  <div class="col-md-2"><label for="producto">Tipo Cliente</label></div>
                                  <div class="col-md-4">
                             <div class="radio-inline">
                                 <label>
-                                    <input type="radio" ng_click="vm.dinamicoTextos(1);" class="radio-inline" ng_model="vm.tipoCLiente" value="1" namadio-inlinee="optradio">Persona Juridica
+                                    <input type="radio" ng_click="vm.dinamicoTextos(1);" class="radio-inline" ng_model="vm.tipoCLienteModificar" value="1" namadio-inlinee="optradio" ng_disabled="true">Persona Juridica
                                 </label>    
                                 </div>
                                      </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" ng_click="vm.dinamicoTextos(0);" class="radio-inline" ng_model="vm.tipoCLiente" value="0" name="optradio">Persona Natural
+                                        <input type="radio" ng_click="vm.dinamicoTextos(0);" class="radio-inline" ng_model="vm.tipoCLienteModificar" value="0" name="optradio" ng_disabled="true">Persona Natural
                                     </label>
                                 </div>  
                                      
@@ -302,7 +302,7 @@ and open the template in the editor.
                                     <label for="producto" ng_show="vm.parametro===2">DV</label>
                                     </div>
                                     <div class="col-md-3">
-                                    <input type="text" class="input input-sm" ng_show="vm.parametro===2" />
+                                        <input type="text" class="input input-sm" ng_show="vm.parametro===2" ng_model="vm.clienteModificar.DV" />
                                     </div>
                                    
                                 </div>
@@ -312,73 +312,71 @@ and open the template in the editor.
                                 </div>
                                 <div class="col-md-4">
                                     <select id="ciudad" class="input input-sm" ng_model="vm.clienteModificar.ciudad">
-                                    <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.id_ciudad}}">{{ciu.ciudad}}</option>
+                                    <option  ng_repeat="ciu in vm.ciudades" value="{{ciu.ciudad}}">{{ciu.ciudad}}</option>
                                     </select>
                                 </div>
                                     </div>
                              <div class="row"> 
                                     <div class="col-md-4">
-                                    <label for="iva">Retencion Iva</label>
+                                    <label for="iva">Aplica Retencion Iva</label>
                              </div>
                                     <div class="radio-inline">
                                         <label>
-                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="0" name="optradio">No
+                                            <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.declaraIva" value="0" name="optradio">No
                                         </label>    
                                     </div>
                                     <div class="radio-inline">
                                         <label>
-                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.declaraIva" value="1" name="optradio">SI
+                                            <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.declaraIva" value="1" name="optradio">SI
                                         </label>
                                     </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="retefuente">Retencion Fuente</label>
+                                    <label for="retefuente">Aplica Retencion Fuente</label>
                                 </div>
                                 
                                 <div class="radio-inline">
                                 <label>
-                                    <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="0" name="retencionOpt">No
+                                    <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.reteFuente" value="0" name="retencionOpt">No
                                 </label>    
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteFuente" value="1" name="retencionOpt">SI
+                                        <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.reteFuente" value="1" name="retencionOpt">SI
                                     </label>
                                 </div>
                            </div>
                                 <div class="row">
                                 <div class="col-md-4">
-                                    <label for="reteIca">Retencion ICA</label>
+                                    <label for="reteIca">Aplica Retencion ICA </label>
                                     </div>
                                     <div class="radio-inline">
                                         <label>
-                                            <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="0" name="retencionIcaOpt">No
+                                            <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.reteIca" value="0" name="retencionIcaOpt">No
                                         </label>    
                                     </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" class="radio-inline" ng_model="vm.cliente.reteIca" value="1" name="retencionIcaOpt">SI
+                                        <input type="radio" class="radio-inline" ng_model="vm.clienteModificar.reteIca" value="1" name="retencionIcaOpt">SI
                                     </label>
                                 </div>
-                                    <input ng_show="vm.cliente.reteIca==1" id="milesIca" type="text" name="milesIca" placeholder="Tarifa ICA (MILES)" class="input input-sm" ng_model="vm.cliente.tarifaIca" />
+                                    <input ng_show="vm.clienteModificar.reteIca==1" id="milesIca" type="text" name="milesIca" placeholder="Tarifa ICA (MILES)" class="input input-sm" ng_model="vm.clienteModoficar.tarifaIca" />
                        </div>
                            
-                            <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                          <input type="text" hidden="true" ng_model="vm.clienteModificar.id_cliente" value ="{{vm.clienteModificar.id_cliente}}">
+                        <button class="btn btn-lg btn-primary btn-block " ng_click="vm.modificarCliente(vm.clienteModificar.id_cliente)">Modificar Registro </button>
+                    
                         </form>      
-             
-                        <input type="text" hidden="false" ng_model="vm.clienteModificar.id_cliente" value ="{{vm.clienteModificar.id_cliente}}">
-                        <button ng_click="vm.modificarCliente(vm.clienteModificar.id_cliente)">Modificar Registro </button>
                     </div>
-
+                </div>
+            
                     <div class="modal-footer">
-
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
+                  </div>
             </div>
-        </div>
-       </div>
         <div class="col-md-4"></div>
     </body>
 </html>

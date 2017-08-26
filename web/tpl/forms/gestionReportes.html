@@ -34,7 +34,7 @@ and open the template in the editor.
                 <div class="col-lg-12">
                     <div class="panel panel-primary">
                          <div class="btn-group-justified"> 
-                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    <div class="text-right bg-success"><div class="text-success text-uppercase text-white">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
                     </div>
                         <div class="panel-body">
                             <ul class="nav nav-tabs" role="tablist">
@@ -46,7 +46,7 @@ and open the template in the editor.
                              </ul>
                              <div class="tab-content">
                                         <div role="tabpanel" id="productoStock" class="tab-pane fade in active">
-                                            <table class="table table-bordered table-hover table-responsive">
+                                            <table id="#tablaInforme" class="table table-bordered table-hover table-responsive">
                                                 <th class="small">IDENTIFICACION</th>
                                                 <th class="small">NOMBRE</th>
                                              <!--   <th class="small">IVA</th> -->
@@ -87,7 +87,9 @@ and open the template in the editor.
                                                         </div></td>
                                                 </table>
                                         </div>
-                                    
+                                    <button class="btn btn-link" ng-click="vm.exportToExcel('#tablaInforme')">
+                        <span class="glyphicon glyphicon-share"></span> Export to Excel
+                    </button>
                             <!-- Reporte Mas Vendidos -->
                             
                            
@@ -227,14 +229,22 @@ and open the template in the editor.
                                                     <td>{{c.nombre_sucursal}}</td>
                                                     <td>{{c.motivo}}</td>
                                                 </table>
+                                            
                                         </div>
+                            
                                     </div>
-                        </div>    
+                            
+                        </div>  
+                        <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer }}</div></div>
                     </div> 
+                    
                 </div>
                     
             </div>
-        </div>     
+            
+        </div>  
+        
+        
 <!-- Creacion de los Modales -->
  <div class="modal fade" id="myModalTraerProveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

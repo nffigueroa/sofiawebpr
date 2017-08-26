@@ -23,23 +23,20 @@ import DA.Consultas_informeMasVendido;
 import DA.consultas_Cliente;
 import DA.consultas_cortesCaja;
 import DA.consultas_login;
-import DA.consultas_factura;
-import java.net.URL;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
-import java.util.Map;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+
 
 
 /**
@@ -112,48 +109,48 @@ public class Funciones_Generales extends DA.Consultas_Generales {
     
     
     
-//    public String funcionProductoMasGanacia(int id_sucursal)
-//    {
-//        ResultSet rf = null;
-//        DA.consultas_Entrada_Inventario mol = new Funciones_Entrada_Inventario();
-//        rf =mol.llenarTabla_inventario(id_sucursal);
-//        int aux_utilidad=0,utilidad=0;
-//        String nombre_producto = null;
-//        try {
-//            while(rf.next())
-//            {
-//                aux_utilidad =0;
-//                aux_utilidad = rf.getInt("PRO.utilidad");
-//                
-//                if(aux_utilidad>utilidad)
-//                {
-//                    nombre_producto = rf.getString("PR.nombre_producto");
-//                    utilidad = aux_utilidad;
-//                }
-//                
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return nombre_producto;
-//    }
+    public String funcionProductoMasGanacia(int id_sucursal)
+    {
+        ResultSet rf = null;
+        DA.consultas_Entrada_Inventario mol = new Funciones_Entrada_Inventario();
+        rf =mol.llenarTabla_inventario(id_sucursal);
+        int aux_utilidad=0,utilidad=0;
+        String nombre_producto = null;
+        try {
+            while(rf.next())
+            {
+                aux_utilidad =0;
+                aux_utilidad = rf.getInt("PRO.utilidad");
+                
+                if(aux_utilidad>utilidad)
+                {
+                    nombre_producto = rf.getString("PR.nombre_producto");
+                    utilidad = aux_utilidad;
+                }
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nombre_producto;
+    }
     
-//    public float promedioVentasDiarias(int id_empresa)
-//    {
-//        Consultas_Generales con = new Consultas_Generales();
-//        String Fecha1=con.consultaPrimerFechaXEmpresa(id_empresa);
-//        venta_diaria=llenarVentaDiariaConstructor(id_empresa, Fecha1, date.format(now));
-//        int cantidad_dias = venta_diaria.getFecha().length;
-//        float aux=0;
-//        float[] ventas = new float[cantidad_dias];
-//        ventas= venta_diaria.getTotalVenta();
-//        for (int i = 0; i < cantidad_dias; i++) {
-//            aux = aux + (ventas[i]);
-//        }
-//        aux = aux/cantidad_dias;
-//        return aux;
-//    }
-//    
+    public float promedioVentasDiarias(int id_empresa)
+    {
+        Consultas_Generales con = new Consultas_Generales();
+        String Fecha1=con.consultaPrimerFechaXEmpresa(id_empresa);
+        venta_diaria=llenarVentaDiariaConstructor(id_empresa, Fecha1, date.format(now));
+        int cantidad_dias = venta_diaria.getFecha().length;
+        float aux=0;
+        float[] ventas = new float[cantidad_dias];
+        ventas= venta_diaria.getTotalVenta();
+        for (int i = 0; i < cantidad_dias; i++) {
+            aux = aux + (ventas[i]);
+        }
+        aux = aux/cantidad_dias;
+        return aux;
+    }
+    
 //    public float promedioVentasMensuales(int id_empresa)
 //    {
 //        Consultas_Generales con = new Consultas_Generales();
@@ -171,245 +168,194 @@ public class Funciones_Generales extends DA.Consultas_Generales {
 //    }
     
     
-//    public Constructores.Constructor_venta_Diaria llenarVentaDiariaConstructor(int id_empresa, String fecha, String fechaHasta) {
-//        int filas = 0, ban = 0, aux = 0,contador=0;
-//        
-//        Funciones_frm_factura fun = new Funciones_frm_factura();
-//        String fechaRs = new String(),fecha_normal=new String();
-//        
-//        
-//        try {
-//            // LA VARIABLE aux lleva la cantidad de fils que se deben mostrar
-//            rs = fun.consultaLlenarTablaFactura(id_empresa, fecha, fechaHasta,false);
-//            while (rs.next()) {
-//                 fechaRs = rs.getString("FACT.fecha_creacion"); // SE OBTIENE LA FECHA QUE QUEREMOS COMPARAR DESDE LA CONSULTA
-//                 if(fecha_normal.equalsIgnoreCase(fechaRs))// SE USA UN ARRAY AUXILIAR (fecha_normal) EL CUAL ACUMULARÁ LAS FECHAS Y CAMBIARA CUANDO ENCUETRE UNA FECHA DISTINTIA
-//                 {
-//                     
-//                 }
-//                 else
-//                 {
-//                     fecha_normal = fechaRs;    //ACUMULAMOS LA FECHA YA QUE ES DISTINTA A LA ACUMULADA
-//                     aux++;// SE INCREMENTA AUX CADA VEZ QUE SE AÑADE PARA INDICAR CUANTAS FILAS SE DEBEN MOSTRAR
-//                 }
-//            }
-//            String[] fecha_aux = new String[aux];
-//            for (int i = 0; i < aux; i++) {
-//                fecha_aux[i]="";
-//            }
-//            int con=0;
-//            rs.beforeFirst();
-//            fechaRs=null;
-//            while (rs.next()) {
-//                ban=0;
-//                 fechaRs = rs.getString("FACT.fecha_creacion");
-//                 for (int i = 0; i < fecha_aux.length; i++) {
-//                     if(fecha_aux[i].equalsIgnoreCase(fechaRs))
-//                        {
-//                           ban=1;
-//                        }
-//                 }
-//                         if(ban==0)
-//                        {
-//                            fecha_aux[con]=fechaRs;
-//                            con++;
-//                        }
-//            }
-//            rs.beforeFirst();
-//            float[] totalVentas = new float[fecha_aux.length], totalIva = new float[fecha_aux.length], totalDescuento = new float[fecha_aux.length];
-//            while (rs.next()) {
-//                for (int i = 0; i < fecha_aux.length; i++) {
-//                    if (fecha_aux[i].equalsIgnoreCase(rs.getString("FACT.fecha_creacion"))) {
-//                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("FACT.descuento");
-//                        totalIva[i] = totalIva[i] + rs.getFloat("FACT.iva");
-//                        totalVentas[i] = totalVentas[i] + rs.getFloat("FACT.total");
-//                    }
-//                }
-//            }
-//            venta_diaria.setFecha(fecha_aux);
-//            venta_diaria.setTotalDescuento(totalDescuento);
-//            venta_diaria.setTotalIva(totalIva);
-//            venta_diaria.setTotalVenta(totalVentas);
-//            return venta_diaria;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
+    public Constructores.Constructor_venta_Diaria llenarVentaDiariaConstructor(int id_empresa, String fecha, String fechaHasta) {
+        int filas = 0, ban = 0, aux = 0,contador=0;
+        
+        Funciones_frm_factura fun = new Funciones_frm_factura();
+        String fechaRs = new String(),fecha_normal=new String();
+        
+        
+        try {
+            // LA VARIABLE aux lleva la cantidad de fils que se deben mostrar
+            rs = fun.consultaLlenarTablaFactura(id_empresa, fecha, fechaHasta,false);
+            while (rs.next()) {
+                 fechaRs = rs.getString("FACT.fecha_creacion"); // SE OBTIENE LA FECHA QUE QUEREMOS COMPARAR DESDE LA CONSULTA
+                 if(fecha_normal.equalsIgnoreCase(fechaRs))// SE USA UN ARRAY AUXILIAR (fecha_normal) EL CUAL ACUMULARÁ LAS FECHAS Y CAMBIARA CUANDO ENCUETRE UNA FECHA DISTINTIA
+                 {
+                     
+                 }
+                 else
+                 {
+                     fecha_normal = fechaRs;    //ACUMULAMOS LA FECHA YA QUE ES DISTINTA A LA ACUMULADA
+                     aux++;// SE INCREMENTA AUX CADA VEZ QUE SE AÑADE PARA INDICAR CUANTAS FILAS SE DEBEN MOSTRAR
+                 }
+            }
+            String[] fecha_aux = new String[aux];
+            for (int i = 0; i < aux; i++) {
+                fecha_aux[i]="";
+            }
+            int con=0;
+            rs.beforeFirst();
+            fechaRs=null;
+            while (rs.next()) {
+                ban=0;
+                 fechaRs = rs.getString("FACT.fecha_creacion");
+                 for (int i = 0; i < fecha_aux.length; i++) {
+                     if(fecha_aux[i].equalsIgnoreCase(fechaRs))
+                        {
+                           ban=1;
+                        }
+                 }
+                         if(ban==0)
+                        {
+                            fecha_aux[con]=fechaRs;
+                            con++;
+                        }
+            }
+            rs.beforeFirst();
+            float[] totalVentas = new float[fecha_aux.length], totalIva = new float[fecha_aux.length], totalDescuento = new float[fecha_aux.length];
+            while (rs.next()) {
+                for (int i = 0; i < fecha_aux.length; i++) {
+                    if (fecha_aux[i].equalsIgnoreCase(rs.getString("FACT.fecha_creacion"))) {
+                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("FACT.descuento");
+                        totalIva[i] = totalIva[i] + rs.getFloat("FACT.iva");
+                        totalVentas[i] = totalVentas[i] + rs.getFloat("FACT.total");
+                    }
+                }
+            }
+            venta_diaria.setFecha(fecha_aux);
+            venta_diaria.setTotalDescuento(totalDescuento);
+            venta_diaria.setTotalIva(totalIva);
+            venta_diaria.setTotalVenta(totalVentas);
+            return venta_diaria;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-//    public Constructores.Constructor_venta_Diaria llenarVentaMensualConstructoXEmpresa(int id_empresa, String fecha, String fechaHasta) {
-//        int filas = 0, ban = 0, aux = 0;
-//        Funciones_frm_factura fun = new Funciones_frm_factura();
-//        String fechaRs = new String(),mes= new String();
-//        try {
-//            rs = fun.consultaLlenarVentaXMesXEmpresa(id_empresa, fecha, fechaHasta);
-//            
-//             while (rs.next()) {
-//                 fechaRs = rs.getString("MESespañol"); // SE OBTIENE LA FECHA QUE QUEREMOS COMPARAR DESDE LA CONSULTA
-//                 if(mes.equalsIgnoreCase(fechaRs))// SE USA UN ARRAY AUXILIAR (fecha_normal) EL CUAL ACUMULARÁ LAS FECHAS Y CAMBIARA CUANDO ENCUETRE UNA FECHA DISTINTIA
-//                 {
-//                     
-//                 }
-//                 else
-//                 {
-//                     mes = fechaRs;    //ACUMULAMOS LA FECHA YA QUE ES DISTINTA A LA ACUMULADA
-//                     filas++;// SE INCREMENTA AUX CADA VEZ QUE SE AÑADE PARA INDICAR CUANTAS FILAS SE DEBEN MOSTRAR
-//                 }
-//            }
-//            
-//            
-//            
-//            String[] fecha_para_constructor = new String[filas];
-//            for (int i = 0; i < filas; i++) {
-//                fecha_para_constructor[i] = "";
-//            }
-//            rs.beforeFirst();
-//            while (rs.next()) {
-//                fechaRs = rs.getString("MESespañol");
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equals(fechaRs)) {
-//                        ban = 1;
-//                    }
-//                }
-//                if (ban != 1) {
-//                    fecha_para_constructor[aux] = rs.getString("MESespañol");
-//                    aux++;
-//                }
-//                ban = 0;
-//            }
-//            rs.beforeFirst();
-//            float[] totalVentas = new float[filas], totalIva = new float[filas], totalDescuento = new float[filas];
-//            while (rs.next()) {
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equalsIgnoreCase(rs.getString("MESespañol"))) {
-//                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("descuento");
-//                        totalIva[i] = totalIva[i] + rs.getFloat("iva");
-//                        totalVentas[i] = totalVentas[i] + rs.getFloat("total");
-//                    }
-//                }
-//            }
-//            venta_diaria.setFecha(fecha_para_constructor);
-//            venta_diaria.setTotalDescuento(totalDescuento);
-//            venta_diaria.setTotalIva(totalIva);
-//            venta_diaria.setTotalVenta(totalVentas);
-//            return venta_diaria;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
+    public ArrayList llenarVentaMensualConstructoXEmpresa(int id_empresa, String fecha, String fechaHasta) {
+        Funciones_frm_factura fun = new Funciones_frm_factura();
+        try {
+            rs = fun.consultaLlenarVentaXMesXEmpresa(id_empresa, fecha, fechaHasta);
+            return this.resultSetToArrayList(rs);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-//    public Constructores.Constructor_venta_Diaria llenarVentaMensualConstructoXSucursal(String sucursal, String fecha, String fechaHasta) {
-//        int filas = 0, ban = 0, aux = 0;
-//        Funciones_frm_factura fun = new Funciones_frm_factura();
-//        String fechaRs = new String(), mes= new String();
-//        int id_sucursal = consultaIdSucursal(sucursal);
-//        try {
-//            rs = fun.consultaLlenarVentaXMesXSucursal(id_sucursal, fecha, fechaHasta);
-//           
-//             while (rs.next()) {
-//                 fechaRs = rs.getString("MESespañol"); // SE OBTIENE LA FECHA QUE QUEREMOS COMPARAR DESDE LA CONSULTA
-//                 if(mes.equalsIgnoreCase(fechaRs))// SE USA UN ARRAY AUXILIAR (fecha_normal) EL CUAL ACUMULARÁ LAS FECHAS Y CAMBIARA CUANDO ENCUETRE UNA FECHA DISTINTIA
-//                 {
-//                     
-//                 }
-//                 else
-//                 {
-//                     mes = fechaRs;    //ACUMULAMOS LA FECHA YA QUE ES DISTINTA A LA ACUMULADA
-//                     filas++;// SE INCREMENTA AUX CADA VEZ QUE SE AÑADE PARA INDICAR CUANTAS FILAS SE DEBEN MOSTRAR
-//                 }
-//            }
-//            
-//            
-//            String[] fecha_para_constructor = new String[filas];
-//            for (int i = 0; i < filas; i++) {
-//                fecha_para_constructor[i] = "";
-//            }
-//            rs.beforeFirst();
-//            while (rs.next()) {
-//                fechaRs = rs.getString("MESespañol");
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equals(fechaRs)) {
-//                        ban = 1;
-//                    }
-//                }
-//                if (ban != 1) {
-//                    fecha_para_constructor[aux] = rs.getString("MESespañol");
-//                    aux++;
-//                }
-//                ban = 0;
-//            }
-//            rs.beforeFirst();
-//            float[] totalVentas = new float[filas], totalIva = new float[filas], totalDescuento = new float[filas];
-//            while (rs.next()) {
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equalsIgnoreCase(rs.getString("MESespañol"))) {
-//                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("descuento");
-//                        totalIva[i] = totalIva[i] + rs.getFloat("iva");
-//                        totalVentas[i] = totalVentas[i] + rs.getFloat("total");
-//                    }
-//                }
-//            }
-//            venta_diaria.setFecha(fecha_para_constructor);
-//            venta_diaria.setTotalDescuento(totalDescuento);
-//            venta_diaria.setTotalIva(totalIva);
-//            venta_diaria.setTotalVenta(totalVentas);
-//            return venta_diaria;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    public Constructores.Constructor_venta_Diaria llenarVentaDiariaConstructorXSucursal(String id_sucursal, String fecha, String fechaHasta) {
-//        int filas = 0, ban = 0, aux = 0;
-//        Funciones_frm_factura fun = new Funciones_frm_factura();
-//        String fechaRs = null;
-//        try {
-//            int sucur = consultaIdSucursal(id_sucursal);
-//            rs = fun.consultaLlenarTablaFactura(sucur, fecha, fechaHasta,true);
-//            while (rs.next()) {
-//                filas = filas + 1;
-//            }
-//            String[] fecha_para_constructor = new String[filas];
-//            for (int i = 0; i < filas; i++) {
-//                fecha_para_constructor[i] = "";
-//            }
-//            rs.beforeFirst();
-//            while (rs.next()) {
-//                fechaRs = rs.getString("FACT.fecha_creacion");
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equals(fechaRs)) {
-//                        ban = 1;
-//                    }
-//                }
-//                if (ban != 1) {
-//                    fecha_para_constructor[aux] = rs.getString("FACT.fecha_creacion");
-//                    aux++;
-//                }
-//                ban = 0;
-//            }
-//            rs.beforeFirst();
-//            float[] totalVentas = new float[filas], totalIva = new float[filas], totalDescuento = new float[filas];
-//            while (rs.next()) {
-//                for (int i = 0; i < filas; i++) {
-//                    if (fecha_para_constructor[i].equalsIgnoreCase(rs.getString("FACT.fecha_creacion"))) {
-//                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("descuento");
-//                        totalIva[i] = totalIva[i] + rs.getFloat("iva");
-//                        totalVentas[i] = totalVentas[i] + rs.getFloat("total");
-//                    }
-//                }
-//            }
-//            venta_diaria.setFecha(fecha_para_constructor);
-//            venta_diaria.setTotalDescuento(totalDescuento);
-//            venta_diaria.setTotalIva(totalIva);
-//            venta_diaria.setTotalVenta(totalVentas);
-//            return venta_diaria;
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
+    public Constructores.Constructor_venta_Diaria llenarVentaMensualConstructoXSucursal(String sucursal, String fecha, String fechaHasta) {
+        int filas = 0, ban = 0, aux = 0;
+        Funciones_frm_factura fun = new Funciones_frm_factura();
+        String fechaRs = new String(), mes= new String();
+        int id_sucursal = consultaIdSucursal(sucursal);
+        try {
+            rs = fun.consultaLlenarVentaXMesXSucursal(id_sucursal, fecha, fechaHasta);
+           
+             while (rs.next()) {
+                 fechaRs = rs.getString("MESespañol"); // SE OBTIENE LA FECHA QUE QUEREMOS COMPARAR DESDE LA CONSULTA
+                 if(mes.equalsIgnoreCase(fechaRs))// SE USA UN ARRAY AUXILIAR (fecha_normal) EL CUAL ACUMULARÁ LAS FECHAS Y CAMBIARA CUANDO ENCUETRE UNA FECHA DISTINTIA
+                 {
+                     
+                 }
+                 else
+                 {
+                     mes = fechaRs;    //ACUMULAMOS LA FECHA YA QUE ES DISTINTA A LA ACUMULADA
+                     filas++;// SE INCREMENTA AUX CADA VEZ QUE SE AÑADE PARA INDICAR CUANTAS FILAS SE DEBEN MOSTRAR
+                 }
+            }
+            
+            
+            String[] fecha_para_constructor = new String[filas];
+            for (int i = 0; i < filas; i++) {
+                fecha_para_constructor[i] = "";
+            }
+            rs.beforeFirst();
+            while (rs.next()) {
+                fechaRs = rs.getString("MESespañol");
+                for (int i = 0; i < filas; i++) {
+                    if (fecha_para_constructor[i].equals(fechaRs)) {
+                        ban = 1;
+                    }
+                }
+                if (ban != 1) {
+                    fecha_para_constructor[aux] = rs.getString("MESespañol");
+                    aux++;
+                }
+                ban = 0;
+            }
+            rs.beforeFirst();
+            float[] totalVentas = new float[filas], totalIva = new float[filas], totalDescuento = new float[filas];
+            while (rs.next()) {
+                for (int i = 0; i < filas; i++) {
+                    if (fecha_para_constructor[i].equalsIgnoreCase(rs.getString("MESespañol"))) {
+                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("descuento");
+                        totalIva[i] = totalIva[i] + rs.getFloat("iva");
+                        totalVentas[i] = totalVentas[i] + rs.getFloat("total");
+                    }
+                }
+            }
+            venta_diaria.setFecha(fecha_para_constructor);
+            venta_diaria.setTotalDescuento(totalDescuento);
+            venta_diaria.setTotalIva(totalIva);
+            venta_diaria.setTotalVenta(totalVentas);
+            return venta_diaria;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Constructores.Constructor_venta_Diaria llenarVentaDiariaConstructorXSucursal(String id_sucursal, String fecha, String fechaHasta) {
+        int filas = 0, ban = 0, aux = 0;
+        Funciones_frm_factura fun = new Funciones_frm_factura();
+        String fechaRs = null;
+        try {
+            int sucur = consultaIdSucursal(id_sucursal);
+            rs = fun.consultaLlenarTablaFactura(sucur, fecha, fechaHasta,true);
+            while (rs.next()) {
+                filas = filas + 1;
+            }
+            String[] fecha_para_constructor = new String[filas];
+            for (int i = 0; i < filas; i++) {
+                fecha_para_constructor[i] = "";
+            }
+            rs.beforeFirst();
+            while (rs.next()) {
+                fechaRs = rs.getString("FACT.fecha_creacion");
+                for (int i = 0; i < filas; i++) {
+                    if (fecha_para_constructor[i].equals(fechaRs)) {
+                        ban = 1;
+                    }
+                }
+                if (ban != 1) {
+                    fecha_para_constructor[aux] = rs.getString("FACT.fecha_creacion");
+                    aux++;
+                }
+                ban = 0;
+            }
+            rs.beforeFirst();
+            float[] totalVentas = new float[filas], totalIva = new float[filas], totalDescuento = new float[filas];
+            while (rs.next()) {
+                for (int i = 0; i < filas; i++) {
+                    if (fecha_para_constructor[i].equalsIgnoreCase(rs.getString("FACT.fecha_creacion"))) {
+                        totalDescuento[i] = totalDescuento[i] + rs.getFloat("descuento");
+                        totalIva[i] = totalIva[i] + rs.getFloat("iva");
+                        totalVentas[i] = totalVentas[i] + rs.getFloat("total");
+                    }
+                }
+            }
+            venta_diaria.setFecha(fecha_para_constructor);
+            venta_diaria.setTotalDescuento(totalDescuento);
+            venta_diaria.setTotalIva(totalIva);
+            venta_diaria.setTotalVenta(totalVentas);
+            return venta_diaria;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
     public Constructores.Constructor_Cantidad_Categoria_Vendido listadoCategoriasProducto() {
         int aux = 0, filas = 0;
@@ -729,6 +675,16 @@ public class Funciones_Generales extends DA.Consultas_Generales {
            rs = consultaImpuestosEmpresaCliente(idCliente, idSucursal, tipoImpuesto);
            return resultSetToArrayList(rs);
         } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public ArrayList historialCorteCaja(int idSucursal)
+    {
+        try {
+            return this.resultSetToArrayList(consultaHistorialCortesCaja(idSucursal));
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

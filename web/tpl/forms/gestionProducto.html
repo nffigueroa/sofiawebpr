@@ -20,9 +20,9 @@ and open the template in the editor.
                 <div class="col-md-4"></div>
                 <div class="panel panel-primary">
                     <div class="btn-group-justified"> 
-                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    <div class="text-right bg-success text-white"><div class="text-capitalize text-uppercase">Bienvenido! ({{vm.user}}) &nbsp; <a class="list-inline right text-white" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
                     </div>
-                    <div class="panel-title"></div>
+                    <div class="panel-title text-center"><strong>GESTION PRODUCTO </strong> </div>
                     <div class="panel-body">
                         <div class="form-inline">
                         Search:
@@ -76,7 +76,15 @@ and open the template in the editor.
                             <button class="btn" type='button' ng-disabled='vm.currentPage >= vm.data.length / vm.pageSize - 1' ng-click='vm.currentPage = vm.currentPage + 1'>&raquo;</button>
                             <!-- Button trigger modal -->
                             
-                        </div>
+                       </div>
+                       </div>
+                        <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer }}</div></div>
+                       </div>
+                    
+                      </div>
+                
+                      </div>
+            
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -166,14 +174,5 @@ and open the template in the editor.
                                                     </div>
                                                 </div>
                                             </div>
-
-                                     
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-
     </body>
 </html>

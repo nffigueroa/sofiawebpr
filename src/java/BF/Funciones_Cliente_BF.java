@@ -168,6 +168,34 @@ public class Funciones_Cliente_BF extends HttpServlet {
                     response.getWriter().print(resultJson);
                 break;
             }
+            case 5 :
+            {
+                    Funciones_frm_clientes pro = new Funciones_frm_clientes();
+                    JSONArray resultJson = new JSONArray();
+                    ArrayList lista = pro.llenarImpuesto(obJ.getInt("idCliente"));
+                    resultJson.put(0,lista);
+                    response.getWriter().print(resultJson);
+                break;
+            }
+            case 6 :
+            {
+                try{
+                    Funciones_frm_clientes pro = new Funciones_frm_clientes();
+                    JSONArray resultJson = new JSONArray();
+                    pro.actualizarImpuestos(obJ.getInt("idCliente"),
+                                                                obJ.getString("milesIca"),
+                                                                obJ.getInt("declaraIva"),
+                                                                obJ.getInt("declaraIca"),
+                                                                obJ.getInt("retefuente"));
+                    resultJson.put(0,true);
+                    response.getWriter().print(resultJson);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 

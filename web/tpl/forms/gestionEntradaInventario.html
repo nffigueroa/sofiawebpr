@@ -48,7 +48,7 @@ and open the template in the editor.
                 <div >
                 <div class="panel panel-primary">
                     <div class="btn-group-justified"> 
-                    <div class="text-right bg-success"><div class="text-success text-uppercase">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
+                    <div class="text-right bg-success"><div class="text-success text-uppercase text-white">Bienvenido ({{vm.user}}) &nbsp; <a class="list-inline right" ng_click="vm.cerrarSesion();" href="#/sofiaApp">Salir</a></div></div>
                     </div>
                     <button class="btn warning" value="Actualizar" ng_click="vm.actualizarTabla();"> Update
                         </button>
@@ -57,58 +57,32 @@ and open the template in the editor.
                         Search:
                         <input type ="text" class="form-control" ng_model="search" >
                         <table  class="table-hover table-bordered table-responsive table-condensed tab-content center-block">
-                            <th>
-                                Identificacion
-                            </th>
-                            <th>
-                                Nombre
-                            </th>
-                            <th>
-                                Iva
-                            </th>
-                            <th>
-                                Marca
-                            </th>
-                            <th>
-                                Categoria
-                            </th><th>
-                                Presentacion
-                            </th>
-                            <th>
-                                Expiracion
-                            </th>
-                            <th>
-                                Medicion
-                            </th>
-                            <th>
-                                Cantidad
-                            </th>
+                            <th>Identificacion</th>
+                            <th>Nombre</th>
+                            <th>Iva</th>
+                            <th>Marca</th>
+                            <th>Categoria</th>
+                            <th>Presentacion</th>
+                            <th>Expiracion</th>
+                            <th>Medicion</th>
+                            <th>Cantidad</th>
                             <!--<th>
                                 Stock
                             </th> -->
-                            <th>
-                                Barras
-                            </th>
-                            <th>
-                                Precio 1
-                            </th>
+                            <th>Barras</th>
+                            <th>Precio 1</th>
                             <!-- <th> 
                                 Precio 2
                             </th>-->
                            <!--- <th>
                                 Sucursal
                             </th> -->
-                            <th>
-                                
+                            <th></th>
+                            <th>                  
                             </th>
-                            <th>
-                                
+                            <th>                                
                             </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                
+                            <th>                                
                             </th>
                             
                             <tr ng_repeat="c in vm.tablaInventario | filter : search" ng_dblclick="">
@@ -167,6 +141,7 @@ and open the template in the editor.
                                 +
                             </button>
                         </div>
+                    <div class="text-left bg-success text-white"><div class="text-capitalize text-uppercase">{{ vm.footer; }} </div></div>
                     </div>
                 </div>
             </div>

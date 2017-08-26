@@ -49,8 +49,10 @@ app.factory('loguear',function ($http){
 	};
 	return log;
 });
-app.controller('contrPro', function(traerProductoActualizar,cerrarSesionS,category,updatePr,envioPro,eliminarPro) {
+app.controller('contrPro', function(traerProductoActualizar,cerrarSesionS,category,updatePr,envioPro,
+eliminarPro) {
 var vm = this;
+
 vm.currentPage = 0;
 vm.pageSize = 5; // Esta la cantidad de registros que deseamos mostrar por página
 vm.pages = [];
@@ -431,6 +433,7 @@ app.run(function($rootScope, $location, auth){
 	//creamos un array con las rutas que queremos controlar
     var rutasPrivadas = ["/master",
                         "/login",
+                        "/sofiaApp",
                         "/GestionUsuario",
                         "/GestionProducto",
                         "/GestionCliente",
@@ -442,15 +445,27 @@ app.run(function($rootScope, $location, auth){
                         "/GestionCajonDinero",
                         "/GestionFactura",
                         "/GestionCuentasCobrar",
-                        "/GestionReportes"];
+                        "/GestionReportes",
+                        "/GestionReportesContable"];
     //al cambiar de rutas
     $rootScope.$on('$routeChangeStart', function(){
     	//si en el array rutasPrivadas existe $location.path(), locationPath en el login
     	//es /login, en la home /home etc, o el usuario no ha iniciado sesión, lo volvemos 
     	//a dejar en el formulario de login
-        if(in_array($location.path(),rutasPrivadas) && !auth.isLoggedIn()){
+        
+        if($location.path() == "") // Si es la primer entrada a la aplicacion
+        {
+            return;
+        }
+        if(in_array($location.path(),rutasPrivadas) == false){
+            
             $location.path("/sofiaApp");
-            alert("No tienes permiso o no estas autenticado!");
+            alert("No tienes permiso para acceder a esta pagina!");
+        }
+        if(!in_array($location.path(),rutasPrivadas) && (!auth.isLoggedIn()))
+        {
+            $location.path("/sofiaApp");
+            alert("No estas autenticado!");
         }
         //en el caso de que intente acceder al login y ya haya iniciado sesión lo mandamos a la home
         if((($location.path() == '/login') || ($location.path() == '/sofiaApp'))  && auth.isLoggedIn()){

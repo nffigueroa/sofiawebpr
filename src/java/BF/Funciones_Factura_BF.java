@@ -5,13 +5,12 @@
  */
 package BF;
 
-import BL.Funciones_frm_CortesCaja;
 import BL.Funciones_frm_factura;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,8 @@ import org.json.JSONObject;
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class Funciones_Factura_BF extends HttpServlet {
-
+SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+Date now = new Date(System.currentTimeMillis());
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -94,10 +94,14 @@ public class Funciones_Factura_BF extends HttpServlet {
                 try {
                     BL.Funciones_frm_factura fun = new Funciones_frm_factura();
                     JSONArray respuesta = new JSONArray();
+                    String primerFecha = null;
+                    String segundaFecha = null;
+                    primerFecha = obJ.getString("fechaInicio").isEmpty() ? calcularPrimerFecha() : date.format(Date.parse(obJ.getString("fechaInicio")));
+                    segundaFecha = obJ.getString("fechaHasta").isEmpty() ? date.format(now): date.format(Date.parse(obJ.getString("fechaHasta")));
                     respuesta.put(0,fun.llenarTablaFacturas((obJ.getBoolean("ban")), 
                                                             obJ.getInt("idSucursal"), 
-                                                            obJ.getString("fechaInicio"), 
-                                                            obJ.getString("fechaHasta")));
+                                                            primerFecha, 
+                                                            segundaFecha));
                     response.getWriter().print(respuesta);
                     break;
                 } catch (Exception e) {
@@ -142,7 +146,21 @@ public class Funciones_Factura_BF extends HttpServlet {
             }
             case 5 : {
                 try {
-                   
+                    BL.Funciones_frm_factura fun = new Funciones_frm_factura();
+                    JSONArray resultJson = new JSONArray();
+                    resultJson.put(0, fun.listarFacturasanuladas(obJ.getInt("idSucursal")));
+                    response.getWriter().print(resultJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            case 6: {
+                try {
+                    BL.Funciones_frm_factura fun = new Funciones_frm_factura();
+                    JSONArray array = new JSONArray();
+                    array.put(0,fun.llenarComboMotivoAnulacion());
+                    response.getWriter().print(array);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -154,6 +172,14 @@ public class Funciones_Factura_BF extends HttpServlet {
         {
             e.printStackTrace();
         }
+    }
+    private String calcularPrimerFecha()
+    {
+        Calendar cal =Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.DAY_OF_MONTH, -30);
+        String primerFecha = date.format(cal.getTime());
+        return primerFecha;
     }
     
 }

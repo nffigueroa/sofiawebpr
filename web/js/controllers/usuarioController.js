@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrUsuario', function (ControlSesion,traerUsuario, traerPermisosUsuario, envioUsuario, 
+app.controller('contrUsuario', function (titulos,ControlSesion,traerUsuario, traerPermisosUsuario, envioUsuario, 
 eliminarUsuario, llenarComboCiudad, updateUser,llenarComboCiudad,registrarPermisoUsuario,llenarComboCargo,cerrarSesionS) 
 {
     var vm = this;
+    titulos.ti(vm);
     vm.aux1 = "GESTION USUARIO";
    // vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.currentPage = 0;

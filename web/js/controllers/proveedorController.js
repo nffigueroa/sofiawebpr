@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('contrProvee', function (auth, traerProveedor, envioProvee, $cookieStore, ngTableParams,
+app.controller('contrProvee', function (titulos,traerProveedor, envioProvee, $cookieStore, 
 eliminarProvee, llenarComboCiudad, updateProvee,cerrarSesionS,llenarComboCiudad,traerCategoriasProveedor,category,registrarCategoriasProveedor) {
     var vm = this;
-    var idProveedor;
+    titulos.ti(vm);
     vm.aux1 = "GESTION PROVEEDOR";
    // vm.ciudades = llenarComboCiudad.consultaLlenarComboCiudad(vm);
     vm.currentPage = 0;
